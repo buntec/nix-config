@@ -37,7 +37,6 @@
     stack
     texlive.combined.scheme-full
     tldr
-    tmux
     vifm
     wget
     yarn
@@ -150,8 +149,9 @@
     clock24 = true;
     mouse = true;
     shell = "${pkgs.fish}/bin/fish";
+    terminal = "screen-256color";
+    escapeTime = 0;
     extraConfig = ''
-      set -sg escape-time 0
       set -g default-command "exec ${pkgs.fish}/bin/fish"
     '';
   };
@@ -210,12 +210,7 @@
       tkill = "t kill-session -t";
 
       #nix
-      # nixre = "darwin-rebuild switch";
       nixgc = "nix-collect-garbage -d";
-      # nixcfg = "vi $HOME/dotfiles/nix/darwin-configuration.nix";
-      nixq = "nix-env -qa";
-      nixupgrade = "nix-channel --update; nix-env -iA nixpkgs.nix";
-      nixup = "nix-env -u";
       nixversion = "nix eval nixpkgs.lib.version";
       nixdaemon = "sudo launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist && launchctl start org.nixos.nix-daemon";
 
