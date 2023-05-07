@@ -1,5 +1,4 @@
-{ pkgs, ... }: {
-
+{pkgs, ...}: {
   home.stateVersion = "22.11";
 
   # Let Home Manager install and manage itself.
@@ -7,7 +6,7 @@
 
   services.syncthing = {
     enable = true;
-    extraOptions = [ ];
+    extraOptions = [];
   };
 
   home.packages = with pkgs; [
@@ -71,7 +70,6 @@
 
     plugins = with pkgs.vimPlugins; [
       nvim-web-devicons
-      trim-nvim
       {
         plugin = nvim-dap;
         type = "lua";
@@ -140,13 +138,9 @@
         plugin = nvim-treesitter.withAllGrammars;
         type = "lua";
         config = ''
-          local ts = require 'nvim-treesitter.configs'
-          ts.setup {
-            --ensure_installed = "all",
-            --ignore_install = { "phpdoc" },
+          require'nvim-treesitter.configs'.setup {
             highlight = {
               enable = true,
-              --disable = { "fish" }
             }
           }
         '';
@@ -157,7 +151,6 @@
         config = ''
           require('telescope').setup {
             defaults = {
-              file_ignore_patterns = { "target", "node_modules", "parser.c", "%.min.js" },
               layout_strategy = 'vertical',
               history = {
                 mappings = {
@@ -195,6 +188,7 @@
         type = "lua";
         config = ''
           local cmp = require 'cmp'
+          local lspkind = require 'lspkind'
           cmp.setup({
             snippet = {
               -- REQUIRED - you must specify a snippet engine
@@ -215,6 +209,13 @@
               { name = "vsnip" },
               { name = "path" },
               { name = "nvim_lsp_signature_help" },
+            },
+            formatting = {
+              format = lspkind.cmp_format({
+                mode = 'symbol', -- show only symbol annotations
+                maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+                ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+              })
             },
           })
         '';
@@ -301,14 +302,17 @@
               }
             }
           }
-
-
         '';
       }
-      yankring
       vim-nix
       tokyonight-nvim
-      trouble-nvim
+      {
+        plugin = trouble-nvim;
+        type = "lua";
+        config = ''
+          require("trouble").setup { }
+        '';
+      }
       vim-fugitive
       {
         plugin = gitsigns-nvim;
@@ -344,35 +348,60 @@
           })
         '';
       }
+      {
+        plugin = null-ls-nvim;
+        type = "lua";
+        config = ''
+          local null_ls = require("null-ls")
+          null_ls.setup({
+              sources = {
+                  null_ls.builtins.formatting.stylua,
+                  null_ls.builtins.diagnostics.eslint,
+                  null_ls.builtins.formatting.black,
+                  null_ls.builtins.diagnostics.flake8,
+                  null_ls.builtins.completion.spell,
+                  null_ls.builtins.code_actions.gitsigns,
+                  null_ls.builtins.diagnostics.gitlint,
+                  null_ls.builtins.code_actions.statix,
+                  null_ls.builtins.formatting.alejandra,
+                  null_ls.builtins.diagnostics.chktex,
+                  null_ls.builtins.diagnostics.deadnix,
+                  null_ls.builtins.code_actions.shellcheck,
+                  null_ls.builtins.formatting.shellharden,
+                  null_ls.builtins.formatting.shfmt,
+                  null_ls.builtins.diagnostics.cppcheck,
+                  null_ls.builtins.diagnostics.markdownlint,
+              },
+          })
+
+        '';
+      }
     ];
 
     extraPackages = with pkgs; [
       # Language servers
-      pyright
       ccls
       gopls
+      haskell-language-server
       ltex-ls
       lua-language-server
-      haskell-language-server
-      nodePackages.bash-language-server
-      nodePackages.vscode-langservers-extracted
-      nodePackages.typescript-language-server
-      python310Packages.python-lsp-server
       nil
+      nodePackages.bash-language-server
+      nodePackages.typescript-language-server
+      nodePackages.vscode-langservers-extracted
+      pyright
+      python310Packages.python-lsp-server
 
       # null-ls sources
       alejandra
-      asmfmt
       black
       cppcheck
       deadnix
-      editorconfig-checker
-      gofumpt
       gitlint
       mypy
-      nodePackages.alex
-      nodePackages.prettier
       nodePackages.markdownlint-cli
+      nodePackages.prettier
+      nodePackages.eslint
       python3Packages.flake8
       shellcheck
       shellharden
@@ -411,7 +440,10 @@
   programs.fish = {
     enable = true;
     plugins = [
-      { name = "pure"; src = pkgs.fishPlugins.pure.src; }
+      {
+        name = "pure";
+        src = pkgs.fishPlugins.pure.src;
+      }
       {
         name = "bass";
         src = pkgs.fetchFromGitHub {
@@ -457,11 +489,6 @@
       tn = "t new -t";
       tkill = "t kill-session -t";
 
-      #nix
-      nixgc = "nix-collect-garbage -d";
-      nixversion = "nix eval nixpkgs.lib.version";
-      nixdaemon = "sudo launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist && launchctl start org.nixos.nix-daemon";
-
       # ls
       la = "exa -la --color=never --git --icons";
       l = "exa -l --color=never --git --icons";
@@ -470,6 +497,4 @@
 
   programs.htop.enable = true;
   programs.htop.settings.show_program_path = true;
-
 }
-
