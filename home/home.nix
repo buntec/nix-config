@@ -72,30 +72,278 @@
     plugins = with pkgs.vimPlugins; [
       nvim-web-devicons
       trim-nvim
-      nvim-dap
-      lualine-nvim
-      nvim-treesitter.withAllGrammars
-      telescope-nvim
+      {
+        plugin = nvim-dap;
+        type = "lua";
+        config = ''
+          local dap = require("dap")
+          dap.configurations.scala = {
+            {
+              type = "scala",
+              request = "launch",
+              name = "Run",
+              metals = {
+                runType = "run",
+              },
+            },
+            {
+              type = "scala",
+              request = "launch",
+              name = "Test File",
+              metals = {
+                runType = "testFile",
+              },
+            },
+            {
+              type = "scala",
+              request = "launch",
+              name = "Test Target",
+              metals = {
+                runType = "testTarget",
+              },
+            },
+          }
+        '';
+      }
+      {
+        plugin = lualine-nvim;
+        type = "lua";
+        config = ''
+          require('lualine').setup {
+            options = {
+              theme = 'tokyonight',
+              section_separators = { '', '' },
+              component_separators = { '', '' },
+              icons_enabled = true,
+            },
+            sections = {
+              lualine_a = { { 'mode', upper = true } },
+              lualine_b = { { 'branch', icon = '' } },
+              lualine_c = { { 'filename', file_status = true }, require 'lsp-status'.status, 'g:metals_status' },
+              lualine_x = { 'encoding', 'fileformat', 'filetype' },
+              lualine_y = { 'progress' },
+              lualine_z = { 'location' },
+            },
+            inactive_sections = {
+              lualine_a = {},
+              lualine_b = {},
+              lualine_c = { 'filename' },
+              lualine_x = { 'location' },
+              lualine_y = {},
+              lualine_z = {}
+            },
+            extensions = { 'fzf' }
+          }
+        '';
+      }
+      {
+        plugin = nvim-treesitter.withAllGrammars;
+        type = "lua";
+        config = ''
+          local ts = require 'nvim-treesitter.configs'
+          ts.setup {
+            --ensure_installed = "all",
+            --ignore_install = { "phpdoc" },
+            highlight = {
+              enable = true,
+              --disable = { "fish" }
+            }
+          }
+        '';
+      }
+      {
+        plugin = telescope-nvim;
+        type = "lua";
+        config = ''
+          require('telescope').setup {
+            defaults = {
+              file_ignore_patterns = { "target", "node_modules", "parser.c", "%.min.js" },
+              layout_strategy = 'vertical',
+              history = {
+                mappings = {
+                  i = {
+                    ["<C-Down>"] = require('telescope.actions').cycle_history_next,
+                    ["<C-Up>"] = require('telescope.actions').cycle_history_prev,
+                  },
+                },
+              }
+            },
+          }
+        '';
+      }
       telescope-file-browser-nvim
-      neoscroll-nvim
+      {
+        plugin = neoscroll-nvim;
+        type = "lua";
+        config = ''
+          require('neoscroll').setup({
+            easing_function = "quadratic"
+          })
+        '';
+      }
       unicode-vim
-      lsp-status-nvim
+      {
+        plugin = lsp-status-nvim;
+        type = "lua";
+        config = ''
+          require('lsp-status').register_progress()
+        '';
+      }
       lspkind-nvim
-      nvim-cmp
+      {
+        plugin = nvim-cmp;
+        type = "lua";
+        config = ''
+          local cmp = require 'cmp'
+          cmp.setup({
+            snippet = {
+              -- REQUIRED - you must specify a snippet engine
+              expand = function(args)
+                vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+              end,
+            },
+            mapping = cmp.mapping.preset.insert({
+              ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+              ['<C-f>'] = cmp.mapping.scroll_docs(4),
+              ['<C-p>'] = cmp.mapping.select_prev_item(),
+              ['<C-n>'] = cmp.mapping.select_next_item(),
+              ['<CR>'] = cmp.mapping.confirm({ select = true }),
+            }),
+            sources = {
+              { name = "nvim_lsp",               priority = 10 },
+              { name = "buffer" },
+              { name = "vsnip" },
+              { name = "path" },
+              { name = "nvim_lsp_signature_help" },
+            },
+          })
+        '';
+      }
       cmp-buffer
       cmp-path
       vim-vsnip
       cmp-vsnip
       cmp-nvim-lsp
       cmp-nvim-lsp-signature-help
-      nvim-lspconfig
+      {
+        plugin = nvim-lspconfig;
+        type = "lua";
+        config = ''
+          local lsp = require 'lspconfig'
+          local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+          -- lsp.metals.setup {} -- we use nvim-metals instead
+          lsp.hls.setup { capabilities = capabilities }
+          lsp.bashls.setup { capabilities = capabilities }
+          lsp.pylsp.setup { capabilities = capabilities }
+          lsp.gopls.setup { capabilities = capabilities }
+          lsp.tsserver.setup { capabilities = capabilities }
+          lsp.html.setup { capabilities = capabilities }
+          lsp.nil_ls.setup { capabilities = capabilities,
+            settings = {
+              ['nil'] = {
+                formatting = {
+                  command = { "nixpkgs-fmt" },
+                },
+              }
+            }
+          }
+
+          lsp.lua_ls.setup {
+            capabilities = capabilities,
+            settings = {
+              Lua = {
+                runtime = {
+                  -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                  version = 'LuaJIT',
+                },
+                diagnostics = {
+                  -- Get the language server to recognize the `vim` global
+                  globals = { 'vim' },
+                },
+                workspace = {
+                  -- Make the server aware of Neovim runtime files
+                  library = vim.api.nvim_get_runtime_file("", true),
+                },
+                -- Do not send telemetry data containing a randomized but unique identifier
+                telemetry = {
+                  enable = false,
+                },
+              },
+            },
+          }
+
+          lsp.texlab.setup {
+            capabilities = capabilities,
+            settings = {
+              texlab = {
+                auxDirectory = ".",
+                bibtexFormatter = "texlab",
+                build = {
+                  args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+                  executable = "latexmk",
+                  forwardSearchAfter = false,
+                  onSave = true
+                },
+                chktex = {
+                  onEdit = false,
+                  onOpenAndSave = true
+                },
+                diagnosticsDelay = 300,
+                formatterLineLength = 80,
+                forwardSearch = {
+                  args = {}
+                },
+                latexFormatter = "latexindent",
+                latexindent = {
+                  modifyLineBreaks = true
+                }
+              }
+            }
+          }
+
+
+        '';
+      }
       yankring
       vim-nix
       tokyonight-nvim
       trouble-nvim
       vim-fugitive
-      gitsigns-nvim
-      nvim-metals
+      {
+        plugin = gitsigns-nvim;
+        type = "lua";
+        config = ''
+          require('gitsigns').setup()
+        '';
+      }
+      {
+        plugin = nvim-metals;
+        type = "lua";
+        config = ''
+          local metals_config = require("metals").bare_config()
+          metals_config.init_options.statusBarProvider = "on"
+          metals_config.settings = {
+            serverVersion = "latest.snapshot"
+          }
+          metals_config.on_attach = function(client, bufnr)
+            require("metals").setup_dap()
+          end
+
+          -- Autocmd that will actually be in charging of starting the whole thing
+          local nvim_metals_group = api.nvim_create_augroup("nvim-metals", { clear = true })
+          api.nvim_create_autocmd("FileType", {
+            -- NOTE: You may or may not want java included here. You will need it if you
+            -- want basic Java support but it may also conflict if you are using
+            -- something like nvim-jdtls which also works on a java filetype autocmd.
+            pattern = { "scala", "sbt", "java" },
+            callback = function()
+              require("metals").initialize_or_attach(metals_config)
+            end,
+            group = nvim_metals_group,
+          })
+        '';
+      }
     ];
 
     extraPackages = with pkgs; [
