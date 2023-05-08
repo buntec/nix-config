@@ -60,7 +60,7 @@ vim.keymap.set("n", "<localleader>td", "<cmd>TroubleToggle document_diagnostics<
 vim.keymap.set("n", "<localleader>tl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
 vim.keymap.set("n", "<localleader>tq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
 
-vim.keymap.set("n", "<localleader>to", "<cmd>TodoTelescope quickfix<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "<localleader>to", "<cmd>TodoTelescope<cr>", { silent = true, noremap = true })
 
 local tb = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', function() tb.find_files({ no_ignore = true }) end)
