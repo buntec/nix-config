@@ -165,6 +165,14 @@
         '';
       }
       telescope-file-browser-nvim
+      telescope-ui-select-nvim
+      {
+        plugin = todo-comments-nvim;
+        type = "lua"; 
+        config = ''
+          require("todo-comments").setup()
+        '';
+      }
       {
         plugin = neoscroll-nvim;
         type = "lua";
