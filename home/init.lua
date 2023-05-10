@@ -1,109 +1,72 @@
--------------------- HELPERS -------------------------------
-local cmd = vim.cmd -- to execute Vim commands e.g. cmd('pwd')
+local cmd = vim.cmd
 local api = vim.api
-local fn = vim.fn   -- to call Vim functions e.g. fn.bufnr()
-local g = vim.g     -- a table to access global variables
-local scopes = { o = vim.o, b = vim.bo, w = vim.wo }
+local g = vim.g
+local map = vim.keymap.set
+local opt = vim.opt
+local global_opt = vim.opt_global
 
-local function opt(scope, key, value)
-  scopes[scope][key] = value
-  if scope ~= 'o' then scopes['o'][key] = value end
-end
-
-local function map(mode, lhs, rhs, opts)
-  local options = { noremap = true }
-  if opts then options = vim.tbl_extend('force', options, opts) end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
+g.mapleader = ","
+g.maplocalleader = " "
 
 g.tokyonight_style = "storm"
-cmd 'colorscheme tokyonight'
+cmd.colorscheme("tokyonight")
 
-g.mapleader = ','
-g.maplocalleader = ' '
+cmd.language("en_US")
 
 local indent = 2
-opt('b', 'expandtab', true)                      -- Use spaces instead of tabs
-opt('b', 'shiftwidth', indent)                   -- Size of an indent
-opt('b', 'smartindent', true)                    -- Insert indents automatically
-opt('b', 'tabstop', indent)                      -- Number of spaces tabs count for
-opt('o', 'completeopt', 'menu,menuone,noselect') -- Completion options
-opt('o', 'hidden', true)                         -- Enable modified buffers in background
-opt('o', 'ignorecase', true)                     -- Ignore case
-opt('o', 'joinspaces', false)                    -- No double spaces with join after a dot
-opt('o', 'scrolloff', 4)                         -- Lines of context
-opt('o', 'shiftround', true)                     -- Round indent
-opt('o', 'sidescrolloff', 8)                     -- Columns of context
-opt('o', 'smartcase', true)                      -- Don't ignore case with capitals
-opt('o', 'splitbelow', true)                     -- Put new windows below current
-opt('o', 'splitright', true)                     -- Put new windows right of current
-opt('o', 'termguicolors', true)                  -- True color support
-opt('o', 'wildmode', 'list:longest')             -- Command-line completion mode
-opt('w', 'list', true)                           -- Show some invisible characters (tabs...)
-opt('w', 'number', true)                         -- Print line number
-opt('w', 'relativenumber', true)                 -- Relative line numbers
-opt('w', 'wrap', false)                          -- Disable line wrap
 
-vim.keymap.set('n', '<localleader>a', vim.lsp.buf.code_action)
-vim.keymap.set('n', '<localleader>d', vim.lsp.buf.definition)
-vim.keymap.set('n', '<localleader>f', vim.lsp.buf.format)
-vim.keymap.set('v', '<localleader>f', vim.lsp.buf.format)
-vim.keymap.set('n', '<localleader>i', vim.lsp.buf.implementation)
-vim.keymap.set('n', '<localleader>h', vim.lsp.buf.hover)
-vim.keymap.set('n', '<localleader>m', vim.lsp.buf.rename)
-vim.keymap.set('n', '<localleader>r', vim.lsp.buf.references)
-vim.keymap.set('n', '<localleader>s', vim.lsp.buf.document_symbol)
+global_opt.shortmess:remove("F") -- recommended for nvim-metals
+global_opt.completeopt = { "menu", "menuone", "noselect" } -- Completion options
+global_opt.hidden = true -- Enable modified buffers in background
+global_opt.ignorecase = true -- Ignore case
+global_opt.joinspaces = false -- No double spaces with join after a dot
+global_opt.scrolloff = 4 -- Lines of context
+global_opt.shiftround = true -- Round indent
+global_opt.sidescrolloff = 8 -- Columns of context
+global_opt.smartcase = true -- Don't ignore case with capitals
+global_opt.splitbelow = true -- Put new windows below current
+global_opt.splitright = true -- Put new windows right of current
+global_opt.termguicolors = true -- True color support
+global_opt.wildmode = "list:longest" -- Command-line completion mode
+global_opt.clipboard = "unnamedplus"
 
-vim.keymap.set("n", "<localleader>tt", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
-vim.keymap.set("n", "<localleader>tw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })
-vim.keymap.set("n", "<localleader>td", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true })
-vim.keymap.set("n", "<localleader>tl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
-vim.keymap.set("n", "<localleader>tq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
+opt.expandtab = true -- Use spaces instead of tabs
+opt.shiftwidth = indent -- Size of an indent
+opt.smartindent = true -- Insert indents automatically
+opt.tabstop = indent -- Number of spaces tabs count for
 
-vim.keymap.set("n", "<localleader>to", "<cmd>TodoTelescope<cr>", { silent = true, noremap = true })
 
-local tb = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', function() tb.find_files({ no_ignore = true }) end)
-vim.keymap.set('n', '<leader>gf', tb.git_files)
-vim.keymap.set('n', '<leader>lg', tb.live_grep)
-vim.keymap.set('n', '<leader>gs', tb.grep_string)
-vim.keymap.set('n', '<leader>bu', tb.buffers)
-vim.keymap.set('n', '<leader>co', tb.commands)
-vim.keymap.set('n', '<leader>ht', tb.help_tags)
-vim.keymap.set('n', '<leader>ts', tb.treesitter)
-vim.keymap.set('n', '<leader>cs', function() tb.colorscheme({ enable_preview = true }) end)
-vim.keymap.set('n', '<leader>gc', tb.git_commits)
-vim.keymap.set('n', '<leader>gb', tb.git_branches)
-vim.keymap.set('n', '<leader>gs', tb.git_status)
-vim.keymap.set("n", "<leader>mc", require("telescope").extensions.metals.commands)
-vim.keymap.set("n", "-",
-  function()
-    require("telescope").extensions.file_browser.file_browser({
-      path = '%:p:h',
-      select_buffer = true,
-      respect_gitignore = true,
-      collapse_dirs = true,
-      hide_parent_dir = true,
-    })
-  end)
+opt.list = true -- Show some invisible characters (tabs...)
+opt.number = true -- Print line number
+opt.relativenumber = true -- Relative line numbers
+opt.wrap = false -- Disable line wrap
 
-map('n', '<F5>', "<cmd>lua require'dap'.continue()<CR>")
-map('n', '<F10>', "<cmd>lua require'dap'.step_over()<CR>")
-map('n', '<F11>', "<cmd>lua require'dap'.step_into()<CR>")
-map('n', '<F12>', "<cmd>lua require'dap'.step_out()<CR>")
+map("n", "<leader>cf", "<cmd>edit $MYVIMRC<CR>")
 
-map('n', '<leader>cf', '<cmd>edit $MYVIMRC<CR>')
+map("n", "<C-j>", "<C-W><C-J>")
+map("n", "<C-k>", "<C-W><C-K>")
+map("n", "<C-l>", "<C-W><C-L>")
+map("n", "<C-h>", "<C-W><C-H>")
 
-map('n', '<C-j>', '<C-W><C-J>')
-map('n', '<C-k>', '<C-W><C-K>')
-map('n', '<C-l>', '<C-W><C-L>')
-map('n', '<C-h>', '<C-W><C-H>')
+map("i", "jk", "<Esc>")
+map("i", "kj", "<Esc>")
+map("i", "jj", "<Esc>")
 
-map('i', 'jk', '<Esc>')
-map('i', 'kj', '<Esc>')
-map('i', 'jj', '<Esc>')
+map("n", "<localleader>a", vim.lsp.buf.code_action)
+map("n", "<localleader>d", vim.lsp.buf.definition)
+map({ "n", "v" }, "<localleader>f", vim.lsp.buf.format)
+map("n", "<localleader>i", vim.lsp.buf.implementation)
+map("n", "<localleader>h", vim.lsp.buf.hover)
+map("n", "<localleader>m", vim.lsp.buf.rename)
+map("n", "<localleader>r", vim.lsp.buf.references)
+map("n", "<localleader>s", vim.lsp.buf.document_symbol)
 
-cmd 'language en_US'
---cmd 'setlocal spell spelllang=en_us'
-cmd 'set clipboard+=unnamedplus'
-vim.opt_global.shortmess:remove("F") -- recommended for nvim-metals
+local base_group = api.nvim_create_augroup("base", { clear = true })
+
+api.nvim_create_autocmd("FileType", { pattern = "markdown", command = "setlocal textwidth=80", group = base_group })
+
+api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+  pattern = { "*.md", "*.txt", "COMMIT_EDITMSG" },
+  command = "set wrap linebreak nolist spell spelllang=en_us complete+=kspell",
+  group = base_group,
+})

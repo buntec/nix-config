@@ -74,7 +74,13 @@
         plugin = nvim-dap;
         type = "lua";
         config = ''
+          vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
+          vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
+          vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
+          vim.keymap.set('n', '<F12>', function() require('dap').step_out() end)
+
           local dap = require("dap")
+
           dap.configurations.scala = {
             {
               type = "scala",
@@ -162,15 +168,48 @@
               }
             },
           }
+          local tb = require('telescope.builtin')
+          vim.keymap.set('n', '<leader>ff', function() tb.find_files({ no_ignore = true }) end)
+          vim.keymap.set('n', '<leader>gf', tb.git_files)
+          vim.keymap.set('n', '<leader>lg', tb.live_grep)
+          vim.keymap.set('n', '<leader>gs', tb.grep_string)
+          vim.keymap.set('n', '<leader>bu', tb.buffers)
+          vim.keymap.set('n', '<leader>co', tb.commands)
+          vim.keymap.set('n', '<leader>ht', tb.help_tags)
+          vim.keymap.set('n', '<leader>ts', tb.treesitter)
+          vim.keymap.set('n', '<leader>cs', function() tb.colorscheme({ enable_preview = true }) end)
+          vim.keymap.set('n', '<leader>gc', tb.git_commits)
+          vim.keymap.set('n', '<leader>gb', tb.git_branches)
+          vim.keymap.set('n', '<leader>gs', tb.git_status)
+          vim.keymap.set("n", "<leader>mc", require("telescope").extensions.metals.commands)
+          vim.keymap.set("n", "-",
+            function()
+              require("telescope").extensions.file_browser.file_browser({
+                path = '%:p:h',
+                select_buffer = true,
+                respect_gitignore = true,
+                collapse_dirs = true,
+                hide_parent_dir = true,
+              })
+            end)
         '';
       }
-      telescope-file-browser-nvim
+      # telescope-file-browser-nvim
+      {
+        plugin = oil-nvim;
+        type = "lua";
+        config = ''
+          require("oil").setup()
+          vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
+        '';
+      }
       telescope-ui-select-nvim
       {
         plugin = todo-comments-nvim;
-        type = "lua"; 
+        type = "lua";
         config = ''
           require("todo-comments").setup()
+          vim.keymap.set("n", "<localleader>to", "<cmd>TodoTelescope<cr>", { silent = true, noremap = true })
         '';
       }
       {
@@ -261,6 +300,11 @@
           lsp.lua_ls.setup {
             capabilities = capabilities,
             settings = {
+              config = {
+                format = {
+                  enable = false,
+                },
+              },
               Lua = {
                 runtime = {
                   -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
@@ -319,6 +363,11 @@
         type = "lua";
         config = ''
           require("trouble").setup { }
+          vim.keymap.set("n", "<localleader>tt", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
+          vim.keymap.set("n", "<localleader>tw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })
+          vim.keymap.set("n", "<localleader>td", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true })
+          vim.keymap.set("n", "<localleader>tl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
+          vim.keymap.set("n", "<localleader>tq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
         '';
       }
       vim-fugitive
