@@ -168,6 +168,7 @@
               }
             },
           }
+          require("telescope").load_extension("ui-select")
           local tb = require('telescope.builtin')
           vim.keymap.set('n', '<leader>ff', function() tb.find_files({ no_ignore = true }) end)
           vim.keymap.set('n', '<leader>gf', tb.git_files)
