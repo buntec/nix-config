@@ -54,7 +54,7 @@
 
   programs.kitty = {
     enable = true;
-    font.name = "JetBrainsMono Nerd Font"; #"FiraCode Nerd Font";
+    font.name = "JetBrainsMono Nerd Font"; # "FiraCode Nerd Font";
     font.size = pkgs.lib.mkDefault 14; # might want to override in machine-specific module
     darwinLaunchOptions = [
       "--single-instance"
@@ -301,12 +301,10 @@
           lsp.lua_ls.setup {
             capabilities = capabilities,
             settings = {
-              config = {
+              Lua = {
                 format = {
                   enable = false,
                 },
-              },
-              Lua = {
                 runtime = {
                   -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
                   version = 'LuaJIT',

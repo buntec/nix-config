@@ -35,7 +35,6 @@ opt.shiftwidth = indent -- Size of an indent
 opt.smartindent = true -- Insert indents automatically
 opt.tabstop = indent -- Number of spaces tabs count for
 
-
 opt.list = true -- Show some invisible characters (tabs...)
 opt.number = true -- Print line number
 opt.relativenumber = true -- Relative line numbers
