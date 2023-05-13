@@ -59,13 +59,3 @@ map("n", "<localleader>h", vim.lsp.buf.hover)
 map("n", "<localleader>m", vim.lsp.buf.rename)
 map("n", "<localleader>r", vim.lsp.buf.references)
 map("n", "<localleader>s", vim.lsp.buf.document_symbol)
-
-local base_group = api.nvim_create_augroup("base", { clear = true })
-
-api.nvim_create_autocmd("FileType", { pattern = "markdown", command = "setlocal textwidth=80", group = base_group })
-
-api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
-  pattern = { "*.md", "*.txt", "COMMIT_EDITMSG" },
-  command = "set wrap linebreak nolist spell spelllang=en_us complete+=kspell",
-  group = base_group,
-})
