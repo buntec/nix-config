@@ -10,7 +10,13 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { darwin, nixpkgs, home-manager, flake-utils, ... }@attrs:
+  outputs =
+    { darwin
+    , nixpkgs
+    , home-manager
+    , flake-utils
+    , ...
+    } @ attrs:
     let
       machines = [
         {
@@ -40,10 +46,9 @@
       machinesBySystem = builtins.groupBy (machine: machine.system) machines;
     in
     rec {
-
       nixosConfigurations = builtins.listToAttrs (builtins.map
-        (machine:
-          {
+        (
+          machine: {
             name = machine.name;
             value = nixpkgs.lib.nixosSystem {
               system = machine.system;
@@ -68,11 +73,10 @@
         )
         nixosMachines);
 
-
-      darwinConfigurations = builtins.listToAttrs
-        (builtins.map
-          (machine:
-            {
+      darwinConfigurations =
+        builtins.listToAttrs
+          (builtins.map
+            (machine: {
               name = machine.name;
               value = darwin.lib.darwinSystem {
                 system = machine.system;
@@ -93,36 +97,40 @@
                 ];
               };
             })
-          darwinMachines);
+            darwinMachines);
 
-      apps = builtins.mapAttrs
-        (system: machines:
-          builtins.listToAttrs
-            (
-              builtins.map
-                (machine:
-                  let
-                    system = machine.system;
-                    pkgs = import nixpkgs { inherit system; };
-                    script =
-                      (pkgs.writeShellScript
-                        "rebuild-${machine.name}"
-                        (if (isDarwin machine) then
-                          "${darwinConfigurations.${machine.name}.system}/sw/bin/darwin-rebuild switch --flake .#${machine.name}"
-                        else
-                          "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake .#${machine.name}"
-                        )
-                      );
-                  in
-                  {
-                    name = "rebuild-${machine.name}";
-                    value = { type = "app"; program = "${script}"; };
-                  }
+      apps =
+        builtins.mapAttrs
+          (
+            system: machines:
+              builtins.listToAttrs
+                (
+                  builtins.map
+                    (
+                      machine:
+                      let
+                        pkgs = import nixpkgs { inherit system; };
+                        script = (
+                          pkgs.writeShellScript
+                            "rebuild-${machine.name}"
+                            (
+                              if (isDarwin machine)
+                              then "${darwinConfigurations.${machine.name}.system}/sw/bin/darwin-rebuild switch --flake .#${machine.name}"
+                              else "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake .#${machine.name}"
+                            )
+                        );
+                      in
+                      {
+                        name = "rebuild-${machine.name}";
+                        value = {
+                          type = "app";
+                          program = "${script}";
+                        };
+                      }
+                    )
+                    machines
                 )
-                machines
-            )
-        )
-        machinesBySystem;
-
+          )
+          machinesBySystem;
     };
 }

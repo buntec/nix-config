@@ -1,5 +1,4 @@
 { pkgs, ... }: {
-
   programs.git = {
     extraConfig = {
       credential.helper = "store";
@@ -11,5 +10,4 @@
       natural-scroll = false;
     };
   };
-
 }
