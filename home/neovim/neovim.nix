@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   programs.neovim = {
     enable = true;
     viAlias = true;
@@ -105,7 +105,6 @@
               }
             },
           }
-          require("telescope").load_extension("ui-select")
           local tb = require('telescope.builtin')
           vim.keymap.set('n', '<leader>ff', function() tb.find_files({ no_ignore = true }) end)
           vim.keymap.set('n', '<leader>gf', tb.git_files)
@@ -119,20 +118,27 @@
           vim.keymap.set('n', '<leader>gc', tb.git_commits)
           vim.keymap.set('n', '<leader>gb', tb.git_branches)
           vim.keymap.set('n', '<leader>gs', tb.git_status)
+          vim.keymap.set('n', '<leader>sy', tb.symbols)
           vim.keymap.set("n", "<leader>mc", require("telescope").extensions.metals.commands)
-          vim.keymap.set("n", "-",
-            function()
-              require("telescope").extensions.file_browser.file_browser({
-                path = '%:p:h',
-                select_buffer = true,
-                respect_gitignore = true,
-                collapse_dirs = true,
-                hide_parent_dir = true,
-              })
-            end)
         '';
       }
-      # telescope-file-browser-nvim
+      telescope-symbols-nvim
+      # {
+      #   plugin = telescope-file-browser-nvim;
+      #   type = "lua";
+      #   config = ''
+      #     vim.keymap.set("n", "-",
+      #       function()
+      #         require("telescope").extensions.file_browser.file_browser({
+      #           path = '%:p:h',
+      #           select_buffer = true,
+      #           respect_gitignore = true,
+      #           collapse_dirs = true,
+      #           hide_parent_dir = true,
+      #         })
+      #       end)
+      #   '';
+      # }
       {
         plugin = oil-nvim;
         type = "lua";
@@ -141,7 +147,13 @@
           vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
         '';
       }
-      telescope-ui-select-nvim
+      {
+        plugin = telescope-ui-select-nvim;
+        type = "lua";
+        config = ''
+          require("telescope").load_extension("ui-select")
+        '';
+      }
       {
         plugin = todo-comments-nvim;
         type = "lua";

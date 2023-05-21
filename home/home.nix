@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   imports = [
     ./kitty/kitty.nix
     ./fish/fish.nix
@@ -13,13 +13,14 @@
 
   services.syncthing = {
     enable = true;
-    extraOptions = [ ];
+    extraOptions = [];
   };
 
   home.packages = with pkgs; [
     amber
     any-nix-shell
     atool
+    bat
     cargo
     coursier
     curl
@@ -32,6 +33,7 @@
     httpie
     jq
     killall
+    lazygit
     nixpkgs-fmt
     nodePackages.live-server
     nodejs
