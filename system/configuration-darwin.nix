@@ -43,6 +43,7 @@
       "discord"
       "telegram"
       "whatsapp"
+      "mattermost"
     ];
 
   };
