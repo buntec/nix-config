@@ -154,23 +154,23 @@
           require("telescope").load_extension("ui-select")
         '';
       }
-      {
-        plugin = todo-comments-nvim;
-        type = "lua";
-        config = ''
-          require("todo-comments").setup()
-          vim.keymap.set("n", "<localleader>to", "<cmd>TodoTelescope<cr>", { silent = true, noremap = true })
-        '';
-      }
-      {
-        plugin = neoscroll-nvim;
-        type = "lua";
-        config = ''
-          require('neoscroll').setup({
-            easing_function = "quadratic"
-          })
-        '';
-      }
+      # {
+      #   plugin = todo-comments-nvim;
+      #   type = "lua";
+      #   config = ''
+      #     require("todo-comments").setup()
+      #     vim.keymap.set("n", "<localleader>to", "<cmd>TodoTelescope<cr>", { silent = true, noremap = true })
+      #   '';
+      # }
+      # {
+      #   plugin = neoscroll-nvim;
+      #   type = "lua";
+      #   config = ''
+      #     require('neoscroll').setup({
+      #       easing_function = "quadratic"
+      #     })
+      #   '';
+      # }
       unicode-vim
       {
         plugin = lsp-status-nvim;
