@@ -106,7 +106,8 @@
             },
           }
           local tb = require('telescope.builtin')
-          vim.keymap.set('n', '<leader>ff', function() tb.find_files({ no_ignore = true }) end)
+          vim.keymap.set('n', '<leader>fa', function() tb.find_files({ no_ignore = true, hidden = true }) end)
+          vim.keymap.set('n', '<leader>ff', tb.find_files)
           vim.keymap.set('n', '<leader>gf', tb.git_files)
           vim.keymap.set('n', '<leader>lg', tb.live_grep)
           vim.keymap.set('n', '<leader>gs', tb.grep_string)
@@ -231,6 +232,9 @@
           local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
           -- lsp.metals.setup {} -- we use nvim-metals instead
+          lsp.smithy_ls.setup {
+            cmd = { '${pkgs.coursier}/bin/cs', 'launch', 'com.disneystreaming.smithy:smithy-language-server:latest.stable', '--', '0' }
+          }
           lsp.hls.setup { capabilities = capabilities }
           lsp.bashls.setup { capabilities = capabilities }
           lsp.pylsp.setup { capabilities = capabilities }
