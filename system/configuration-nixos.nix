@@ -1,11 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config
-, pkgs
-, ...
+{
+  config,
+  pkgs,
+  ...
 }: {
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -78,9 +79,15 @@
   users.users.buntec = {
     isNormalUser = true;
     description = "Christoph Bunte";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     packages = with pkgs; [
       firefox
+      keepassxc
+      brave
+      spotify
+      discord
+      telegram-desktop
+      whatsapp-for-linux
       #  thunderbird
     ];
   };

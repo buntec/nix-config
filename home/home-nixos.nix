@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   programs.git = {
     extraConfig = {
       credential.helper = "store";
@@ -10,4 +10,8 @@
       natural-scroll = false;
     };
   };
+
+  home.packages = with pkgs; [
+    docker
+  ];
 }

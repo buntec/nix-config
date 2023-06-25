@@ -33,7 +33,9 @@
     httpie
     jq
     killall
+    kubernetes-helm
     lazygit
+    minikube
     nixpkgs-fmt
     nodePackages.live-server
     nodejs

@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
@@ -45,7 +47,6 @@
       "whatsapp"
       "mattermost"
     ];
-
   };
 
   # environment.shells = [ pkgs.fish ];
@@ -54,6 +55,9 @@
   services.nix-daemon.enable = true;
 
   nix.package = pkgs.nix; # this is the default
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs.zsh.enable = true;
@@ -68,5 +72,4 @@
     home = "/Users/christophbunte";
     # shell = pkgs.fish;
   };
-
 }
