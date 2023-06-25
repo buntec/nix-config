@@ -1,10 +1,6 @@
-{pkgs, ...}: {
-  imports = [
-    ./kitty/kitty.nix
-    ./fish/fish.nix
-    ./tmux/tmux.nix
-    ./neovim/neovim.nix
-  ];
+{ pkgs, ... }: {
+  imports =
+    [ ./kitty/kitty.nix ./fish/fish.nix ./tmux/tmux.nix ./neovim/neovim.nix ];
 
   home.stateVersion = "22.11";
 
@@ -13,7 +9,7 @@
 
   services.syncthing = {
     enable = true;
-    extraOptions = [];
+    extraOptions = [ ];
   };
 
   home.packages = with pkgs; [
@@ -36,6 +32,7 @@
     kubernetes-helm
     lazygit
     minikube
+    nixfmt
     nixpkgs-fmt
     nodePackages.live-server
     nodejs
@@ -59,13 +56,9 @@
     diff-so-fancy.enable = true;
   };
 
-  programs.java = {
-    enable = true;
-  };
+  programs.java = { enable = true; };
 
-  programs.zsh = {
-    enable = true;
-  };
+  programs.zsh = { enable = true; };
 
   programs.htop.enable = true;
   programs.htop.settings.show_program_path = true;

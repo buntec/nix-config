@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{ config, pkgs, ... }: {
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
@@ -15,22 +11,19 @@
 
   # `home-manager` currently has issues adding them to `~/Applications`
   # Issue: https://github.com/nix-community/home-manager/issues/1341
-  environment.systemPackages = with pkgs; [
-    # kitty
-  ];
+  environment.systemPackages = with pkgs;
+    [
+      # kitty
+    ];
 
   # Fonts
   fonts.fontDir.enable = true;
-  fonts.fonts = with pkgs; [
-    (nerdfonts.override
-      {
-        fonts = [
-          "FiraCode"
-          "JetBrainsMono"
-          "DroidSansMono"
-        ];
+  fonts.fonts = with pkgs;
+    [
+      (nerdfonts.override {
+        fonts = [ "FiraCode" "JetBrainsMono" "DroidSansMono" ];
       })
-  ];
+    ];
 
   homebrew = {
     enable = true;

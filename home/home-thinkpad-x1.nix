@@ -1,5 +1,1 @@
-{ pkgs, ... }: {
-  programs.kitty = {
-    font.size = 10;
-  };
-}
+{ pkgs, ... }: { programs.kitty = { font.size = 10; }; }

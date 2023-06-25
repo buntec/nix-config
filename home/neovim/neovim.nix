@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   programs.neovim = {
     enable = true;
     viAlias = true;
@@ -245,7 +245,7 @@
             settings = {
               ['nil'] = {
                 formatting = {
-                  command = { "alejandra" },
+                  command = { "nixfmt" },
                 },
               }
             }
@@ -372,7 +372,6 @@
                   null_ls.builtins.code_actions.gitsigns,
                   null_ls.builtins.diagnostics.gitlint,
                   null_ls.builtins.code_actions.statix,
-                  null_ls.builtins.formatting.alejandra,
                   null_ls.builtins.diagnostics.chktex,
                   null_ls.builtins.diagnostics.deadnix,
                   null_ls.builtins.code_actions.shellcheck,
@@ -402,7 +401,7 @@
       python310Packages.python-lsp-server
 
       # null-ls sources
-      alejandra
+      nixfmt
       black
       cppcheck
       deadnix

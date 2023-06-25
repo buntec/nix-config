@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   programs.tmux = {
     enable = true;
     prefix = "C-a";
@@ -10,9 +10,7 @@
     shell = "${pkgs.fish}/bin/fish";
     terminal = "screen-256color";
     escapeTime = 0;
-    plugins = with pkgs; [
-      tmuxPlugins.resurrect
-    ];
+    plugins = with pkgs; [ tmuxPlugins.resurrect ];
     extraConfig = ''
       set -g default-command "exec ${pkgs.fish}/bin/fish"
     '';
