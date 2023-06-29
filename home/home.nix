@@ -36,6 +36,7 @@
     nixpkgs-fmt
     nodePackages.live-server
     nodejs
+    postgresql
     python3
     restic
     ripgrep
