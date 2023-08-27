@@ -32,6 +32,7 @@
     kubernetes-helm
     lazygit
     minikube
+    ncdu
     nixfmt
     nixpkgs-fmt
     nodePackages.live-server
