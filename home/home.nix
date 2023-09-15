@@ -20,7 +20,7 @@
     cargo
     coursier
     curl
-    exa
+    eza
     fd
     fzf
     gh

@@ -389,6 +389,17 @@
           })
         '';
       }
+      # {
+      #   plugin = hardtime-nvim;
+      #   type = "lua";
+      #   config = ''
+      #     require("hardtime").setup({
+      #         disabled_filetypes = { "qf", "netrw", "NvimTree", "lazy", "mason", "oil" },
+      #     })
+      #   '';
+      # }
+      plenary-nvim
+      nui-nvim
     ];
 
     extraPackages = with pkgs; [

@@ -52,8 +52,8 @@
       tkill = "t kill-session -t";
 
       # ls
-      la = "exa -la --color=never --git --icons";
-      l = "exa -l --color=never --git --icons";
+      la = "eza -la --color=never --git --icons";
+      l = "eza -l --color=never --git --icons";
     };
   };
 }

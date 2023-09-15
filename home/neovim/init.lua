@@ -39,6 +39,7 @@ opt.list = true -- Show some invisible characters (tabs...)
 opt.number = true -- Print line number
 opt.relativenumber = true -- Relative line numbers
 opt.wrap = false -- Disable line wrap
+opt.swapfile = false
 
 map("n", "<leader>cf", "<cmd>edit $MYVIMRC<CR>")
 
