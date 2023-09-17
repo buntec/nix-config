@@ -49,6 +49,8 @@
     vifm
     wget
     yarn
+    yazi
+    zoxide
   ];
 
   programs.git = {
