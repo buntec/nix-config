@@ -124,22 +124,6 @@
         '';
       }
       telescope-symbols-nvim
-      # {
-      #   plugin = telescope-file-browser-nvim;
-      #   type = "lua";
-      #   config = ''
-      #     vim.keymap.set("n", "-",
-      #       function()
-      #         require("telescope").extensions.file_browser.file_browser({
-      #           path = '%:p:h',
-      #           select_buffer = true,
-      #           respect_gitignore = true,
-      #           collapse_dirs = true,
-      #           hide_parent_dir = true,
-      #         })
-      #       end)
-      #   '';
-      # }
       {
         plugin = oil-nvim;
         type = "lua";
@@ -155,23 +139,6 @@
           require("telescope").load_extension("ui-select")
         '';
       }
-      # {
-      #   plugin = todo-comments-nvim;
-      #   type = "lua";
-      #   config = ''
-      #     require("todo-comments").setup()
-      #     vim.keymap.set("n", "<localleader>to", "<cmd>TodoTelescope<cr>", { silent = true, noremap = true })
-      #   '';
-      # }
-      # {
-      #   plugin = neoscroll-nvim;
-      #   type = "lua";
-      #   config = ''
-      #     require('neoscroll').setup({
-      #       easing_function = "quadratic"
-      #     })
-      #   '';
-      # }
       unicode-vim
       {
         plugin = lsp-status-nvim;
@@ -357,47 +324,6 @@
           })
         '';
       }
-      {
-        plugin = null-ls-nvim;
-        type = "lua";
-        config = ''
-          local null_ls = require("null-ls")
-          null_ls.setup({
-              sources = {
-                  null_ls.builtins.formatting.stylua,
-                  null_ls.builtins.diagnostics.eslint,
-                  null_ls.builtins.formatting.black,
-                  null_ls.builtins.diagnostics.flake8,
-                  null_ls.builtins.completion.spell,
-                  null_ls.builtins.code_actions.gitsigns,
-                  null_ls.builtins.diagnostics.gitlint,
-                  null_ls.builtins.code_actions.statix,
-                  null_ls.builtins.diagnostics.chktex,
-                  null_ls.builtins.diagnostics.deadnix,
-                  null_ls.builtins.code_actions.shellcheck,
-                  null_ls.builtins.formatting.shellharden,
-                  null_ls.builtins.formatting.shfmt,
-                  null_ls.builtins.diagnostics.cppcheck,
-                  null_ls.builtins.diagnostics.markdownlint,
-                  null_ls.builtins.diagnostics.sqlfluff.with({
-                      extra_args = { "--dialect", "postgres" },
-                  }),
-                  null_ls.builtins.formatting.sqlfluff.with({
-                      extra_args = { "--dialect", "postgres" },
-                  }),
-              },
-          })
-        '';
-      }
-      # {
-      #   plugin = hardtime-nvim;
-      #   type = "lua";
-      #   config = ''
-      #     require("hardtime").setup({
-      #         disabled_filetypes = { "qf", "netrw", "NvimTree", "lazy", "mason", "oil" },
-      #     })
-      #   '';
-      # }
       plenary-nvim
       nui-nvim
     ];

@@ -3,7 +3,8 @@
     enable = true;
     prefix = "C-a";
     keyMode = "vi";
-    customPaneNavigationAndResize = true;
+    customPaneNavigationAndResize =
+      false; # this is nice for pane switching, but unfortunately would also remap prefix + L, which otherwise toggles last session
     sensibleOnTop = true;
     clock24 = true;
     mouse = true;
@@ -18,6 +19,12 @@
       bind c new-window -c "#{pane_current_path}"
       bind '"' split-window -c "#{pane_current_path}"
       bind % split-window -h -c "#{pane_current_path}"
+
+      # pane switching using vim keys
+      bind h select-pane -L
+      bind j select-pane -D
+      bind k select-pane -U
+      bind l select-pane -R
     '';
   };
 }
