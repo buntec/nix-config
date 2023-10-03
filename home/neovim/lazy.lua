@@ -1,6 +1,70 @@
 require("lazy").setup({
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme("tokyonight")
+    end,
+  },
+  "nvim-lua/plenary.nvim",
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end,
+    build = ':MasonInstall stylua lua-language-server nil python-lsp-server haskell-language-server gopls html-lsp'
+  },
+  "LnL7/vim-nix",
+  "onsails/lspkind.nvim",
+  "hrsh7th/cmp-buffer",
+  "hrsh7th/cmp-path",
+  "hrsh7th/cmp-vsnip",
+  "hrsh7th/vim-vsnip",
+  "hrsh7th/cmp-nvim-lsp",
+  "hrsh7th/cmp-nvim-lsp-signature-help",
   "nvim-telescope/telescope-symbols.nvim",
   "nvim-telescope/telescope-ui-select.nvim",
+  "nvim-tree/nvim-web-devicons",
+  {
+    "nvim-treesitter/nvim-treesitter",
+    config = function()
+      require 'nvim-treesitter.configs'.setup {
+        -- A list of parser names, or "all" (the five listed parsers should always be installed)
+        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "scala" },
+
+        -- Install parsers synchronously (only applied to `ensure_installed`)
+        sync_install = false,
+
+        -- Automatically install missing parsers when entering buffer
+        -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+        auto_install = true,
+
+        -- List of parsers to ignore installing (or "all")
+        ignore_install = { "javascript" },
+
+        ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+        -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+
+        highlight = {
+          enable = true,
+
+          -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+          -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+          -- Using this option may slow down your editor, and you may see some duplicate highlights.
+          -- Instead of true it can also be a list of languages
+          additional_vim_regex_highlighting = false,
+        },
+      }
+    end,
+  },
+  {
+    "stevearc/oil.nvim",
+    config = function()
+      require("oil").setup()
+      vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
+    end,
+  },
   {
     "nvim-telescope/telescope.nvim",
     config = function()
@@ -78,7 +142,7 @@ require("lazy").setup({
         settings = {
           Lua = {
             format = {
-              enable = false,
+              enable = true,
             },
             runtime = {
               -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
@@ -130,14 +194,6 @@ require("lazy").setup({
       })
     end,
   },
-  "nvim-lua/plenary.nvim",
-  "onsails/lspkind.nvim",
-  "hrsh7th/cmp-buffer",
-  "hrsh7th/cmp-path",
-  "hrsh7th/cmp-vsnip",
-  "hrsh7th/vim-vsnip",
-  "hrsh7th/cmp-nvim-lsp",
-  "hrsh7th/cmp-nvim-lsp-signature-help",
   {
     "hrsh7th/nvim-cmp",
     config = function()
@@ -158,7 +214,7 @@ require("lazy").setup({
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
         }),
         sources = {
-          { name = "nvim_lsp", priority = 10 },
+          { name = "nvim_lsp",               priority = 10 },
           { name = "buffer" },
           { name = "vsnip" },
           { name = "path" },
@@ -166,8 +222,8 @@ require("lazy").setup({
         },
         formatting = {
           format = lspkind.cmp_format({
-            mode = "symbol", -- show only symbol annotations
-            maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+            mode = "symbol",       -- show only symbol annotations
+            maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
             ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
           }),
         },
@@ -184,10 +240,6 @@ require("lazy").setup({
       metals_config.settings = {
         serverVersion = "latest.snapshot",
       }
-
-      metals_config.on_attach = function(client, bufnr)
-        require("metals").setup_dap()
-      end
 
       -- Example if you are using cmp how to make sure the correct capabilities for snippets are set
       metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -234,7 +286,13 @@ require("lazy").setup({
       require("gitsigns").setup()
     end,
   },
-  "nvim-tree/nvim-web-devicons",
+  {
+    "linrongbin16/lsp-progress.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("lsp-progress").setup()
+    end,
+  },
   {
     -- integrate with lualine
     "nvim-lualine/lualine.nvim",
@@ -253,7 +311,7 @@ require("lazy").setup({
         sections = {
           lualine_a = { { "mode", upper = true } },
           lualine_b = { { "branch", icon = "" } },
-          lualine_c = { { "filename", file_status = true }, require("lsp-status").status, "g:metals_status" },
+          lualine_c = { { "filename", file_status = true }, require("lsp-progress").progress(), "g:metals_status" },
           lualine_x = { "encoding", "fileformat", "filetype" },
           lualine_y = { "progress" },
           lualine_z = { "location" },
@@ -268,13 +326,6 @@ require("lazy").setup({
         },
         extensions = { "fzf" },
       })
-    end,
-  },
-  {
-    "linrongbin16/lsp-progress.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      require("lsp-progress").setup()
     end,
   },
 })
