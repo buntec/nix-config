@@ -1,331 +1,354 @@
-require("lazy").setup({
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme("tokyonight")
-    end,
-  },
-  "nvim-lua/plenary.nvim",
-  {
-    "williamboman/mason.nvim",
-    config = function()
-      require("mason").setup()
-    end,
-    build = ':MasonInstall stylua lua-language-server nil python-lsp-server haskell-language-server gopls html-lsp'
-  },
-  "LnL7/vim-nix",
-  "onsails/lspkind.nvim",
-  "hrsh7th/cmp-buffer",
-  "hrsh7th/cmp-path",
-  "hrsh7th/cmp-vsnip",
-  "hrsh7th/vim-vsnip",
-  "hrsh7th/cmp-nvim-lsp",
-  "hrsh7th/cmp-nvim-lsp-signature-help",
-  "nvim-telescope/telescope-symbols.nvim",
-  "nvim-telescope/telescope-ui-select.nvim",
-  "nvim-tree/nvim-web-devicons",
-  {
-    "nvim-treesitter/nvim-treesitter",
-    config = function()
-      require 'nvim-treesitter.configs'.setup {
-        -- A list of parser names, or "all" (the five listed parsers should always be installed)
-        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "scala" },
+local tokyonight = {
+  "folke/tokyonight.nvim",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    vim.cmd.colorscheme("tokyonight")
+  end,
+}
 
-        -- Install parsers synchronously (only applied to `ensure_installed`)
-        sync_install = false,
+local mason = {
+  "williamboman/mason.nvim",
+  config = function()
+    require("mason").setup()
+  end,
+  build = ':MasonInstall stylua lua-language-server nil python-lsp-server haskell-language-server gopls html-lsp'
+}
 
-        -- Automatically install missing parsers when entering buffer
-        -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-        auto_install = true,
+local dressing = {
+  'stevearc/dressing.nvim',
+  opts = {},
+}
 
-        -- List of parsers to ignore installing (or "all")
-        ignore_install = { "javascript" },
+local treesitter = {
+  "nvim-treesitter/nvim-treesitter",
+  config = function()
+    require 'nvim-treesitter.configs'.setup {
+      ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "scala", "python", "html", "css", "javascript", "ts" },
 
-        ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-        -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+      -- Install parsers synchronously (only applied to `ensure_installed`)
+      sync_install = false,
 
-        highlight = {
-          enable = true,
+      -- Automatically install missing parsers when entering buffer
+      -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+      auto_install = false,
 
-          -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-          -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-          -- Using this option may slow down your editor, and you may see some duplicate highlights.
-          -- Instead of true it can also be a list of languages
-          additional_vim_regex_highlighting = false,
-        },
-      }
-    end,
-  },
-  {
-    "stevearc/oil.nvim",
-    config = function()
-      require("oil").setup()
-      vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
-    end,
-  },
-  {
-    "nvim-telescope/telescope.nvim",
-    config = function()
-      require("telescope").load_extension("ui-select")
-      require("telescope").setup({
-        defaults = {
-          layout_strategy = "vertical",
-          history = {
-            mappings = {
-              i = {
-                ["<C-Down>"] = require("telescope.actions").cycle_history_next,
-                ["<C-Up>"] = require("telescope.actions").cycle_history_prev,
-              },
+      highlight = {
+        enable = true,
+      },
+    }
+  end,
+}
+
+local oil = {
+  "stevearc/oil.nvim",
+  config = function()
+    require("oil").setup()
+    vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
+  end,
+}
+
+local telescope = {
+  "nvim-telescope/telescope.nvim",
+  dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons", "nvim-telescope/telescope-symbols.nvim" },
+  config = function()
+    local telescope = require("telescope")
+    local actions = require("telescope.actions")
+    telescope.setup({
+      defaults = {
+        layout_strategy = "vertical",
+        history = {
+          mappings = {
+            i = {
+              ["<C-Down>"] = actions.cycle_history_next,
+              ["<C-Up>"] = actions.cycle_history_prev,
             },
           },
         },
-      })
-      local tb = require("telescope.builtin")
-      vim.keymap.set("n", "<leader>fa", function()
-        tb.find_files({ no_ignore = true, hidden = true })
-      end)
-      vim.keymap.set("n", "<leader>ff", tb.find_files)
-      vim.keymap.set("n", "<leader>gf", tb.git_files)
-      vim.keymap.set("n", "<leader>lg", tb.live_grep)
-      vim.keymap.set("n", "<leader>gs", tb.grep_string)
-      vim.keymap.set("n", "<leader>bu", tb.buffers)
-      vim.keymap.set("n", "<leader>co", tb.commands)
-      vim.keymap.set("n", "<leader>ht", tb.help_tags)
-      vim.keymap.set("n", "<leader>ts", tb.treesitter)
-      vim.keymap.set("n", "<leader>cs", function()
-        tb.colorscheme({ enable_preview = true })
-      end)
-      vim.keymap.set("n", "<leader>gc", tb.git_commits)
-      vim.keymap.set("n", "<leader>gb", tb.git_branches)
-      vim.keymap.set("n", "<leader>gs", tb.git_status)
-      vim.keymap.set("n", "<leader>sy", tb.symbols)
-      vim.keymap.set("n", "<leader>mc", require("telescope").extensions.metals.commands)
-    end,
-  },
-  {
-    "neovim/nvim-lspconfig",
-    config = function()
-      local lsp = require("lspconfig")
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      },
+    })
+    local builtin = require("telescope.builtin")
+    vim.keymap.set("n", "<leader>fa", function() builtin.find_files({ no_ignore = true, hidden = true }) end)
+    vim.keymap.set("n", "<leader>ff", builtin.find_files)
+    vim.keymap.set("n", "<leader>gf", builtin.git_files)
+    vim.keymap.set("n", "<leader>lg", builtin.live_grep)
+    vim.keymap.set("n", "<leader>gs", builtin.grep_string)
+    vim.keymap.set("n", "<leader>bu", builtin.buffers)
+    vim.keymap.set("n", "<leader>co", builtin.commands)
+    vim.keymap.set("n", "<leader>ht", builtin.help_tags)
+    vim.keymap.set("n", "<leader>ts", builtin.treesitter)
+    vim.keymap.set("n", "<leader>cs", function() builtin.colorscheme({ enable_preview = true }) end)
+    vim.keymap.set("n", "<leader>gc", builtin.git_commits)
+    vim.keymap.set("n", "<leader>gb", builtin.git_branches)
+    vim.keymap.set("n", "<leader>gs", builtin.git_status)
+    vim.keymap.set("n", "<leader>sy", builtin.symbols)
+    vim.keymap.set("n", "<leader>mc", telescope.extensions.metals.commands)
+  end,
+}
 
-      -- lsp.metals.setup {} -- we use nvim-metals instead
-      lsp.smithy_ls.setup({
-        cmd = {
-          "${pkgs.coursier}/bin/cs",
-          "launch",
-          "com.disneystreaming.smithy:smithy-language-server:latest.stable",
-          "--",
-          "0",
-        },
-      })
-      lsp.hls.setup({ capabilities = capabilities })
-      lsp.bashls.setup({ capabilities = capabilities })
-      lsp.pylsp.setup({ capabilities = capabilities })
-      lsp.gopls.setup({ capabilities = capabilities })
-      lsp.tsserver.setup({ capabilities = capabilities })
-      lsp.html.setup({ capabilities = capabilities })
-      lsp.nil_ls.setup({
-        capabilities = capabilities,
-        settings = {
-          ["nil"] = {
-            formatting = {
-              command = { "nixfmt" },
-            },
+local lspconfig = {
+  "neovim/nvim-lspconfig",
+  config = function()
+    local lsp_config = require("lspconfig")
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+    lsp_config.util.default_config = vim.tbl_extend("force", lsp_config.util.default_config,
+      { capabilities = capabilities, })
+
+    lsp_config.smithy_ls.setup({
+      cmd = { "cs", "launch", "com.disneystreaming.smithy:smithy-language-server:latest.stable", "--", "0", }, })
+
+    lsp_config.hls.setup {}
+
+    lsp_config.bashls.setup {}
+
+    lsp_config.pylsp.setup {}
+
+    lsp_config.gopls.setup {}
+
+    lsp_config.tsserver.setup {}
+
+    lsp_config.html.setup {}
+
+    lsp_config.nil_ls.setup({
+      settings = {
+        ["nil"] = {
+          formatting = {
+            command = { "nixfmt" },
           },
         },
-      })
+      },
+    })
 
-      lsp.lua_ls.setup({
-        capabilities = capabilities,
-        settings = {
-          Lua = {
-            format = {
-              enable = true,
-            },
-            runtime = {
-              -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-              version = "LuaJIT",
-            },
-            diagnostics = {
-              -- Get the language server to recognize the `vim` global
-              globals = { "vim" },
-            },
-            workspace = {
-              -- Make the server aware of Neovim runtime files
-              library = vim.api.nvim_get_runtime_file("", true),
-            },
-            -- Do not send telemetry data containing a randomized but unique identifier
-            telemetry = {
-              enable = false,
-            },
+    lsp_config.lua_ls.setup({
+      settings = {
+        Lua = {
+          format = {
+            enable = true,
+          },
+          runtime = {
+            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+            version = "LuaJIT",
+          },
+          diagnostics = {
+            -- Get the language server to recognize the `vim` global
+            globals = { "vim" },
+          },
+          workspace = {
+            -- Make the server aware of Neovim runtime files
+            library = vim.api.nvim_get_runtime_file("", true),
+          },
+          -- Do not send telemetry data containing a randomized but unique identifier
+          telemetry = {
+            enable = false,
           },
         },
-      })
+      },
+    })
 
-      lsp.texlab.setup({
-        capabilities = capabilities,
-        settings = {
-          texlab = {
-            auxDirectory = ".",
-            bibtexFormatter = "texlab",
-            build = {
-              args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
-              executable = "latexmk",
-              forwardSearchAfter = false,
-              onSave = true,
-            },
-            chktex = {
-              onEdit = false,
-              onOpenAndSave = true,
-            },
-            diagnosticsDelay = 300,
-            formatterLineLength = 80,
-            forwardSearch = {
-              args = {},
-            },
-            latexFormatter = "latexindent",
-            latexindent = {
-              modifyLineBreaks = true,
-            },
+    lsp_config.texlab.setup({
+      capabilities = capabilities,
+      settings = {
+        texlab = {
+          auxDirectory = ".",
+          bibtexFormatter = "texlab",
+          build = {
+            args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+            executable = "latexmk",
+            forwardSearchAfter = false,
+            onSave = true,
+          },
+          chktex = {
+            onEdit = false,
+            onOpenAndSave = true,
+          },
+          diagnosticsDelay = 300,
+          formatterLineLength = 80,
+          forwardSearch = {
+            args = {},
+          },
+          latexFormatter = "latexindent",
+          latexindent = {
+            modifyLineBreaks = true,
           },
         },
-      })
-    end,
+      },
+    })
+  end,
+}
+
+local cmp = {
+  "hrsh7th/nvim-cmp",
+  dependencies = {
+    "hrsh7th/cmp-buffer",
+    "hrsh7th/cmp-path",
+    "hrsh7th/cmp-vsnip",
+    "hrsh7th/vim-vsnip",
+    "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-nvim-lsp-signature-help",
   },
-  {
-    "hrsh7th/nvim-cmp",
-    config = function()
-      local cmp = require("cmp")
-      local lspkind = require("lspkind")
-      cmp.setup({
-        snippet = {
-          -- REQUIRED - you must specify a snippet engine
-          expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-          end,
-        },
-        mapping = cmp.mapping.preset.insert({
-          ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-p>"] = cmp.mapping.select_prev_item(),
-          ["<C-n>"] = cmp.mapping.select_next_item(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        }),
-        sources = {
-          { name = "nvim_lsp",               priority = 10 },
-          { name = "buffer" },
-          { name = "vsnip" },
-          { name = "path" },
-          { name = "nvim_lsp_signature_help" },
-        },
-        formatting = {
-          format = lspkind.cmp_format({
-            mode = "symbol",       -- show only symbol annotations
-            maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-            ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-          }),
-        },
-      })
-    end,
-  },
-  {
-    "scalameta/nvim-metals",
-    config = function()
-      local metals_config = require("metals").bare_config()
-
-      metals_config.init_options.statusBarProvider = "on"
-
-      metals_config.settings = {
-        serverVersion = "latest.snapshot",
-      }
-
-      -- Example if you are using cmp how to make sure the correct capabilities for snippets are set
-      metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-      -- Autocmd that will actually be in charging of starting the whole thing
-      local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
-      vim.api.nvim_create_autocmd("FileType", {
-        -- NOTE: You may or may not want java included here. You will need it if you
-        -- want basic Java support but it may also conflict if you are using
-        -- something like nvim-jdtls which also works on a java filetype autocmd.
-        pattern = { "scala", "sbt", "java" },
-        callback = function()
-          require("metals").initialize_or_attach(metals_config)
+  config = function()
+    local cmp = require("cmp")
+    local lspkind = require("lspkind")
+    cmp.setup({
+      snippet = {
+        -- REQUIRED - you must specify a snippet engine
+        expand = function(args)
+          vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
         end,
-        group = nvim_metals_group,
-      })
-    end,
-  },
-  {
-    "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      require("trouble").setup({})
-      vim.keymap.set("n", "<localleader>tt", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
-      vim.keymap.set(
-        "n",
-        "<localleader>tw",
-        "<cmd>TroubleToggle workspace_diagnostics<cr>",
-        { silent = true, noremap = true }
-      )
-      vim.keymap.set(
-        "n",
-        "<localleader>td",
-        "<cmd>TroubleToggle document_diagnostics<cr>",
-        { silent = true, noremap = true }
-      )
-      vim.keymap.set("n", "<localleader>tl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
-      vim.keymap.set("n", "<localleader>tq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
-    end,
-  },
-  {
-    "lewis6991/gitsigns.nvim",
-    config = function()
-      require("gitsigns").setup()
-    end,
-  },
-  {
+      },
+      mapping = cmp.mapping.preset.insert({
+        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-f>"] = cmp.mapping.scroll_docs(4),
+        ["<C-p>"] = cmp.mapping.select_prev_item(),
+        ["<C-n>"] = cmp.mapping.select_next_item(),
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+      }),
+      sources = {
+        { name = "nvim_lsp",               priority = 10 },
+        { name = "buffer" },
+        { name = "vsnip" },
+        { name = "path" },
+        { name = "nvim_lsp_signature_help" },
+      },
+      formatting = {
+        format = lspkind.cmp_format({
+          mode = "symbol",       -- show only symbol annotations
+          maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+          ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+        }),
+      },
+    })
+  end,
+}
+
+local metals = {
+  "scalameta/nvim-metals",
+  dependencies = { "nvim-lua/plenary.nvim", "hrsh7th/cmp-nvim-lsp" },
+  config = function()
+    local metals_config = require("metals").bare_config()
+
+    metals_config.init_options.statusBarProvider = "on"
+
+    metals_config.settings = {
+      serverVersion = "latest.snapshot",
+    }
+
+    -- Example if you are using cmp how to make sure the correct capabilities for snippets are set
+    metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+    -- Autocmd that will actually be in charging of starting the whole thing
+    local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+    vim.api.nvim_create_autocmd("FileType", {
+      -- NOTE: You may or may not want java included here. You will need it if you
+      -- want basic Java support but it may also conflict if you are using
+      -- something like nvim-jdtls which also works on a java filetype autocmd.
+      pattern = { "scala", "sbt", "java" },
+      callback = function()
+        require("metals").initialize_or_attach(metals_config)
+      end,
+      group = nvim_metals_group,
+    })
+  end,
+}
+
+local trouble = {
+  "folke/trouble.nvim",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  config = function()
+    require("trouble").setup({})
+    vim.keymap.set("n", "<localleader>tt", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
+    vim.keymap.set(
+      "n",
+      "<localleader>tw",
+      "<cmd>TroubleToggle workspace_diagnostics<cr>",
+      { silent = true, noremap = true }
+    )
+    vim.keymap.set(
+      "n",
+      "<localleader>td",
+      "<cmd>TroubleToggle document_diagnostics<cr>",
+      { silent = true, noremap = true }
+    )
+    vim.keymap.set("n", "<localleader>tl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
+    vim.keymap.set("n", "<localleader>tq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
+  end,
+}
+
+local lualine = {
+  "nvim-lualine/lualine.nvim",
+  dependencies = {
+    "folke/tokyonight.nvim",
+    "nvim-tree/nvim-web-devicons",
     "linrongbin16/lsp-progress.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      require("lsp-progress").setup()
-    end,
   },
-  {
-    -- integrate with lualine
-    "nvim-lualine/lualine.nvim",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-      "linrongbin16/lsp-progress.nvim",
-    },
-    config = function()
-      require("lualine").setup({
-        options = {
-          theme = "tokyonight",
-          section_separators = { "", "" },
-          component_separators = { "", "" },
-          icons_enabled = true,
-        },
-        sections = {
-          lualine_a = { { "mode", upper = true } },
-          lualine_b = { { "branch", icon = "" } },
-          lualine_c = { { "filename", file_status = true }, require("lsp-progress").progress(), "g:metals_status" },
-          lualine_x = { "encoding", "fileformat", "filetype" },
-          lualine_y = { "progress" },
-          lualine_z = { "location" },
-        },
-        inactive_sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = { "filename" },
-          lualine_x = { "location" },
-          lualine_y = {},
-          lualine_z = {},
-        },
-        extensions = { "fzf" },
-      })
-    end,
-  },
+  config = function()
+    require("lualine").setup({
+      options = {
+        theme = "tokyonight",
+        section_separators = { "", "" },
+        component_separators = { "", "" },
+        icons_enabled = true,
+      },
+      sections = {
+        lualine_a = { { "mode", upper = true } },
+        lualine_b = { { "branch", icon = "" } },
+        lualine_c = { { "filename", file_status = true }, require("lsp-progress").progress(), "g:metals_status" },
+        lualine_x = { "encoding", "fileformat", "filetype" },
+        lualine_y = { "progress" },
+        lualine_z = { "location" },
+      },
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { "filename" },
+        lualine_x = { "location" },
+        lualine_y = {},
+        lualine_z = {},
+      },
+      extensions = { "fzf" },
+    })
+  end,
+}
+
+local gitsigns = {
+  "lewis6991/gitsigns.nvim",
+  config = function()
+    require("gitsigns").setup()
+  end,
+}
+
+local lspprogess = {
+  "linrongbin16/lsp-progress.nvim",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  config = function()
+    require("lsp-progress").setup()
+  end,
+}
+
+local vimnix = {
+  "LnL7/vim-nix"
+}
+
+local lspkind = {
+  "onsails/lspkind.nvim",
+  lazy = true
+}
+
+require("lazy").setup({
+  dressing,
+  tokyonight,
+  lualine,
+  oil,
+  mason,
+  treesitter,
+  telescope,
+  lspconfig,
+  cmp,
+  metals,
+  trouble,
+  gitsigns,
+  lspprogess,
+  vimnix,
+  lspkind
 })

@@ -1,5 +1,5 @@
 local cmd = vim.cmd
-local api = vim.api
+-- local api = vim.api
 local g = vim.g
 local map = vim.keymap.set
 local opt = vim.opt
