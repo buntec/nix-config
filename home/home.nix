@@ -15,10 +15,13 @@
   home.packages = let
     python-packages = ps:
       with ps; [
+        jupyter
+        numpy
         pandas
-        requests
-        python-lsp-server
         python-lsp-ruff
+        python-lsp-server
+        requests
+        scipy
       ];
     python-with-packages = (pkgs.python3.withPackages python-packages);
   in with pkgs; [
