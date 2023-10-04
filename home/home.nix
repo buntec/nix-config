@@ -12,7 +12,16 @@
     extraOptions = [ ];
   };
 
-  home.packages = with pkgs; [
+  home.packages = let
+    python-packages = ps:
+      with ps; [
+        pandas
+        requests
+        python-lsp-server
+        python-lsp-ruff
+      ];
+    python-with-packages = (pkgs.python3.withPackages python-packages);
+  in with pkgs; [
     amber
     any-nix-shell
     atool
@@ -39,7 +48,7 @@
     nodePackages.live-server
     nodejs
     postgresql
-    python3
+    python-with-packages
     restic
     ripgrep
     sbt
