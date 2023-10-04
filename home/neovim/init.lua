@@ -8,12 +8,7 @@ local global_opt = vim.opt_global
 g.mapleader = ","
 g.maplocalleader = " "
 
-g.tokyonight_style = "storm"
---cmd.colorscheme("tokyonight")
-
 cmd.language("en_US")
-
-local indent = 2
 
 global_opt.shortmess:remove("F")                           -- recommended for nvim-metals
 global_opt.completeopt = { "menu", "menuone", "noselect" } -- Completion options
@@ -29,6 +24,8 @@ global_opt.splitright = true                               -- Put new windows ri
 global_opt.termguicolors = true                            -- True color support
 global_opt.wildmode = "list:longest"                       -- Command-line completion mode
 global_opt.clipboard = "unnamedplus"
+
+local indent = 2
 
 opt.expandtab = true      -- Use spaces instead of tabs
 opt.shiftwidth = indent   -- Size of an indent
