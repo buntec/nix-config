@@ -36,7 +36,6 @@ local mason = {
   config = function()
     require("mason").setup()
   end,
-  build = ':MasonInstall stylua lua-language-server nil python-lsp-server haskell-language-server gopls html-lsp'
 }
 
 local dressing = {

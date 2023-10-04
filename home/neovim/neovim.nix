@@ -11,7 +11,13 @@
       config = (builtins.readFile ./lazy.lua);
     }];
 
-    extraPackages = with pkgs; [ gopls haskell-language-server ];
+    extraPackages = with pkgs; [
+      nil
+      lua-language-server
+      gopls
+      haskell-language-server
+      vscode-langservers-extracted
+    ];
 
     extraLuaConfig = (builtins.readFile ./init.lua);
   };

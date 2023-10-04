@@ -27,6 +27,7 @@
     ghc
     go
     httpie
+    jdk
     jq
     killall
     kubernetes-helm
@@ -50,6 +51,7 @@
     wget
     yarn
     yazi
+    zig
     zoxide
   ];
 

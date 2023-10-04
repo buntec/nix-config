@@ -8,7 +8,7 @@ local global_opt = vim.opt_global
 g.mapleader = ","
 g.maplocalleader = " "
 
-cmd.language("en_US")
+-- cmd.language("en_US")
 
 global_opt.shortmess:remove("F")                           -- recommended for nvim-metals
 global_opt.completeopt = { "menu", "menuone", "noselect" } -- Completion options
