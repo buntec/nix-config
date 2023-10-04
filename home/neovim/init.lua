@@ -38,8 +38,6 @@ opt.relativenumber = true -- Relative line numbers
 opt.wrap = false          -- Disable line wrap
 opt.swapfile = false
 
-map("n", "<leader>cf", "<cmd>edit $MYVIMRC<CR>")
-
 map("n", "<C-j>", "<C-W><C-J>")
 map("n", "<C-k>", "<C-W><C-K>")
 map("n", "<C-l>", "<C-W><C-L>")
@@ -49,11 +47,13 @@ map("i", "jk", "<Esc>")
 map("i", "kj", "<Esc>")
 map("i", "jj", "<Esc>")
 
-map("n", "<localleader>a", vim.lsp.buf.code_action)
-map("n", "<localleader>d", vim.lsp.buf.definition)
-map({ "n", "v" }, "<localleader>f", vim.lsp.buf.format)
-map("n", "<localleader>i", vim.lsp.buf.implementation)
-map("n", "<localleader>h", vim.lsp.buf.hover)
-map("n", "<localleader>m", vim.lsp.buf.rename)
-map("n", "<localleader>r", vim.lsp.buf.references)
-map("n", "<localleader>s", vim.lsp.buf.document_symbol)
+map("n", "<leader>cf", "<cmd>edit $MYVIMRC<CR>", { desc = "open init.lua" })
+
+map("n", "<localleader>a", vim.lsp.buf.code_action, { desc = "lsp code action" })
+map("n", "<localleader>d", vim.lsp.buf.definition, { desc = "lsp definition" })
+map({ "n", "v" }, "<localleader>f", vim.lsp.buf.format, { desc = "lsp format" })
+map("n", "<localleader>i", vim.lsp.buf.implementation, { desc = "lsp implementation" })
+map("n", "<localleader>h", vim.lsp.buf.hover, { desc = "lsp hover" })
+map("n", "<localleader>m", vim.lsp.buf.rename, { desc = "lsp rename" })
+map("n", "<localleader>r", vim.lsp.buf.references, { desc = "lsp references" })
+map("n", "<localleader>s", vim.lsp.buf.document_symbol, { desc = "lsp document symbol" })

@@ -98,7 +98,7 @@ local oil = {
   config = function()
     local oil = require("oil")
     oil.setup()
-    vim.keymap.set("n", "<leader>-", oil.open, { desc = "Open parent directory" })
+    vim.keymap.set("n", "<leader>-", oil.open, { desc = "Browse parent directory" })
   end,
 }
 
@@ -126,21 +126,23 @@ local telescope = {
       },
     })
     local builtin = require("telescope.builtin")
-    vim.keymap.set("n", "<leader>fa", function() builtin.find_files({ no_ignore = true, hidden = true }) end)
-    vim.keymap.set("n", "<leader>ff", builtin.find_files)
-    vim.keymap.set("n", "<leader>gf", builtin.git_files)
-    vim.keymap.set("n", "<leader>lg", builtin.live_grep)
-    vim.keymap.set("n", "<leader>gs", builtin.grep_string)
-    vim.keymap.set("n", "<leader>bu", builtin.buffers)
-    vim.keymap.set("n", "<leader>co", builtin.commands)
-    vim.keymap.set("n", "<leader>ht", builtin.help_tags)
-    vim.keymap.set("n", "<leader>ts", builtin.treesitter)
-    vim.keymap.set("n", "<leader>cs", function() builtin.colorscheme({ enable_preview = true }) end)
-    vim.keymap.set("n", "<leader>gc", builtin.git_commits)
-    vim.keymap.set("n", "<leader>gb", builtin.git_branches)
-    vim.keymap.set("n", "<leader>gs", builtin.git_status)
-    vim.keymap.set("n", "<leader>sy", builtin.symbols)
-    vim.keymap.set("n", "<leader>mc", telescope.extensions.metals.commands)
+    vim.keymap.set("n", "<leader>fa", function() builtin.find_files({ no_ignore = true, hidden = true }) end,
+      { desc = "find all files" })
+    vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "find files" })
+    vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "find files (git)" })
+    vim.keymap.set("n", "<leader>lg", builtin.live_grep, { desc = "live grep" })
+    vim.keymap.set("n", "<leader>gs", builtin.grep_string, { desc = "grep string" })
+    vim.keymap.set("n", "<leader>bu", builtin.buffers, { desc = "buffers" })
+    vim.keymap.set("n", "<leader>co", builtin.commands, { desc = "commands" })
+    vim.keymap.set("n", "<leader>ht", builtin.help_tags, { desc = "help tags" })
+    vim.keymap.set("n", "<leader>ts", builtin.treesitter, { desc = "treesitter" })
+    vim.keymap.set("n", "<leader>cs", function() builtin.colorscheme({ enable_preview = true }) end,
+      { desc = "colorschemes" })
+    vim.keymap.set("n", "<leader>gc", builtin.git_commits, { desc = "git commits" })
+    vim.keymap.set("n", "<leader>gb", builtin.git_branches, { desc = "git branches" })
+    vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "git status" })
+    vim.keymap.set("n", "<leader>sy", builtin.symbols, { desc = "emoji/symbols" })
+    vim.keymap.set("n", "<leader>mc", telescope.extensions.metals.commands, { desc = "metals commands" })
   end,
 }
 
@@ -315,21 +317,24 @@ local trouble = {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     require("trouble").setup({})
-    vim.keymap.set("n", "<localleader>tt", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
+    vim.keymap.set("n", "<localleader>tt", "<cmd>TroubleToggle<cr>",
+      { desc = "toggle trouble", silent = true, noremap = true })
     vim.keymap.set(
       "n",
       "<localleader>tw",
       "<cmd>TroubleToggle workspace_diagnostics<cr>",
-      { silent = true, noremap = true }
+      { silent = true, noremap = true, desc = "toggle workspace diagnostics" }
     )
     vim.keymap.set(
       "n",
       "<localleader>td",
       "<cmd>TroubleToggle document_diagnostics<cr>",
-      { silent = true, noremap = true }
+      { silent = true, noremap = true, desc = "toggle document diagnostics" }
     )
-    vim.keymap.set("n", "<localleader>tl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
-    vim.keymap.set("n", "<localleader>tq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
+    vim.keymap.set("n", "<localleader>tl", "<cmd>TroubleToggle loclist<cr>",
+      { silent = true, noremap = true, desc = "toggle trouble (loclist)" })
+    vim.keymap.set("n", "<localleader>tq", "<cmd>TroubleToggle quickfix<cr>",
+      { silent = true, noremap = true, desc = "toggle trouble (quickfix)" })
   end,
 }
 
