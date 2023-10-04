@@ -3,8 +3,8 @@
     enable = true;
     prefix = "C-a";
     keyMode = "vi";
-    customPaneNavigationAndResize =
-      false; # this is nice for pane switching, but unfortunately would also remap prefix + L, which otherwise toggles last session
+    # this is nice for pane switching, but unfortunately would also remap prefix + L, which otherwise toggles last session
+    # customPaneNavigationAndResize = true;
     sensibleOnTop = true;
     clock24 = true;
     mouse = true;
