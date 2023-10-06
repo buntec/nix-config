@@ -112,6 +112,14 @@
         config = builtins.readFile ./plugins/lualine.lua;
       };
 
+      surround = {
+        plugin = pkgs.vimPlugins.nvim-surround;
+        type = "lua";
+        config = ''
+          require("nvim-surround").setup({})
+        '';
+      };
+
     in pkgs.lib.lists.flatten [
       cmp
       dressing
@@ -123,6 +131,7 @@
       metals
       oil
       plenary
+      surround
       telescope
       tokyonight
       treesitter
