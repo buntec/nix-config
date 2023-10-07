@@ -43,7 +43,8 @@
         name = machine.name;
         value = nixpkgs.lib.nixosSystem {
           system = machine.system;
-          specialArgs = attrs;
+          specialArgs =
+            attrs; # attributes in this set will be passed to modules as args
           modules = [
             ./system/configuration-nixos.nix
             ./system/configuration-${machine.name}.nix
@@ -66,6 +67,8 @@
         name = machine.name;
         value = darwin.lib.darwinSystem {
           system = machine.system;
+          specialArgs =
+            attrs; # attributes in this set will be passed to modules as args
           modules = [
             ./system/configuration-darwin.nix
             ./system/configuration-${machine.name}.nix
