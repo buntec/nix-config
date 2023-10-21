@@ -8,9 +8,10 @@
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
+
   };
 
-  outputs = { darwin, nixpkgs, home-manager, flake-utils, ... }@attrs:
+  outputs = inputs@{ darwin, nixpkgs, home-manager, flake-utils, ... }:
     let
       machines = [
         {
@@ -43,8 +44,9 @@
         name = machine.name;
         value = nixpkgs.lib.nixosSystem {
           system = machine.system;
-          specialArgs =
-            attrs; # attributes in this set will be passed to modules as args
+          specialArgs = {
+            inherit inputs;
+          }; # attributes in this set will be passed to modules as args
           modules = [
             ./system/configuration-nixos.nix
             ./system/configuration-${machine.name}.nix
@@ -52,12 +54,13 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.sharedModules = [
-                ./home/home.nix
-                ./home/home-nixos.nix
-                ./home/home-${machine.name}.nix
-              ];
-              home-manager.users.${machine.user} = { };
+              home-manager.users.${machine.user} = {
+                imports = [
+                  ./home/home.nix
+                  ./home/home-nixos.nix
+                  ./home/home-${machine.name}.nix
+                ];
+              };
             }
           ];
         };
@@ -67,8 +70,9 @@
         name = machine.name;
         value = darwin.lib.darwinSystem {
           system = machine.system;
-          specialArgs =
-            attrs; # attributes in this set will be passed to modules as args
+          specialArgs = {
+            inherit inputs;
+          }; # attributes in this set will be passed to modules as args
           modules = [
             ./system/configuration-darwin.nix
             ./system/configuration-${machine.name}.nix
@@ -76,12 +80,13 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.sharedModules = [
-                ./home/home.nix
-                ./home/home-darwin.nix
-                ./home/home-${machine.name}.nix
-              ];
-              home-manager.users.${machine.user} = { };
+              home-manager.users.${machine.user} = {
+                imports = [
+                  ./home/home.nix
+                  ./home/home-darwin.nix
+                  ./home/home-${machine.name}.nix
+                ];
+              };
             }
           ];
         };

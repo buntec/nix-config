@@ -57,7 +57,7 @@
     sbt
     scala-cli
     stack
-    texlive.combined.scheme-full
+    # texlive.combined.scheme-full
     tldr
     vifm
     wget
