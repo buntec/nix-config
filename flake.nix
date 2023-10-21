@@ -9,10 +9,12 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     my-pkgs.url = "github:buntec/pkgs";
     my-pkgs.inputs.nixpkgs.follows = "nixpkgs";
+    nil.url = "github:oxalica/nil";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = inputs@{ darwin, nixpkgs, home-manager, flake-utils, my-pkgs, ... }:
+  outputs =
+    inputs@{ darwin, nixpkgs, home-manager, flake-utils, my-pkgs, nil, ... }:
     let
       machines = [
         {
@@ -40,7 +42,7 @@
       darwinMachines = builtins.filter (machine: isDarwin machine) machines;
       nixosMachines = builtins.filter (machine: !isDarwin machine) machines;
       machinesBySystem = builtins.groupBy (machine: machine.system) machines;
-      overlays = [ my-pkgs.overlays.default ];
+      overlays = [ my-pkgs.overlays.default nil.overlays.default ];
     in rec {
       nixosConfigurations = builtins.listToAttrs (builtins.map (machine: {
         name = machine.name;
