@@ -25,9 +25,7 @@
       ];
     python-with-packages = (pkgs.python3.withPackages python-packages);
   in with pkgs; [
-    smithy-language-server
-    smithy-cli
-    metals
+    # texlive.combined.scheme-full
     amber
     any-nix-shell
     atool
@@ -42,11 +40,13 @@
     ghc
     go
     httpie
+    hyperfine
     jdk
     jq
     killall
     kubernetes-helm
     lazygit
+    metals
     minikube
     ncdu
     nixfmt
@@ -59,9 +59,11 @@
     ripgrep
     sbt
     scala-cli
+    smithy-cli
+    smithy-language-server
     stack
-    # texlive.combined.scheme-full
     tldr
+    tree
     vifm
     wget
     yarn
@@ -83,4 +85,6 @@
 
   programs.htop.enable = true;
   programs.htop.settings.show_program_path = true;
+
+  programs.zoxide.enable = true;
 }
