@@ -50,7 +50,10 @@
             inherit inputs;
           }; # attributes in this set will be passed to modules as args
           modules = [
-            { nixpkgs.overlays = overlays; }
+            {
+              nixpkgs.overlays = overlays;
+              nixpkgs.config = { allowUnfree = true; };
+            }
             ./system/configuration-nixos.nix
             ./system/configuration-${machine.name}.nix
             home-manager.nixosModules.home-manager
@@ -77,7 +80,10 @@
             inherit inputs;
           }; # attributes in this set will be passed to modules as args
           modules = [
-            { nixpkgs.overlays = overlays; }
+            {
+              nixpkgs.overlays = overlays;
+              nixpkgs.config = { allowUnfree = true; };
+            }
             ./system/configuration-darwin.nix
             ./system/configuration-${machine.name}.nix
             home-manager.darwinModules.home-manager
