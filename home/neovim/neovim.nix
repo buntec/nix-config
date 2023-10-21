@@ -7,6 +7,24 @@
 
     plugins = let
 
+      lsp-progress = {
+        plugin = pkgs.vimUtils.buildVimPlugin {
+          pname = "lsp-progress.nvim";
+          version = "2023-10-21";
+          src = pkgs.fetchFromGitHub {
+            owner = "linrongbin16";
+            repo = "lsp-progress.nvim";
+            rev = "df7a3d0d865d584552ab571295e73868e736e60f";
+            sha256 = "sha256-+bp8t+CPFQD6iUENc7ktHxIkMpJdQabA9Ouzk5GV2IM=";
+          };
+          meta.homepage = "https://github.com/linrongbin16/lsp-progress.nvim/";
+        };
+        type = "lua";
+        config = ''
+          require("lsp-progress").setup {};
+        '';
+      };
+
       tokyonight = {
         plugin = pkgs.vimPlugins.tokyonight-nvim;
         type = "lua";
@@ -126,6 +144,7 @@
       gitsigns
       indent-blank-line
       lsp-kind
+      lsp-progress
       lspconfig
       lualine
       metals

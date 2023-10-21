@@ -25,6 +25,9 @@
       ];
     python-with-packages = (pkgs.python3.withPackages python-packages);
   in with pkgs; [
+    smithy-language-server
+    smithy-cli
+    metals
     amber
     any-nix-shell
     atool

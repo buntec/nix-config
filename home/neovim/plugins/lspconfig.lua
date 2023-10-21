@@ -4,8 +4,7 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 lsp_config.util.default_config = vim.tbl_extend("force", lsp_config.util.default_config,
   { capabilities = capabilities, })
 
-lsp_config.smithy_ls.setup({
-  cmd = { "cs", "launch", "com.disneystreaming.smithy:smithy-language-server:latest.stable", "--", "0", }, })
+lsp_config.smithy_ls.setup {}
 
 lsp_config.hls.setup {}
 

@@ -7,11 +7,12 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+    my-pkgs.url = "github:buntec/pkgs";
+    my-pkgs.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
-
   };
 
-  outputs = inputs@{ darwin, nixpkgs, home-manager, flake-utils, ... }:
+  outputs = inputs@{ darwin, nixpkgs, home-manager, flake-utils, my-pkgs, ... }:
     let
       machines = [
         {
@@ -39,6 +40,7 @@
       darwinMachines = builtins.filter (machine: isDarwin machine) machines;
       nixosMachines = builtins.filter (machine: !isDarwin machine) machines;
       machinesBySystem = builtins.groupBy (machine: machine.system) machines;
+      overlays = [ my-pkgs.overlays.default ];
     in rec {
       nixosConfigurations = builtins.listToAttrs (builtins.map (machine: {
         name = machine.name;
@@ -48,6 +50,7 @@
             inherit inputs;
           }; # attributes in this set will be passed to modules as args
           modules = [
+            { nixpkgs.overlays = overlays; }
             ./system/configuration-nixos.nix
             ./system/configuration-${machine.name}.nix
             home-manager.nixosModules.home-manager
@@ -74,6 +77,7 @@
             inherit inputs;
           }; # attributes in this set will be passed to modules as args
           modules = [
+            { nixpkgs.overlays = overlays; }
             ./system/configuration-darwin.nix
             ./system/configuration-${machine.name}.nix
             home-manager.darwinModules.home-manager
