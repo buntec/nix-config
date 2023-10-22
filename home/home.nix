@@ -39,6 +39,7 @@
     gh
     ghc
     git-gone
+    git-summary
     go
     httpie
     hyperfine

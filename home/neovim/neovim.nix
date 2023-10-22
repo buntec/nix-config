@@ -7,6 +7,7 @@
 
     plugins = let
 
+      # TODO: replace with nixpkgs version when available
       lsp-progress = {
         plugin = pkgs.vimUtils.buildVimPlugin {
           pname = "lsp-progress.nvim";
@@ -81,7 +82,10 @@
       metals = {
         plugin = pkgs.vimPlugins.nvim-metals;
         type = "lua";
-        config = builtins.readFile ./plugins/metals.lua;
+        config = ''
+          local metalsBinary = "${pkgs.metals}"
+          ${builtins.readFile ./plugins/metals.lua}
+        '';
       };
 
       trouble = {
@@ -89,15 +93,6 @@
         type = "lua";
         config = builtins.readFile ./plugins/trouble.lua;
       };
-
-      # TODO: uncomment when available in nixpkgs
-      # lsp-progress = {
-      #   plugin = pkgs.vimPlugins.lsp-progress-nvim;
-      #   type = "lua";
-      #   config = ''
-      #     require("lsp-progress").setup()
-      #   '';
-      # };
 
       lsp-kind = {
         plugin = pkgs.vimPlugins.lspkind-nvim;

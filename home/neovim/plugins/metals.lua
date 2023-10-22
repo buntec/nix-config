@@ -4,6 +4,8 @@ metals_config.init_options.statusBarProvider = "on"
 
 metals_config.settings = {
   serverVersion = "latest.snapshot",
+  useGlobalExecutable = true,
+  metalsBinaryPath = metalsBinary,
 }
 
 -- Example if you are using cmp how to make sure the correct capabilities for snippets are set
