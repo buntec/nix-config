@@ -38,6 +38,7 @@
     fzf
     gh
     ghc
+    git-gone
     go
     httpie
     hyperfine
