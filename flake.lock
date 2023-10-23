@@ -155,11 +155,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1697975458,
-        "narHash": "sha256-M7//HiZdpPyMj5OtUcQeLayBq6pbDqzulm03Qda2++c=",
+        "lastModified": 1698056135,
+        "narHash": "sha256-W31joXlp/V0kp0LkVcSbzaxhLeQXx0NX+FOAxpbuzwI=",
         "owner": "buntec",
         "repo": "git-summary-scala",
-        "rev": "d9c7813eb3def7d5766b56f0f4d662a28bfe923b",
+        "rev": "51f1371ba3e06dcdd376bb5d326947f74a137fad",
         "type": "github"
       },
       "original": {
@@ -198,11 +198,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1697885623,
-        "narHash": "sha256-l53pAdGOF7jGylwjDW7dQwkuwlim56vat7cHh9u2gwA=",
+        "lastModified": 1698055099,
+        "narHash": "sha256-Fto9RDcjRtGQ3/Qrep6EIy4T/wfiy5iukC32e4Zsc68=",
         "owner": "buntec",
         "repo": "pkgs",
-        "rev": "6f224c7d4845e8efb9de606be412ccf82849f237",
+        "rev": "fa14e41f344f6e0d759728a788481cdeaf52285a",
         "type": "github"
       },
       "original": {
