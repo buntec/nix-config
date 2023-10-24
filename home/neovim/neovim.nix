@@ -83,7 +83,7 @@
         plugin = pkgs.vimPlugins.nvim-metals;
         type = "lua";
         config = ''
-          local metalsBinary = "${pkgs.metals}"
+          local metalsBinary = "${pkgs.metals}/bin/metals"
           ${builtins.readFile ./plugins/metals.lua}
         '';
       };
