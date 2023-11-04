@@ -62,6 +62,7 @@
     sbt
     scala-cli
     smithy-cli
+    smithy4s-codegen-cli
     smithy-language-server
     stack
     texlive.combined.scheme-basic
