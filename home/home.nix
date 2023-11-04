@@ -25,7 +25,6 @@
       ];
     python-with-packages = (pkgs.python3.withPackages python-packages);
   in with pkgs; [
-    # texlive.combined.scheme-full
     amber
     any-nix-shell
     atool
@@ -57,6 +56,7 @@
     nodejs
     postgresql
     python-with-packages
+    racket
     restic
     ripgrep
     sbt
@@ -64,6 +64,7 @@
     smithy-cli
     smithy-language-server
     stack
+    texlive.combined.scheme-basic
     tldr
     tree
     vifm

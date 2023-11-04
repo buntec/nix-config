@@ -28,17 +28,18 @@
   homebrew = {
     enable = true;
     casks = [
-      "kitty"
+      "brave-browser"
+      "discord"
+      "docker"
       "firefox"
       "google-chrome"
-      "brave-browser"
-      "docker"
       "keepassxc"
+      "kitty"
+      "mattermost"
+      "skim"
       "spotify"
-      "discord"
       "telegram"
       "whatsapp"
-      "mattermost"
     ];
   };
 
