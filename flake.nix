@@ -18,6 +18,7 @@
   outputs = inputs@{ darwin, nixpkgs, home-manager, flake-utils, my-pkgs
     , git-summary, nil, ... }:
     let
+      inherit (nixpkgs) lib;
       machines = [
         {
           name = "thinkpad-x1";
@@ -128,5 +129,20 @@
               program = "${script}";
             };
           }) machines)) machinesBySystem;
+
+      # add all nixos and darwin configs to checks
+      checks = builtins.mapAttrs (system: machines:
+        builtins.listToAttrs (builtins.map (machine:
+          let
+            toplevel = (if (isDarwin machine) then
+              darwinConfigurations.${machine.name}.config.system.build.toplevel
+            else
+              nixosConfigurations.${machine.name}.config.system.build.toplevel);
+          in {
+            name = "toplevel-${machine.name}";
+            value = toplevel;
+          }) machines)) machinesBySystem;
+
     };
+
 }
