@@ -23,7 +23,7 @@
         requests
         scipy
       ];
-    python-with-packages = (pkgs.python3.withPackages python-packages);
+    python-with-packages = pkgs.python3.withPackages python-packages;
   in with pkgs; [
     amber
     any-nix-shell

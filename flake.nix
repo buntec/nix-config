@@ -46,7 +46,7 @@
       ];
 
       isDarwin = machine: (builtins.match ".*darwin" machine.system) != null;
-      darwinMachines = builtins.filter (machine: isDarwin machine) machines;
+      darwinMachines = builtins.filter isDarwin machines;
       nixosMachines = builtins.filter (machine: !isDarwin machine) machines;
       machinesBySystem = builtins.groupBy (machine: machine.system) machines;
       systems = builtins.attrNames machinesBySystem;
@@ -70,9 +70,9 @@
         in treefmtEval.${pkgs.system}.config.build.wrapper);
 
       nixosConfigurations = builtins.listToAttrs (builtins.map (machine: {
-        name = machine.name;
+        inherit (machine) name;
         value = nixpkgs.lib.nixosSystem {
-          system = machine.system;
+          inherit (machine) system;
           specialArgs = {
             inherit inputs;
           }; # attributes in this set will be passed to modules as args
@@ -85,14 +85,16 @@
             ./system/configuration-${machine.name}.nix
             home-manager.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.${machine.user} = {
-                imports = [
-                  ./home/home.nix
-                  ./home/home-nixos.nix
-                  ./home/home-${machine.name}.nix
-                ];
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.${machine.user} = {
+                  imports = [
+                    ./home/home.nix
+                    ./home/home-nixos.nix
+                    ./home/home-${machine.name}.nix
+                  ];
+                };
               };
             }
           ];
@@ -100,9 +102,9 @@
       }) nixosMachines);
 
       darwinConfigurations = builtins.listToAttrs (builtins.map (machine: {
-        name = machine.name;
+        inherit (machine) name;
         value = darwin.lib.darwinSystem {
-          system = machine.system;
+          inherit (machine) system;
           specialArgs = {
             inherit inputs;
           }; # attributes in this set will be passed to modules as args
@@ -115,14 +117,16 @@
             ./system/configuration-${machine.name}.nix
             home-manager.darwinModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.${machine.user} = {
-                imports = [
-                  ./home/home.nix
-                  ./home/home-darwin.nix
-                  ./home/home-${machine.name}.nix
-                ];
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.${machine.user} = {
+                  imports = [
+                    ./home/home.nix
+                    ./home/home-darwin.nix
+                    ./home/home-${machine.name}.nix
+                  ];
+                };
               };
             }
           ];
@@ -133,13 +137,13 @@
         builtins.listToAttrs (builtins.map (machine:
           let
             pkgs = import nixpkgs { inherit system; };
-            script = (pkgs.writeShellScript "rebuild-${machine.name}"
+            script = pkgs.writeShellScript "rebuild-${machine.name}"
               (if (isDarwin machine) then
                 "${
                   darwinConfigurations.${machine.name}.system
                 }/sw/bin/darwin-rebuild switch --flake .#${machine.name}"
               else
-                "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake .#${machine.name}"));
+                "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake .#${machine.name}");
           in {
             name = "rebuild-${machine.name}";
             value = {
@@ -152,10 +156,10 @@
       checks = (builtins.mapAttrs (system: machines:
         builtins.listToAttrs (builtins.map (machine:
           let
-            toplevel = (if (isDarwin machine) then
+            toplevel = if (isDarwin machine) then
               darwinConfigurations.${machine.name}.config.system.build.toplevel
             else
-              nixosConfigurations.${machine.name}.config.system.build.toplevel);
+              nixosConfigurations.${machine.name}.config.system.build.toplevel;
           in {
             name = "toplevel-${machine.name}";
             value = toplevel;

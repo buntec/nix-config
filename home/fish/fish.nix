@@ -4,7 +4,7 @@
     plugins = [
       {
         name = "pure";
-        src = pkgs.fishPlugins.pure.src;
+        inherit (pkgs.fishPlugins.pure) src;
       }
       {
         name = "bass";
