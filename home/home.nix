@@ -65,10 +65,12 @@
     smithy4s-codegen-cli
     smithy-language-server
     stack
+    statix
     texlive.combined.scheme-basic
     tldr
     tree
     vifm
+    vale
     wget
     yarn
     yazi

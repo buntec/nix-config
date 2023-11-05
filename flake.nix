@@ -13,12 +13,15 @@
     git-summary.inputs.nixpkgs.follows = "nixpkgs";
     nil.url = "github:oxalica/nil";
     flake-utils.url = "github:numtide/flake-utils";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
   };
 
-  outputs = inputs@{ darwin, nixpkgs, home-manager, flake-utils, my-pkgs
-    , git-summary, nil, ... }:
+  outputs = inputs@{ self, darwin, nixpkgs, home-manager, flake-utils, my-pkgs
+    , git-summary, nil, treefmt-nix, ... }:
     let
       inherit (nixpkgs) lib;
+      inherit (lib) genAttrs;
+
       machines = [
         {
           name = "thinkpad-x1";
@@ -41,16 +44,31 @@
           system = flake-utils.lib.system.x86_64-darwin;
         }
       ];
+
       isDarwin = machine: (builtins.match ".*darwin" machine.system) != null;
       darwinMachines = builtins.filter (machine: isDarwin machine) machines;
       nixosMachines = builtins.filter (machine: !isDarwin machine) machines;
       machinesBySystem = builtins.groupBy (machine: machine.system) machines;
+      systems = builtins.attrNames machinesBySystem;
+
+      eachSystem = genAttrs systems;
+
       overlays = [
         my-pkgs.overlays.default
         git-summary.overlays.default
         nil.overlays.default
       ];
+
+      treefmtEval = eachSystem (system:
+        let pkgs = import nixpkgs { inherit system overlays; };
+        in treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+
     in rec {
+
+      formatter = eachSystem (system:
+        let pkgs = import nixpkgs { inherit system overlays; };
+        in treefmtEval.${pkgs.system}.config.build.wrapper);
+
       nixosConfigurations = builtins.listToAttrs (builtins.map (machine: {
         name = machine.name;
         value = nixpkgs.lib.nixosSystem {
@@ -131,7 +149,7 @@
           }) machines)) machinesBySystem;
 
       # add all nixos and darwin configs to checks
-      checks = builtins.mapAttrs (system: machines:
+      checks = (builtins.mapAttrs (system: machines:
         builtins.listToAttrs (builtins.map (machine:
           let
             toplevel = (if (isDarwin machine) then
@@ -141,7 +159,9 @@
           in {
             name = "toplevel-${machine.name}";
             value = toplevel;
-          }) machines)) machinesBySystem;
+          }) machines)) machinesBySystem) // eachSystem (system: {
+            formatting = treefmtEval.${system}.config.build.check self;
+          });
 
     };
 

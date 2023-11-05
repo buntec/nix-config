@@ -133,8 +133,21 @@
         '';
       };
 
+      nvim-lint = {
+        plugin = pkgs.vimPlugins.nvim-lint;
+        type = "lua";
+        config = builtins.readFile ./plugins/nvim-lint.lua;
+      };
+
+      conform-nvim = {
+        plugin = pkgs.vimPlugins.conform-nvim;
+        type = "lua";
+        config = builtins.readFile ./plugins/conform-nvim.lua;
+      };
+
     in pkgs.lib.lists.flatten [
       cmp
+      conform-nvim
       dressing
       gitsigns
       indent-blank-line
@@ -143,6 +156,7 @@
       lspconfig
       lualine
       metals
+      nvim-lint
       oil
       plenary
       surround
