@@ -28,6 +28,7 @@
 
     interactiveShellInit = ''
       fish_vi_key_bindings
+      ${builtins.readFile ./tokyo-night-storm.fish}
       any-nix-shell fish --info-right | source
     '';
 

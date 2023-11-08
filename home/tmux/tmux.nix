@@ -11,20 +11,11 @@
     shell = "${pkgs.fish}/bin/fish";
     terminal = "screen-256color";
     escapeTime = 0;
-    plugins = with pkgs; [ tmuxPlugins.resurrect ];
+    plugins = with pkgs.tmuxPlugins; [ tmux-fzf resurrect prefix-highlight ];
     extraConfig = ''
       set -g default-command "exec ${pkgs.fish}/bin/fish"
-
-      # Set new panes to open in current directory
-      bind c new-window -c "#{pane_current_path}"
-      bind '"' split-window -c "#{pane_current_path}"
-      bind % split-window -h -c "#{pane_current_path}"
-
-      # pane switching using vim keys
-      bind h select-pane -L
-      bind j select-pane -D
-      bind k select-pane -U
-      bind l select-pane -R
+      ${builtins.readFile ./extra.conf}
+      ${builtins.readFile ./tokyo-night-storm.conf}
     '';
   };
 }
