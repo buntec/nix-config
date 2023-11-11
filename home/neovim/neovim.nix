@@ -145,11 +145,28 @@
         config = builtins.readFile ./plugins/conform-nvim.lua;
       };
 
+      haskell-tools = {
+        plugin = pkgs.vimPlugins.haskell-tools-nvim;
+        type = "lua";
+        config = builtins.readFile ./plugins/haskell-tools.lua;
+      };
+
+      telescope_hoogle = {
+        plugin = pkgs.vimPlugins.telescope_hoogle;
+        type = "lua";
+      };
+
+      telescope-manix = {
+        plugin = pkgs.vimPlugins.telescope-manix;
+        type = "lua";
+      };
+
     in pkgs.lib.lists.flatten [
       cmp
       conform-nvim
       dressing
       gitsigns
+      haskell-tools
       indent-blank-line
       lsp-kind
       lsp-progress
@@ -161,6 +178,8 @@
       plenary
       surround
       telescope
+      telescope-manix
+      telescope_hoogle
       tokyonight
       treesitter
       trouble

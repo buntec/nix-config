@@ -4,7 +4,7 @@ metals_config.init_options.statusBarProvider = "on"
 
 metals_config.settings = {
   useGlobalExecutable = true,
-  metalsBinaryPath = metalsBinary,
+  metalsBinaryPath = metalsBinary, -- defined in neovim.nix
 }
 
 -- Example if you are using cmp how to make sure the correct capabilities for snippets are set

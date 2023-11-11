@@ -24,6 +24,7 @@
         scipy
       ];
     python-with-packages = pkgs.python3.withPackages python-packages;
+    inherit (pkgs.haskellPackages) hoogle;
   in with pkgs; [
     amber
     any-nix-shell
@@ -40,6 +41,8 @@
     git-gone
     git-summary
     go
+    hey
+    hoogle
     httpie
     hyperfine
     jdk
@@ -47,6 +50,7 @@
     killall
     kubernetes-helm
     lazygit
+    manix
     metals
     minikube
     ncdu
@@ -62,15 +66,15 @@
     sbt
     scala-cli
     smithy-cli
-    smithy4s-codegen-cli
     smithy-language-server
+    smithy4s-codegen-cli
     stack
     statix
     texlive.combined.scheme-basic
     tldr
     tree
-    vifm
     vale
+    vifm
     wget
     yarn
     yazi
