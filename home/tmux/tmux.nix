@@ -9,7 +9,7 @@
     clock24 = true;
     mouse = true;
     shell = "${pkgs.fish}/bin/fish";
-    terminal = "screen-256color";
+    terminal = "tmux-256color";
     escapeTime = 0;
     plugins = with pkgs.tmuxPlugins; [ tmux-fzf resurrect prefix-highlight ];
     extraConfig = ''
