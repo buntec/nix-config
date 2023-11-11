@@ -161,6 +161,14 @@
         type = "lua";
       };
 
+      nvim-notify = {
+        plugin = pkgs.vimPlugins.nvim-notify;
+        type = "lua";
+        config = ''
+          vim.notify = require("notify")
+        '';
+      };
+
     in pkgs.lib.lists.flatten [
       cmp
       conform-nvim
@@ -174,6 +182,7 @@
       lualine
       metals
       nvim-lint
+      nvim-notify
       oil
       plenary
       surround
