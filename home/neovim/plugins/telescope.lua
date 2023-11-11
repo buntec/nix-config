@@ -4,12 +4,10 @@ local actions = require("telescope.actions")
 telescope.setup({
   defaults = {
     layout_strategy = "vertical",
-    history = {
-      mappings = {
-        i = {
-          ["<C-Down>"] = actions.cycle_history_next,
-          ["<C-Up>"] = actions.cycle_history_prev,
-        },
+    mappings = {
+      i = {
+        ["<C-j>"] = actions.cycle_history_next,
+        ["<C-k>"] = actions.cycle_history_prev,
       },
     },
   },
