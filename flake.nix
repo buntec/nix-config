@@ -14,10 +14,14 @@
     nil.url = "github:oxalica/nil";
     flake-utils.url = "github:numtide/flake-utils";
     treefmt-nix.url = "github:numtide/treefmt-nix";
+    tokyonight = {
+      url = "github:folke/tokyonight.nvim";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ self, darwin, nixpkgs, home-manager, flake-utils, my-pkgs
-    , git-summary, nil, treefmt-nix, ... }:
+    , git-summary, nil, treefmt-nix, tokyonight, ... }:
     let
       inherit (nixpkgs) lib;
       inherit (lib) genAttrs;
