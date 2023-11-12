@@ -70,7 +70,7 @@ in {
       builtins.readFile
       "${inputs.tokyonight}/extras/fish/tokyonight_${tokyoNightStyle}.fish"
     else if isCatppuccin then ''
-      fish_config theme save "${catppuccinFishThemes."${cfg.name}"}"
+      echo "y" | fish_config theme save "${catppuccinFishThemes."${cfg.name}"}"
     '' else
       "";
 

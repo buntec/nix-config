@@ -1,8 +1,8 @@
 require("catppuccin").setup({
   flavour = catppuccin_flavor, -- latte, frappe, macchiato, mocha
   background = { -- :h background
-    light = "latte",
-    dark = "mocha",
+    light = catppuccin_flavor,
+    dark = catppuccin_flavor,
   },
   transparent_background = false, -- disables setting the background color.
   show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
