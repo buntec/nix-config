@@ -1,12 +1,12 @@
-{ lib, pkgs, config, options, ... }:
+{ lib, pkgs, config, options, inputs, ... }:
 with lib;
 let
   cfg = config.colorscheme;
 
-  isTokyonight = lib.strings.hasPrefix "tokyonight" c.name;
-  tokyoNightStyle = lib.strings.removePrefix "tokyonight-" c.name;
-  isCatppuccin = lib.strings.hasPrefix "catppuccin" c.name;
-  catppuccinFlavor = lib.strings.removePrefix "catppuccin-" c.name;
+  isTokyonight = lib.strings.hasPrefix "tokyonight" cfg.name;
+  tokyoNightStyle = lib.strings.removePrefix "tokyonight-" cfg.name;
+  isCatppuccin = lib.strings.hasPrefix "catppuccin" cfg.name;
+  catppuccinFlavor = lib.strings.removePrefix "catppuccin-" cfg.name;
 
 in {
 
@@ -19,7 +19,6 @@ in {
         "tokyonight-moon"
         "tokyonight-night"
         "tokyonight-day"
-        "catppuccin-mocca"
         "catppuccin-latte"
         "catppuccin-frappe"
         "catppuccin-macchiato"
@@ -31,11 +30,35 @@ in {
 
   config = mkIf cfg.enable {
 
-    programs.tmux.extraConfig =
-      if isTokyonight then builtins.readFile ./tmux/${cfg.name}.conf else "";
+    programs.tmux.extraConfig = if isTokyonight then
+      builtins.readFile
+      "${inputs.tokyonight}/extras/tmux/tokyonight_${tokyoNightStyle}.tmux"
+    else if isCatppuccin then ''
+      set -g @catppuccin_flavour '${catppuccinFlavor}'
+    '' else
+      "";
 
-    program.fish.interractiveShellInit =
-      if isTokyonight then builtins.readFile ./fish/${cfg.name}.conf else "";
+    programs.tmux.plugins = with pkgs.tmuxPlugins;
+      if isCatppuccin then [ catppuccin ] else [ ];
+
+    programs.fish.interactiveShellInit = if isTokyonight then
+      builtins.readFile
+      "${inputs.tokyonight}/extras/fish/tokyonight_${tokyoNightStyle}.fish"
+    else if isCatppuccin then ''
+      fish_config theme save "Catppuccin ${catppuccinFlavor}"
+    '' else
+      "";
+
+    programs.fish.plugins = if isCatppuccin then [{
+      name = "catppuccin";
+      src = pkgs.fetchFromGitHub {
+        owner = "catppuccin";
+        repo = "fish";
+        rev = "0ce27b518e8ead555dec34dd8be3df5bd75cff8e";
+        sha256 = "";
+      };
+    }] else
+      [ ];
 
     programs.neovim.plugins = if isTokyonight then [{
       plugin = pkgs.vimPlugins.tokyonight-nvim;

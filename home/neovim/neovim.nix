@@ -26,12 +26,6 @@
         '';
       };
 
-      tokyonight = {
-        plugin = pkgs.vimPlugins.tokyonight-nvim;
-        type = "lua";
-        config = builtins.readFile ./plugins/tokyonight.lua;
-      };
-
       treesitter = {
         plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
         type = "lua";
@@ -189,7 +183,6 @@
       telescope
       telescope-manix
       telescope_hoogle
-      tokyonight
       treesitter
       trouble
       web-devicons

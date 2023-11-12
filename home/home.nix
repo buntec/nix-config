@@ -1,6 +1,6 @@
 { pkgs, ... }: {
   imports = [
-    ./colorscheme.nix
+    ./colorscheme/colorscheme.nix
     ./kitty/kitty.nix
     ./fish/fish.nix
     ./tmux/tmux.nix
@@ -11,6 +11,12 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  # set the colorscheme for nvim, tmux, kitty and fish
+  colorscheme = {
+    enable = true;
+    name = "catppuccin-mocha";
+  };
 
   services.syncthing = {
     enable = true;
