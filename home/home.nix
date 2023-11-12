@@ -15,7 +15,7 @@
   # set the colorscheme for nvim, tmux, kitty and fish
   colorscheme = {
     enable = true;
-    name = "catppuccin-mocha";
+    name = "tokyonight-storm";
   };
 
   services.syncthing = {

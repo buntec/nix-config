@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "catppuccin-fish": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1698929621,
+        "narHash": "sha256-Dc/zdxfzAUM5NX8PxzfljRbYvO9f9syuLO8yBr+R3qg=",
+        "owner": "catppuccin",
+        "repo": "fish",
+        "rev": "0ce27b518e8ead555dec34dd8be3df5bd75cff8e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "fish",
+        "type": "github"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -276,6 +292,7 @@
     },
     "root": {
       "inputs": {
+        "catppuccin-fish": "catppuccin-fish",
         "darwin": "darwin",
         "flake-utils": "flake-utils",
         "git-summary": "git-summary",

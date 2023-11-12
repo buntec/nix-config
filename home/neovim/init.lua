@@ -9,7 +9,6 @@ g.mapleader = ","
 g.maplocalleader = " "
 
 -- cmd.language("en_US")
-vim.cmd.colorscheme("tokyonight")
 
 global_opt.shortmess:remove("F") -- recommended for nvim-metals
 global_opt.completeopt = { "menu", "menuone", "noselect" } -- Completion options
