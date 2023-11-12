@@ -70,6 +70,7 @@
     smithy4s-codegen-cli
     stack
     statix
+    stylua
     texlive.combined.scheme-basic
     tldr
     tree

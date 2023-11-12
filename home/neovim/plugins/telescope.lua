@@ -13,7 +13,7 @@ telescope.setup({
   },
 })
 
-telescope.load_extension('ht')     -- haskell-tools
-telescope.load_extension('manix')  -- telescope-manix
-telescope.load_extension('hoogle') -- telescope_hoogle
+telescope.load_extension("ht") -- haskell-tools
+telescope.load_extension("manix") -- telescope-manix
+telescope.load_extension("hoogle") -- telescope_hoogle
 -- note: metals registers itself automatically ??
