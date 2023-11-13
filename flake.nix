@@ -18,6 +18,10 @@
       url = "github:folke/tokyonight.nvim";
       flake = false;
     };
+    nightfox = {
+      url = "github:EdenEast/nightfox.nvim";
+      flake = false;
+    };
     catppuccin-fish = {
       url = "github:catppuccin/fish";
       flake = false;
@@ -25,7 +29,8 @@
   };
 
   outputs = inputs@{ self, darwin, nixpkgs, home-manager, flake-utils, my-pkgs
-    , git-summary, nil, treefmt-nix, tokyonight, catppuccin-fish, ... }:
+    , git-summary, nil, treefmt-nix, tokyonight, nightfox, catppuccin-fish, ...
+    }:
     let
       inherit (nixpkgs) lib;
       inherit (lib) genAttrs;

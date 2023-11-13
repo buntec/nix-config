@@ -73,7 +73,36 @@ let
     value = mkCatppuccin flavor;
   }) [ "frappe" "mocha" "macchiato" "latte" ]);
 
-  themes = tokyonight-themes // catppuccin-themes;
+  nightfox = {
+    # nightfox is built into kitty, but we prefer the upstream version
+    # kitty-theme = "Nightfox";
+
+    kitty-extra-conf =
+      builtins.readFile "${inputs.nightfox}/extra/nightfox/nightfox_kitty.conf";
+
+    fish-init =
+      builtins.readFile "${inputs.nightfox}/extra/nightfox/nightfox_fish.fish";
+
+    nvim-plugins = [ pkgs.vimPlugins.nightfox-nvim ];
+
+    # we put the plugin config here to ensure `colorscheme(...)` is called _after_ the config
+    nvim-extra-conf = ''
+      require('nightfox').setup({
+        options = {
+          styles = {
+            comments = "italic",
+            keywords = "italic",
+          }
+        }
+      })
+      vim.cmd.colorscheme("nightfox")
+    '';
+
+    tmux-extra-conf =
+      builtins.readFile "${inputs.nightfox}/extra/nightfox/nightfox_tmux.tmux";
+  };
+
+  themes = { inherit nightfox; } // tokyonight-themes // catppuccin-themes;
 
   cfg = config.colorscheme;
 
@@ -92,7 +121,9 @@ in {
 
   config = mkIf cfg.enable {
 
-    programs.kitty.theme = theme.kitty-theme;
+    programs.kitty.theme = mkIf (hasAttr "kitty-theme" theme) theme.kitty-theme;
+
+    programs.kitty.extraConfig = theme.kitty-extra-conf or "";
 
     programs.tmux.extraConfig = theme.tmux-extra-conf or "";
 
@@ -106,8 +137,9 @@ in {
 
     programs.neovim.extraLuaConfig = theme.nvim-extra-conf or [ ];
 
-    xdg.configFile."fish/themes".source =
-      mkIf (hasAttr "fish-theme-src" theme) theme.fish-theme-src;
+    xdg.configFile = mkIf (hasAttr "fish-theme-src" theme) {
+      "fish/themes".source = theme.fish-theme-src;
+    };
 
   };
 
