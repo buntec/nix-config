@@ -14,10 +14,23 @@
     nil.url = "github:oxalica/nil";
     flake-utils.url = "github:numtide/flake-utils";
     treefmt-nix.url = "github:numtide/treefmt-nix";
+    tokyonight = {
+      url = "github:folke/tokyonight.nvim";
+      flake = false;
+    };
+    nightfox = {
+      url = "github:EdenEast/nightfox.nvim";
+      flake = false;
+    };
+    catppuccin-fish = {
+      url = "github:catppuccin/fish";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ self, darwin, nixpkgs, home-manager, flake-utils, my-pkgs
-    , git-summary, nil, treefmt-nix, ... }:
+    , git-summary, nil, treefmt-nix, tokyonight, nightfox, catppuccin-fish, ...
+    }:
     let
       inherit (nixpkgs) lib;
       inherit (lib) genAttrs;
@@ -88,6 +101,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
+                extraSpecialArgs = { inherit inputs; };
                 users.${machine.user} = {
                   imports = [
                     ./home/home.nix
@@ -120,6 +134,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
+                extraSpecialArgs = { inherit inputs; };
                 users.${machine.user} = {
                   imports = [
                     ./home/home.nix

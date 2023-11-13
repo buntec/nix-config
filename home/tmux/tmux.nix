@@ -15,7 +15,6 @@
     extraConfig = ''
       set -g default-command "exec ${pkgs.fish}/bin/fish"
       ${builtins.readFile ./extra.conf}
-      ${builtins.readFile ./tokyo-night-storm.conf}
     '';
   };
 }

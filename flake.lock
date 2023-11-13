@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "catppuccin-fish": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1698929621,
+        "narHash": "sha256-Dc/zdxfzAUM5NX8PxzfljRbYvO9f9syuLO8yBr+R3qg=",
+        "owner": "catppuccin",
+        "repo": "fish",
+        "rev": "0ce27b518e8ead555dec34dd8be3df5bd75cff8e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "fish",
+        "type": "github"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -174,6 +190,22 @@
         "type": "github"
       }
     },
+    "nightfox": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1697423658,
+        "narHash": "sha256-3fIayb0Vrzgv/0yKCbbWNySmzOF0mDzZ+QBWBK64L9w=",
+        "owner": "EdenEast",
+        "repo": "nightfox.nvim",
+        "rev": "6a6076bd678f825ffbe16ec97807793c3167f1a7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "EdenEast",
+        "repo": "nightfox.nvim",
+        "type": "github"
+      }
+    },
     "nil": {
       "inputs": {
         "flake-utils": "flake-utils_3",
@@ -276,13 +308,16 @@
     },
     "root": {
       "inputs": {
+        "catppuccin-fish": "catppuccin-fish",
         "darwin": "darwin",
         "flake-utils": "flake-utils",
         "git-summary": "git-summary",
         "home-manager": "home-manager",
         "my-pkgs": "my-pkgs",
+        "nightfox": "nightfox",
         "nil": "nil",
         "nixpkgs": "nixpkgs_4",
+        "tokyonight": "tokyonight",
         "treefmt-nix": "treefmt-nix"
       }
     },
@@ -368,6 +403,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tokyonight": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1698229236,
+        "narHash": "sha256-axjZVZOI+WIv85FfMG+lxftDKlDIw/HzQKyJVFkL33M=",
+        "owner": "folke",
+        "repo": "tokyonight.nvim",
+        "rev": "f247ee700b569ed43f39320413a13ba9b0aef0db",
+        "type": "github"
+      },
+      "original": {
+        "owner": "folke",
+        "repo": "tokyonight.nvim",
         "type": "github"
       }
     },

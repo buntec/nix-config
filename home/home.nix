@@ -1,11 +1,22 @@
 { pkgs, ... }: {
-  imports =
-    [ ./kitty/kitty.nix ./fish/fish.nix ./tmux/tmux.nix ./neovim/neovim.nix ];
+  imports = [
+    ./colorscheme/colorscheme.nix
+    ./kitty/kitty.nix
+    ./fish/fish.nix
+    ./tmux/tmux.nix
+    ./neovim/neovim.nix
+  ];
 
   home.stateVersion = "22.11";
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  # set the colorscheme for nvim, tmux, kitty and fish
+  colorscheme = {
+    enable = true;
+    name = "nightfox";
+  };
 
   services.syncthing = {
     enable = true;
