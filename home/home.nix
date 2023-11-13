@@ -71,7 +71,6 @@
     stack
     statix
     stylua
-    texlive.combined.scheme-basic
     tldr
     tree
     vale
