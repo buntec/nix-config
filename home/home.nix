@@ -23,6 +23,15 @@
     extraOptions = [ ];
   };
 
+  programs.bash.enable = true;
+
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true;
+    # enableFishIntegration = true; # fish integration is automatic
+    nix-direnv.enable = true;
+  };
+
   home.packages = let
     python-packages = ps:
       with ps; [
