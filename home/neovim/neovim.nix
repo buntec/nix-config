@@ -163,6 +163,11 @@
         '';
       };
 
+      lush = {
+        plugin = pkgs.vimPlugins.lush-nvim;
+        type = "lua";
+      };
+
     in pkgs.lib.lists.flatten [
       cmp
       conform-nvim
@@ -174,6 +179,7 @@
       lsp-progress
       lspconfig
       lualine
+      lush
       metals
       nvim-lint
       nvim-notify
