@@ -1,10 +1,11 @@
-{ pkgs, ... }: {
+{ pkgs, inputs, ... }: {
+
   imports = [
-    ./colorscheme/colorscheme.nix
     ./kitty/kitty.nix
     ./fish/fish.nix
     ./tmux/tmux.nix
     ./neovim/neovim.nix
+    inputs.kauz.homeModules.default
   ];
 
   home.stateVersion = "22.11";
@@ -12,11 +13,7 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  # set the colorscheme for nvim, tmux, kitty and fish
-  colorscheme = {
-    enable = true;
-    name = "tokyonight-storm";
-  };
+  colorschemes.kauz.enable = true;
 
   services.syncthing = {
     enable = true;
