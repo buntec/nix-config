@@ -7,6 +7,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+    devenv.url = "github:cachix/devenv";
     my-pkgs.url = "github:buntec/pkgs";
     my-pkgs.inputs.nixpkgs.follows = "nixpkgs";
     git-summary.url = "github:buntec/git-summary-scala";
@@ -17,8 +18,14 @@
     kauz.url = "github:buntec/kauz";
   };
 
-  outputs = inputs@{ self, darwin, nixpkgs, home-manager, flake-utils, my-pkgs
-    , git-summary, nil, treefmt-nix, kauz, ... }:
+  nixConfig = {
+    extra-trusted-public-keys =
+      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=";
+    extra-substituters = "https://devenv.cachix.org";
+  };
+
+  outputs = inputs@{ self, darwin, nixpkgs, home-manager, devenv, flake-utils
+    , my-pkgs, git-summary, nil, treefmt-nix, kauz, ... }:
     let
       inherit (nixpkgs) lib;
       inherit (lib) genAttrs;
@@ -66,6 +73,25 @@
         in treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
 
     in rec {
+
+      # this is just a placeholder for now...
+      devShell = eachSystem (system:
+        let pkgs = import nixpkgs { inherit system overlays; };
+        in devenv.lib.mkShell {
+          inherit inputs pkgs;
+          modules = [
+            ({ pkgs, config, ... }: {
+              # This is your devenv configuration
+              packages = [ pkgs.hello ];
+
+              enterShell = ''
+                hello
+              '';
+
+              processes.run.exec = "hello";
+            })
+          ];
+        });
 
       formatter = eachSystem (system:
         let pkgs = import nixpkgs { inherit system overlays; };
