@@ -3,5 +3,6 @@ require("conform").setup({
     lua = { "stylua" },
     python = { "black" },
     javascript = { "prettier" },
+    markdown = { "mdformat" },
   },
 })

@@ -45,6 +45,7 @@
       ];
     python-with-packages = pkgs.python3.withPackages python-packages;
     inherit (pkgs.haskellPackages) hoogle;
+    inherit (pkgs.python311Packages) mdformat;
   in with pkgs; [
     amber
     any-nix-shell
@@ -71,6 +72,7 @@
     kubernetes-helm
     lazygit
     manix
+    mdformat
     metals
     minikube
     ncdu
@@ -78,6 +80,7 @@
     nixpkgs-fmt
     nodePackages.live-server
     nodejs
+    pandoc
     postgresql
     python-with-packages
     racket
@@ -95,6 +98,7 @@
     tree
     vale
     vifm
+    watchexec
     wget
     yarn
     yazi
