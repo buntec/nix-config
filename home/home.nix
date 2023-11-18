@@ -51,6 +51,7 @@
     cargo
     coursier
     curl
+    d2
     eza
     fd
     fzf
@@ -68,6 +69,7 @@
     killall
     kubernetes-helm
     lazygit
+    librsvg
     manix
     mdformat
     metals
