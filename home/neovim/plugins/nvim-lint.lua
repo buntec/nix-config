@@ -1,5 +1,5 @@
 require("lint").linters_by_ft = {
-  markdown = { "vale" },
+  -- markdown = { "vale" }, -- vale is too annoying!
   nix = { "statix" },
   tex = { "chktex" },
 }

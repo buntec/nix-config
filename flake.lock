@@ -217,11 +217,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1700326110,
-        "narHash": "sha256-uB5ZMKkKXNnsxPim0pg+HuKir2/KAPeyOS29TXB9vrU=",
+        "lastModified": 1700390748,
+        "narHash": "sha256-BFZ0uukuNSxYQhdSd77qreNnUUotCcMGL3hR4ULTRB8=",
         "owner": "buntec",
         "repo": "kauz",
-        "rev": "e9b1e22df9af1bd65d7d0d93268e2e44a5d8ee29",
+        "rev": "5a63b8c0a8f40a1f0538d766c8f8cb33bc2c6c45",
         "type": "github"
       },
       "original": {

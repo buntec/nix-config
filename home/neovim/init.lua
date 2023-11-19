@@ -109,3 +109,13 @@ end, { desc = "toggle trouble (loclist)" })
 map("n", "<localleader>tq", function()
   trouble.toggle("quickfix")
 end, { desc = "toggle trouble (quickfix)" })
+
+-- enable spell checking for text files
+local spell_augroup = vim.api.nvim_create_augroup("spell", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "gitcommit", "text" },
+  callback = function()
+    vim.opt.spell = true
+  end,
+  group = spell_augroup,
+})
