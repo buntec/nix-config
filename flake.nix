@@ -12,7 +12,6 @@
     my-pkgs.inputs.nixpkgs.follows = "nixpkgs";
     git-summary.url = "github:buntec/git-summary-scala";
     git-summary.inputs.nixpkgs.follows = "nixpkgs";
-    nil.url = "github:oxalica/nil";
     flake-utils.url = "github:numtide/flake-utils";
     treefmt-nix.url = "github:numtide/treefmt-nix";
     kauz.url = "github:buntec/kauz";
@@ -25,7 +24,7 @@
   };
 
   outputs = inputs@{ self, darwin, nixpkgs, home-manager, devenv, flake-utils
-    , my-pkgs, git-summary, nil, treefmt-nix, kauz, ... }:
+    , my-pkgs, git-summary, treefmt-nix, kauz, ... }:
     let
       inherit (nixpkgs) lib;
       inherit (lib) genAttrs;
@@ -64,7 +63,6 @@
       overlays = [
         my-pkgs.overlays.default
         git-summary.overlays.default
-        nil.overlays.default
         kauz.overlays.default
       ];
 

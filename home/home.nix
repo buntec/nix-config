@@ -66,6 +66,7 @@
     hyperfine
     jdk
     jq
+    just
     killall
     kubernetes-helm
     lazygit
