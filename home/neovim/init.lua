@@ -113,7 +113,7 @@ end, { desc = "toggle trouble (quickfix)" })
 -- enable spell checking for text files
 local spell_augroup = vim.api.nvim_create_augroup("spell", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "markdown", "gitcommit", "text" },
+  pattern = { "markdown", "tex", "gitcommit", "text" },
   callback = function()
     vim.opt.spell = true
   end,

@@ -168,6 +168,15 @@
         type = "lua";
       };
 
+      neogit = {
+        plugin = pkgs.vimPlugins.neogit;
+        type = "lua";
+        config = ''
+          local neogit = require('neogit')
+          neogit.setup {}
+        '';
+      };
+
     in pkgs.lib.lists.flatten [
       cmp
       conform-nvim
@@ -181,6 +190,7 @@
       lualine
       lush
       metals
+      neogit
       nvim-lint
       nvim-notify
       oil
