@@ -33,6 +33,7 @@
     python-packages = ps:
       with ps; [
         jupyter
+        matplotlib
         numpy
         pandas
         python-lsp-ruff
@@ -86,6 +87,8 @@
     racket
     restic
     ripgrep
+    ruff
+    ruff-lsp
     sbt
     scala-cli
     smithy-cli
