@@ -177,6 +177,8 @@
         '';
       };
 
+      vim-tmux-nav = { plugin = pkgs.vimPlugins.vim-tmux-navigator; };
+
     in pkgs.lib.lists.flatten [
       cmp
       conform-nvim
@@ -201,6 +203,7 @@
       telescope_hoogle
       treesitter
       trouble
+      vim-tmux-nav
       web-devicons
       which-key
     ];

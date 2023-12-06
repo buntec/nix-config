@@ -11,7 +11,12 @@
     shell = "${pkgs.fish}/bin/fish";
     terminal = "tmux-256color";
     escapeTime = 0;
-    plugins = with pkgs.tmuxPlugins; [ tmux-fzf resurrect prefix-highlight ];
+    plugins = with pkgs.tmuxPlugins; [
+      prefix-highlight
+      resurrect
+      tmux-fzf
+      vim-tmux-navigator
+    ];
     extraConfig = ''
       set -g default-command "exec ${pkgs.fish}/bin/fish"
       ${builtins.readFile ./extra.conf}
