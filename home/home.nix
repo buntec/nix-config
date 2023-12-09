@@ -101,6 +101,7 @@
     tree
     vale
     vifm
+    visualvm
     watchexec
     wget
     yarn
