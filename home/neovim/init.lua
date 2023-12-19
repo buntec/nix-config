@@ -37,6 +37,7 @@ opt.number = true -- Print line number
 opt.relativenumber = true -- Relative line numbers
 opt.wrap = false -- Disable line wrap
 opt.swapfile = false
+opt.cursorline = true
 
 map("n", "<C-j>", "<C-W><C-J>")
 map("n", "<C-k>", "<C-W><C-K>")
