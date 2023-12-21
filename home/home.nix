@@ -22,6 +22,8 @@
 
   programs.bash.enable = true;
 
+  programs.ssh.enable = true;
+
   programs.direnv = {
     enable = true;
     enableBashIntegration = true;
