@@ -13,7 +13,13 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  colorschemes.kauz.enable = true;
+  # Kauz colorscheme
+  kauz = {
+    fish.enable = true;
+    kitty.enable = true;
+    neovim.enable = true;
+    tmux.enable = true;
+  };
 
   services.syncthing = {
     enable = true;
