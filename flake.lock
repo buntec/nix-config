@@ -292,11 +292,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1699116854,
-        "narHash": "sha256-8nFvS+S0B78qhPwVZByQrSHB/b1XVW7DhhsQccvRIcA=",
+        "lastModified": 1704525275,
+        "narHash": "sha256-Pp+W6gbl/ezE1gPTSgdncAUgx46x3sqsVGQQuAVhZck=",
         "owner": "buntec",
         "repo": "pkgs",
-        "rev": "9b417f5d8d845bf9f2d47c173f1abad81a95a146",
+        "rev": "2df9ab885863249a5e6093aa2b97eb8a6f4b05fe",
         "type": "github"
       },
       "original": {
