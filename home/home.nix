@@ -67,7 +67,7 @@
     gh
     ghc
     git-gone
-    # git-summary
+    git-summary
     go
     hey
     hoogle
