@@ -85,6 +85,7 @@
     metals
     minikube
     ncdu
+    nix-output-monitor
     nixfmt
     nixpkgs-fmt
     nodePackages.live-server
