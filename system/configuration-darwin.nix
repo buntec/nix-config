@@ -12,6 +12,23 @@
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToControl = true;
 
+  system.defaults.dock.autohide = true;
+  system.defaults.dock.static-only = true;
+  system.defaults.finder.AppleShowAllExtensions = true;
+  system.defaults.finder.AppleShowAllFiles = true;
+
+  # disable "natural" scroll direction
+  system.defaults.NSGlobalDomain."com.apple.swipescrolldirection" = false;
+
+  # key repeat: lower is faster
+  system.defaults.NSGlobalDomain.InitialKeyRepeat = 10;
+  system.defaults.NSGlobalDomain.KeyRepeat = 1;
+
+  system.defaults.NSGlobalDomain.NSAutomaticCapitalizationEnabled = false;
+  system.defaults.NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled = false;
+  system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
+  system.defaults.NSGlobalDomain.NSAutomaticQuoteSubstitutionEnabled = false;
+
   # `home-manager` currently has issues adding them to `~/Applications`
   # Issue: https://github.com/nix-community/home-manager/issues/1341
   environment.systemPackages = with pkgs;
