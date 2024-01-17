@@ -7,17 +7,24 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+    devenv.url = "github:cachix/devenv";
     my-pkgs.url = "github:buntec/pkgs";
     my-pkgs.inputs.nixpkgs.follows = "nixpkgs";
     git-summary.url = "github:buntec/git-summary-scala";
     git-summary.inputs.nixpkgs.follows = "nixpkgs";
-    nil.url = "github:oxalica/nil";
     flake-utils.url = "github:numtide/flake-utils";
     treefmt-nix.url = "github:numtide/treefmt-nix";
+    kauz.url = "github:buntec/kauz";
   };
 
-  outputs = inputs@{ self, darwin, nixpkgs, home-manager, flake-utils, my-pkgs
-    , git-summary, nil, treefmt-nix, ... }:
+  nixConfig = {
+    extra-trusted-public-keys =
+      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=";
+    extra-substituters = "https://devenv.cachix.org";
+  };
+
+  outputs = inputs@{ self, darwin, nixpkgs, home-manager, devenv, flake-utils
+    , my-pkgs, git-summary, treefmt-nix, kauz, ... }:
     let
       inherit (nixpkgs) lib;
       inherit (lib) genAttrs;
@@ -56,14 +63,35 @@
       overlays = [
         my-pkgs.overlays.default
         git-summary.overlays.default
-        nil.overlays.default
+        kauz.overlays.default
       ];
 
       treefmtEval = eachSystem (system:
         let pkgs = import nixpkgs { inherit system overlays; };
         in treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
 
-    in rec {
+    in {
+
+      # this is just a placeholder for now...
+      devShells = eachSystem (system:
+        let pkgs = import nixpkgs { inherit system overlays; };
+        in {
+          default = devenv.lib.mkShell {
+            inherit inputs pkgs;
+            modules = [
+              ({ pkgs, config, ... }: {
+                # This is your devenv configuration
+                packages = [ pkgs.hello ];
+
+                enterShell = ''
+                  hello
+                '';
+
+                processes.run.exec = "hello";
+              })
+            ];
+          };
+        });
 
       formatter = eachSystem (system:
         let pkgs = import nixpkgs { inherit system overlays; };
@@ -118,6 +146,7 @@
             inherit pkgs;
             modules = [
               {
+                imports = [ kauz.homeModules.default ];
                 home.username = machine.user;
                 home.homeDirectory = if (isDarwin machine) then
                   "/Users/${machine.user}"
@@ -140,7 +169,7 @@
             rebuildScript = pkgs.writeShellScript "rebuild-${machine.name}"
               (if (isDarwin machine) then
                 "${
-                  darwinConfigurations.${machine.name}.system
+                  self.darwinConfigurations.${machine.name}.system
                 }/sw/bin/darwin-rebuild switch --flake .#${machine.name}"
               else
                 "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake .#${machine.name}");
@@ -169,9 +198,9 @@
         builtins.listToAttrs (lib.flatten (builtins.map (machine:
           let
             toplevel = if (isDarwin machine) then
-              darwinConfigurations.${machine.name}.config.system.build.toplevel
+              self.darwinConfigurations.${machine.name}.config.system.build.toplevel
             else
-              nixosConfigurations.${machine.name}.config.system.build.toplevel;
+              self.nixosConfigurations.${machine.name}.config.system.build.toplevel;
           in [
             {
               name = "toplevel-${machine.name}";
@@ -179,7 +208,7 @@
             }
             {
               name = "hm-${machine.name}";
-              value = self.homeConfigurations.${machine.name}.activation-script;
+              value = self.homeConfigurations.${machine.name}.activationPackage;
             }
           ]) machines)) // {
             formatting = treefmtEval.${system}.config.build.check self;

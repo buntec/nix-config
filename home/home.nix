@@ -1,4 +1,5 @@
 { pkgs, ... }: {
+
   imports =
     [ ./kitty/kitty.nix ./fish/fish.nix ./tmux/tmux.nix ./neovim/neovim.nix ];
 
@@ -7,15 +8,35 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  # Kauz colorscheme
+  kauz = {
+    fish.enable = true;
+    kitty.enable = true;
+    neovim.enable = true;
+    tmux.enable = true;
+  };
+
   services.syncthing = {
     enable = true;
     extraOptions = [ ];
+  };
+
+  programs.bash.enable = true;
+
+  programs.ssh.enable = true;
+
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true;
+    # enableFishIntegration = true; # fish integration is automatic
+    nix-direnv.enable = true;
   };
 
   home.packages = let
     python-packages = ps:
       with ps; [
         jupyter
+        matplotlib
         numpy
         pandas
         python-lsp-ruff
@@ -25,6 +46,7 @@
       ];
     python-with-packages = pkgs.python3.withPackages python-packages;
     inherit (pkgs.haskellPackages) hoogle;
+    inherit (pkgs.python311Packages) mdformat;
   in with pkgs; [
     amber
     any-nix-shell
@@ -33,6 +55,7 @@
     cargo
     coursier
     curl
+    d2
     eza
     fd
     fzf
@@ -47,22 +70,29 @@
     hyperfine
     jdk
     jq
+    just
     killall
     kubernetes-helm
     lazygit
+    librsvg
     manix
+    mdformat
     metals
     minikube
     ncdu
+    nix-output-monitor
     nixfmt
     nixpkgs-fmt
     nodePackages.live-server
     nodejs
+    pandoc
     postgresql
     python-with-packages
     racket
     restic
     ripgrep
+    ruff
+    ruff-lsp
     sbt
     scala-cli
     smithy-cli
@@ -71,11 +101,12 @@
     stack
     statix
     stylua
-    texlive.combined.scheme-basic
     tldr
     tree
     vale
     vifm
+    visualvm
+    watchexec
     wget
     yarn
     yazi

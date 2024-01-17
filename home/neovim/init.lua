@@ -37,6 +37,7 @@ opt.number = true -- Print line number
 opt.relativenumber = true -- Relative line numbers
 opt.wrap = false -- Disable line wrap
 opt.swapfile = false
+opt.cursorline = true
 
 map("n", "<C-j>", "<C-W><C-J>")
 map("n", "<C-k>", "<C-W><C-K>")
@@ -51,6 +52,8 @@ local oil = require("oil")
 local ts_bi = require("telescope.builtin")
 local ts_ext = require("telescope").extensions
 local trouble = require("trouble")
+local gitsigns = require("gitsigns")
+local notify = require("notify")
 
 map("n", "<leader>cf", "<cmd>edit $MYVIMRC<CR>", { desc = "open init.lua" })
 map("n", "<leader>-", oil.open, { desc = "Browse parent directory" })
@@ -77,6 +80,10 @@ map("n", "<leader>mc", ts_ext.metals.commands, { desc = "metals commands" })
 map("n", "<leader>ho", ts_ext.hoogle.hoogle, { desc = "hoogle search" })
 -- map("n", "<leader>hs", ext.ht.hoogle_signature, { desc = "hoogle signature" })
 map("n", "<leader>ma", ts_ext.manix.manix, { desc = "manix search" })
+map("n", "<leader>nh", gitsigns.next_hunk, { desc = "next hunk" })
+map("n", "<leader>ph", gitsigns.prev_hunk, { desc = "previous hunk" })
+map("n", "<leader>bl", gitsigns.toggle_current_line_blame, { desc = "blame line" })
+map("n", "<leader>nd", notify.dismiss, { desc = "dismiss notifications" })
 map("n", "<localleader>a", vim.lsp.buf.code_action, { desc = "lsp code action" })
 map("n", "<localleader>d", ts_bi.lsp_definitions, { desc = "lsp definitions" })
 -- map("n", "<localleader>d", vim.lsp.buf.definition, { desc = "lsp definition" })
@@ -105,3 +112,13 @@ end, { desc = "toggle trouble (loclist)" })
 map("n", "<localleader>tq", function()
   trouble.toggle("quickfix")
 end, { desc = "toggle trouble (quickfix)" })
+
+-- enable spell checking for text files
+local spell_augroup = vim.api.nvim_create_augroup("spell", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "tex", "gitcommit", "text" },
+  callback = function()
+    vim.opt.spell = true
+  end,
+  group = spell_augroup,
+})

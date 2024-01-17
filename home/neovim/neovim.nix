@@ -26,12 +26,6 @@
         '';
       };
 
-      tokyonight = {
-        plugin = pkgs.vimPlugins.tokyonight-nvim;
-        type = "lua";
-        config = builtins.readFile ./plugins/tokyonight.lua;
-      };
-
       treesitter = {
         plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
         type = "lua";
@@ -169,6 +163,22 @@
         '';
       };
 
+      lush = {
+        plugin = pkgs.vimPlugins.lush-nvim;
+        type = "lua";
+      };
+
+      neogit = {
+        plugin = pkgs.vimPlugins.neogit;
+        type = "lua";
+        config = ''
+          local neogit = require('neogit')
+          neogit.setup {}
+        '';
+      };
+
+      vim-tmux-nav = { plugin = pkgs.vimPlugins.vim-tmux-navigator; };
+
     in pkgs.lib.lists.flatten [
       cmp
       conform-nvim
@@ -180,7 +190,9 @@
       lsp-progress
       lspconfig
       lualine
+      lush
       metals
+      neogit
       nvim-lint
       nvim-notify
       oil
@@ -189,9 +201,9 @@
       telescope
       telescope-manix
       telescope_hoogle
-      tokyonight
       treesitter
       trouble
+      vim-tmux-nav
       web-devicons
       which-key
     ];

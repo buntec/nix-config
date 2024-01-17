@@ -2,8 +2,8 @@
   nix.extraOptions = ''
     experimental-features = nix-command flakes
 
-    extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=
-    extra-substituters = https://nix-community.cachix.org https://cache.iog.io
+    extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=
+    extra-substituters = https://nix-community.cachix.org https://cache.iog.io https://devenv.cachix.org
   '';
 
   # Add ability to used TouchID for sudo authentication
@@ -11,6 +11,23 @@
 
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToControl = true;
+
+  system.defaults.dock.autohide = true;
+  system.defaults.dock.static-only = true;
+  system.defaults.finder.AppleShowAllExtensions = true;
+  system.defaults.finder.AppleShowAllFiles = true;
+
+  # disable "natural" scroll direction
+  system.defaults.NSGlobalDomain."com.apple.swipescrolldirection" = false;
+
+  # key repeat: lower is faster
+  system.defaults.NSGlobalDomain.InitialKeyRepeat = 10;
+  system.defaults.NSGlobalDomain.KeyRepeat = 1;
+
+  system.defaults.NSGlobalDomain.NSAutomaticCapitalizationEnabled = false;
+  system.defaults.NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled = false;
+  system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
+  system.defaults.NSGlobalDomain.NSAutomaticQuoteSubstitutionEnabled = false;
 
   # `home-manager` currently has issues adding them to `~/Applications`
   # Issue: https://github.com/nix-community/home-manager/issues/1341
