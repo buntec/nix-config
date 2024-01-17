@@ -22,7 +22,7 @@ require("lualine").setup({
     lualine_b = { { "branch", icon = "" } },
     lualine_c = {
       { "filename", file_status = true },
-      require("lsp-progress").progress,
+      --require("lsp-progress").progress,
       "g:metals_status",
     },
     lualine_x = { "encoding", "fileformat", "filetype" },

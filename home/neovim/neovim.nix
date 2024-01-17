@@ -163,6 +163,14 @@
         '';
       };
 
+      fidget = {
+        plugin = pkgs.vimPlugins.fidget-nvim;
+        type = "lua";
+        config = ''
+          require("fidget").setup {}
+        '';
+      };
+
       lush = {
         plugin = pkgs.vimPlugins.lush-nvim;
         type = "lua";
@@ -180,21 +188,22 @@
       vim-tmux-nav = { plugin = pkgs.vimPlugins.vim-tmux-navigator; };
 
     in pkgs.lib.lists.flatten [
+      # lsp-progress
+      # nvim-notify
       cmp
       conform-nvim
       dressing
+      fidget
       gitsigns
       haskell-tools
       indent-blank-line
       lsp-kind
-      lsp-progress
       lspconfig
       lualine
       lush
       metals
       neogit
       nvim-lint
-      nvim-notify
       oil
       plenary
       surround
