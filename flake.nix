@@ -67,7 +67,6 @@
 
     in {
 
-      # this is just a placeholder for now...
       devShells = eachSystem (system:
         let pkgs = import nixpkgs { inherit system overlays; };
         in {
@@ -75,14 +74,8 @@
             inherit inputs pkgs;
             modules = [
               ({ pkgs, config, ... }: {
-                # This is your devenv configuration
-                packages = [ pkgs.hello ];
-
-                enterShell = ''
-                  hello
-                '';
-
-                processes.run.exec = "hello";
+                languages.lua.enable = true;
+                # languages.nix.enable = true; # TODO: uncomment when fixed
               })
             ];
           };
