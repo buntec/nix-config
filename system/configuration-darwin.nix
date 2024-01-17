@@ -1,33 +1,46 @@
 { config, pkgs, ... }: {
   nix.extraOptions = ''
     experimental-features = nix-command flakes
-
     extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=
     extra-substituters = https://nix-community.cachix.org https://cache.iog.io https://devenv.cachix.org
   '';
 
-  # Add ability to used TouchID for sudo authentication
+  # use TouchID for sudo authentication
   security.pam.enableSudoTouchIdAuth = true;
 
-  system.keyboard.enableKeyMapping = true;
-  system.keyboard.remapCapsLockToControl = true;
+  system = {
+    keyboard.enableKeyMapping = true;
+    keyboard.remapCapsLockToControl = true;
 
-  system.defaults.dock.autohide = true;
-  system.defaults.dock.static-only = true;
-  system.defaults.finder.AppleShowAllExtensions = true;
-  system.defaults.finder.AppleShowAllFiles = true;
+    defaults = {
+      dock = {
+        autohide = true;
+        static-only = true; # show only running apps
+      };
 
-  # disable "natural" scroll direction
-  system.defaults.NSGlobalDomain."com.apple.swipescrolldirection" = false;
+      finder = {
+        AppleShowAllExtensions = true;
+        AppleShowAllFiles = true;
+      };
 
-  # key repeat: lower is faster
-  system.defaults.NSGlobalDomain.InitialKeyRepeat = 10;
-  system.defaults.NSGlobalDomain.KeyRepeat = 1;
+      NSGlobalDomain = {
+        "com.apple.swipescrolldirection" = false; # disable "natural" scroll
 
-  system.defaults.NSGlobalDomain.NSAutomaticCapitalizationEnabled = false;
-  system.defaults.NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled = false;
-  system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
-  system.defaults.NSGlobalDomain.NSAutomaticQuoteSubstitutionEnabled = false;
+        # key repeat: lower is faster
+        InitialKeyRepeat = 15;
+        KeyRepeat = 2;
+
+        NSAutomaticCapitalizationEnabled = false;
+        NSAutomaticSpellingCorrectionEnabled = false;
+        NSAutomaticPeriodSubstitutionEnabled = false;
+        NSAutomaticQuoteSubstitutionEnabled = false;
+      };
+    };
+
+    # Used for backwards compatibility, please read the changelog before changing.
+    # $ darwin-rebuild changelog
+    stateVersion = 4;
+  };
 
   # `home-manager` currently has issues adding them to `~/Applications`
   # Issue: https://github.com/nix-community/home-manager/issues/1341
@@ -52,14 +65,12 @@
       cleanup = "zap";
     };
     casks = [
-      "brave-browser"
       "discord"
       "docker"
       "firefox"
       "google-chrome"
       "keepassxc"
       "kitty"
-      "mattermost"
       "skim"
       "spotify"
       "telegram"
@@ -80,10 +91,6 @@
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs.zsh.enable = true;
   programs.fish.enable = true;
-
-  # Used for backwards compatibility, please read the changelog before changing.
-  # $ darwin-rebuild changelog
-  system.stateVersion = 4;
 
   users.users.christophbunte = {
     name = "christophbunte";

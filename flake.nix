@@ -41,11 +41,6 @@
           system = flake-utils.lib.system.aarch64-darwin;
         }
         {
-          name = "imac-intel";
-          user = "christophbunte";
-          system = flake-utils.lib.system.x86_64-darwin;
-        }
-        {
           name = "macbook-pro-intel";
           user = "christophbunte";
           system = flake-utils.lib.system.x86_64-darwin;
@@ -173,7 +168,8 @@
                 }/sw/bin/darwin-rebuild switch --flake .#${machine.name}"
               else
                 "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake .#${machine.name}");
-            hmScript = pkgs.writeShellScript "hm-switch-${machine.name}" "${
+            hmSwitchScript = pkgs.writeShellScript "hm-switch-${machine.name}"
+              "${
                 inputs.home-manager.packages.${system}.home-manager
               }/bin/home-manager switch --flake ${self}#${machine.name}";
           in [
@@ -188,31 +184,28 @@
               name = "hm-switch-${machine.name}";
               value = {
                 type = "app";
-                program = "${hmScript}";
+                program = "${hmSwitchScript}";
               };
             }
           ]) machines))) machinesBySystem;
 
       # add all nixos, darwin and hm configs to checks
       checks = builtins.mapAttrs (system: machines:
-        builtins.listToAttrs (lib.flatten (builtins.map (machine:
-          let
-            toplevel = if (isDarwin machine) then
+        builtins.listToAttrs (lib.flatten (builtins.map (machine: [
+          {
+            name = "toplevel-${machine.name}";
+            value = if (isDarwin machine) then
               self.darwinConfigurations.${machine.name}.config.system.build.toplevel
             else
               self.nixosConfigurations.${machine.name}.config.system.build.toplevel;
-          in [
-            {
-              name = "toplevel-${machine.name}";
-              value = toplevel;
-            }
-            {
-              name = "hm-${machine.name}";
-              value = self.homeConfigurations.${machine.name}.activationPackage;
-            }
-          ]) machines)) // {
-            formatting = treefmtEval.${system}.config.build.check self;
-          }) machinesBySystem;
+          }
+          {
+            name = "hm-${machine.name}";
+            value = self.homeConfigurations.${machine.name}.activationPackage;
+          }
+        ]) machines)) // {
+          formatting = treefmtEval.${system}.config.build.check self;
+        }) machinesBySystem;
 
     };
 
