@@ -158,9 +158,9 @@
               (if (isDarwin machine) then
                 "${
                   self.darwinConfigurations.${machine.name}.system
-                }/sw/bin/darwin-rebuild switch --flake .#${machine.name}"
+                }/sw/bin/darwin-rebuild switch --flake ${self}#${machine.name}"
               else
-                "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake .#${machine.name}");
+                "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${self}#${machine.name}");
             hmSwitchScript = pkgs.writeShellScript "hm-switch-${machine.name}"
               "${
                 inputs.home-manager.packages.${system}.home-manager
