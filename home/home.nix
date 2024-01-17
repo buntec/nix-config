@@ -1,12 +1,7 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, ... }: {
 
-  imports = [
-    ./kitty/kitty.nix
-    ./fish/fish.nix
-    ./tmux/tmux.nix
-    ./neovim/neovim.nix
-    inputs.kauz.homeModules.default
-  ];
+  imports =
+    [ ./kitty/kitty.nix ./fish/fish.nix ./tmux/tmux.nix ./neovim/neovim.nix ];
 
   home.stateVersion = "22.11";
 

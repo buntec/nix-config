@@ -70,25 +70,27 @@
         let pkgs = import nixpkgs { inherit system overlays; };
         in treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
 
-    in rec {
+    in {
 
       # this is just a placeholder for now...
-      devShell = eachSystem (system:
+      devShells = eachSystem (system:
         let pkgs = import nixpkgs { inherit system overlays; };
-        in devenv.lib.mkShell {
-          inherit inputs pkgs;
-          modules = [
-            ({ pkgs, config, ... }: {
-              # This is your devenv configuration
-              packages = [ pkgs.hello ];
+        in {
+          default = devenv.lib.mkShell {
+            inherit inputs pkgs;
+            modules = [
+              ({ pkgs, config, ... }: {
+                # This is your devenv configuration
+                packages = [ pkgs.hello ];
 
-              enterShell = ''
-                hello
-              '';
+                enterShell = ''
+                  hello
+                '';
 
-              processes.run.exec = "hello";
-            })
-          ];
+                processes.run.exec = "hello";
+              })
+            ];
+          };
         });
 
       formatter = eachSystem (system:
@@ -109,21 +111,6 @@
             }
             ./system/configuration-nixos.nix
             ./system/configuration-${machine.name}.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = { inherit inputs; };
-                users.${machine.user} = {
-                  imports = [
-                    ./home/home.nix
-                    ./home/home-nixos.nix
-                    ./home/home-${machine.name}.nix
-                  ];
-                };
-              };
-            }
           ];
         };
       }) nixosMachines);
@@ -142,58 +129,90 @@
             }
             ./system/configuration-darwin.nix
             ./system/configuration-${machine.name}.nix
-            home-manager.darwinModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = { inherit inputs; };
-                users.${machine.user} = {
-                  imports = [
-                    ./home/home.nix
-                    ./home/home-darwin.nix
-                    ./home/home-${machine.name}.nix
-                  ];
-                };
-              };
-            }
           ];
         };
       }) darwinMachines);
 
+      homeConfigurations = builtins.listToAttrs (builtins.map (machine:
+        let
+          pkgs = import nixpkgs {
+            inherit (machine) system;
+            inherit overlays;
+            config = { allowUnfree = true; };
+          };
+        in {
+          inherit (machine) name;
+          value = home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+            modules = [
+              {
+                imports = [ kauz.homeModules.default ];
+                home.username = machine.user;
+                home.homeDirectory = if (isDarwin machine) then
+                  "/Users/${machine.user}"
+                else
+                  "/home/${machine.user}";
+              }
+              ./home/home.nix
+              ./home/home-${
+                if (isDarwin machine) then "darwin" else "nixos"
+              }.nix
+              ./home/home-${machine.name}.nix
+            ];
+          };
+        }) machines);
+
       apps = builtins.mapAttrs (system: machines:
-        builtins.listToAttrs (builtins.map (machine:
+        builtins.listToAttrs (lib.flatten (builtins.map (machine:
           let
             pkgs = import nixpkgs { inherit system; };
-            script = pkgs.writeShellScript "rebuild-${machine.name}"
+            rebuildScript = pkgs.writeShellScript "rebuild-${machine.name}"
               (if (isDarwin machine) then
                 "${
-                  darwinConfigurations.${machine.name}.system
+                  self.darwinConfigurations.${machine.name}.system
                 }/sw/bin/darwin-rebuild switch --flake .#${machine.name}"
               else
                 "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake .#${machine.name}");
-          in {
-            name = "rebuild-${machine.name}";
-            value = {
-              type = "app";
-              program = "${script}";
-            };
-          }) machines)) machinesBySystem;
+            hmScript = pkgs.writeShellScript "hm-switch-${machine.name}" "${
+                inputs.home-manager.packages.${system}.home-manager
+              }/bin/home-manager switch --flake ${self}#${machine.name}";
+          in [
+            {
+              name = "rebuild-${machine.name}";
+              value = {
+                type = "app";
+                program = "${rebuildScript}";
+              };
+            }
+            {
+              name = "hm-switch-${machine.name}";
+              value = {
+                type = "app";
+                program = "${hmScript}";
+              };
+            }
+          ]) machines))) machinesBySystem;
 
-      # add all nixos and darwin configs to checks
-      checks = (builtins.mapAttrs (system: machines:
-        builtins.listToAttrs (builtins.map (machine:
+      # add all nixos, darwin and hm configs to checks
+      checks = builtins.mapAttrs (system: machines:
+        builtins.listToAttrs (lib.flatten (builtins.map (machine:
           let
             toplevel = if (isDarwin machine) then
-              darwinConfigurations.${machine.name}.config.system.build.toplevel
+              self.darwinConfigurations.${machine.name}.config.system.build.toplevel
             else
-              nixosConfigurations.${machine.name}.config.system.build.toplevel;
-          in {
-            name = "toplevel-${machine.name}";
-            value = toplevel;
-          }) machines)) machinesBySystem) // eachSystem (system: {
+              self.nixosConfigurations.${machine.name}.config.system.build.toplevel;
+          in [
+            {
+              name = "toplevel-${machine.name}";
+              value = toplevel;
+            }
+            {
+              name = "hm-${machine.name}";
+              value = self.homeConfigurations.${machine.name}.activationPackage;
+            }
+          ]) machines)) // {
             formatting = treefmtEval.${system}.config.build.check self;
-          });
+          }) machinesBySystem;
 
     };
 
