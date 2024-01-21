@@ -71,6 +71,7 @@
       "google-chrome"
       "keepassxc"
       "kitty"
+      "racket"
       "skim"
       "spotify"
       "telegram"
@@ -84,9 +85,6 @@
   services.nix-daemon.enable = true;
 
   nix.package = pkgs.nix; # this is the default
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs.zsh.enable = true;

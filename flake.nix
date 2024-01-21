@@ -3,17 +3,27 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     devenv.url = "github:cachix/devenv";
+    devenv.inputs.nixpkgs.follows = "nixpkgs";
+
     my-pkgs.url = "github:buntec/pkgs";
     my-pkgs.inputs.nixpkgs.follows = "nixpkgs";
+
     git-summary.url = "github:buntec/git-summary-scala";
     git-summary.inputs.nixpkgs.follows = "nixpkgs";
+
     flake-utils.url = "github:numtide/flake-utils";
+
     treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+
     kauz.url = "github:buntec/kauz";
   };
 
@@ -61,14 +71,23 @@
         kauz.overlays.default
       ];
 
+      pkgsBySystem = builtins.listToAttrs (builtins.map (system: {
+        name = system;
+        value = import nixpkgs {
+          inherit system;
+          inherit overlays;
+          config = { allowUnfree = true; };
+        };
+      }) systems);
+
       treefmtEval = eachSystem (system:
-        let pkgs = import nixpkgs { inherit system overlays; };
+        let pkgs = pkgsBySystem.${system};
         in treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
 
     in {
 
       devShells = eachSystem (system:
-        let pkgs = import nixpkgs { inherit system overlays; };
+        let pkgs = pkgsBySystem.${system};
         in {
           default = devenv.lib.mkShell {
             inherit inputs pkgs;
@@ -82,21 +101,16 @@
         });
 
       formatter = eachSystem (system:
-        let pkgs = import nixpkgs { inherit system overlays; };
+        let pkgs = pkgsBySystem.${system};
         in treefmtEval.${pkgs.system}.config.build.wrapper);
 
       nixosConfigurations = builtins.listToAttrs (builtins.map (machine: {
         inherit (machine) name;
-        value = nixpkgs.lib.nixosSystem {
+        value = lib.nixosSystem {
           inherit (machine) system;
-          specialArgs = {
-            inherit inputs;
-          }; # attributes in this set will be passed to modules as args
+          specialArgs = { inherit inputs; };
           modules = [
-            {
-              nixpkgs.overlays = overlays;
-              nixpkgs.config = { allowUnfree = true; };
-            }
+            { nixpkgs.pkgs = pkgsBySystem.${machine.system}; }
             ./system/configuration-nixos.nix
             ./system/configuration-${machine.name}.nix
           ];
@@ -107,53 +121,40 @@
         inherit (machine) name;
         value = darwin.lib.darwinSystem {
           inherit (machine) system;
-          specialArgs = {
-            inherit inputs;
-          }; # attributes in this set will be passed to modules as args
+          specialArgs = { inherit inputs; };
           modules = [
-            {
-              nixpkgs.overlays = overlays;
-              nixpkgs.config = { allowUnfree = true; };
-            }
+            { nixpkgs.pkgs = pkgsBySystem.${machine.system}; }
             ./system/configuration-darwin.nix
             ./system/configuration-${machine.name}.nix
           ];
         };
       }) darwinMachines);
 
-      homeConfigurations = builtins.listToAttrs (builtins.map (machine:
-        let
-          pkgs = import nixpkgs {
-            inherit (machine) system;
-            inherit overlays;
-            config = { allowUnfree = true; };
-          };
-        in {
-          inherit (machine) name;
-          value = home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
-            modules = [
-              {
-                imports = [ kauz.homeModules.default ];
-                home.username = machine.user;
-                home.homeDirectory = if (isDarwin machine) then
-                  "/Users/${machine.user}"
-                else
-                  "/home/${machine.user}";
-              }
-              ./home/home.nix
-              ./home/home-${
-                if (isDarwin machine) then "darwin" else "nixos"
-              }.nix
-              ./home/home-${machine.name}.nix
-            ];
-          };
-        }) machines);
+      homeConfigurations = builtins.listToAttrs (builtins.map (machine: {
+        inherit (machine) name;
+        value = home-manager.lib.homeManagerConfiguration {
+          pkgs = pkgsBySystem.${machine.system};
+          extraSpecialArgs = { inherit inputs; };
+          modules = [
+            {
+              imports = [ kauz.homeModules.default ];
+              home.username = machine.user;
+              home.homeDirectory = if (isDarwin machine) then
+                "/Users/${machine.user}"
+              else
+                "/home/${machine.user}";
+            }
+            ./home/home.nix
+            ./home/home-${if (isDarwin machine) then "darwin" else "nixos"}.nix
+            ./home/home-${machine.name}.nix
+          ];
+        };
+      }) machines);
 
       apps = builtins.mapAttrs (system: machines:
         builtins.listToAttrs (lib.flatten (builtins.map (machine:
           let
-            pkgs = import nixpkgs { inherit system; };
+            pkgs = pkgsBySystem.${system};
             rebuildScript = pkgs.writeShellScript "rebuild-${machine.name}"
               (if (isDarwin machine) then
                 "${
