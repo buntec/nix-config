@@ -103,6 +103,10 @@
     stylua
     tldr
     tree
+    typst
+    typst-live
+    typst-lsp
+    typstfmt
     vale
     vifm
     visualvm

@@ -122,3 +122,8 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
   group = spell_augroup,
 })
+
+-- workaround since .typ is currently recognized as filetype sql
+vim.cmd([[
+  autocmd! BufRead,BufNewFile *.typ set filetype=typst
+]])
