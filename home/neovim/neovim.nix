@@ -1,65 +1,49 @@
 { pkgs, ... }: {
-  programs.neovim = {
+
+  # by default, everything for neovim is taken from unstable
+  programs.neovim = with pkgs.unstable; {
     enable = true;
+    package = neovim-unwrapped;
     viAlias = true;
     vimAlias = true;
     defaultEditor = true;
 
     plugins = let
 
-      # TODO: replace with nixpkgs version when available
-      lsp-progress = {
-        plugin = pkgs.vimUtils.buildVimPlugin {
-          pname = "lsp-progress.nvim";
-          version = "2023-10-21";
-          src = pkgs.fetchFromGitHub {
-            owner = "linrongbin16";
-            repo = "lsp-progress.nvim";
-            rev = "df7a3d0d865d584552ab571295e73868e736e60f";
-            sha256 = "sha256-+bp8t+CPFQD6iUENc7ktHxIkMpJdQabA9Ouzk5GV2IM=";
-          };
-          meta.homepage = "https://github.com/linrongbin16/lsp-progress.nvim/";
-        };
-        type = "lua";
-        config = ''
-          require("lsp-progress").setup {};
-        '';
-      };
-
       treesitter = {
-        plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+        plugin = vimPlugins.nvim-treesitter.withAllGrammars;
         type = "lua";
         config = builtins.readFile ./plugins/treesitter.lua;
       };
 
-      dressing = { plugin = pkgs.vimPlugins.dressing-nvim; };
+      dressing = { plugin = vimPlugins.dressing-nvim; };
 
-      web-devicons = { plugin = pkgs.vimPlugins.nvim-web-devicons; };
+      web-devicons = { plugin = vimPlugins.nvim-web-devicons; };
 
       oil = {
-        plugin = pkgs.vimPlugins.oil-nvim;
+        plugin = vimPlugins.oil-nvim;
         type = "lua";
         config = builtins.readFile ./plugins/oil.lua;
       };
 
-      plenary = { plugin = pkgs.vimPlugins.plenary-nvim; };
+      plenary = { plugin = vimPlugins.plenary-nvim; };
 
       telescope = [
         {
-          plugin = pkgs.vimPlugins.telescope-nvim;
+          plugin = vimPlugins.telescope-nvim;
           type = "lua";
           config = builtins.readFile ./plugins/telescope.lua;
         }
-        { plugin = pkgs.vimPlugins.telescope-symbols-nvim; }
+        { plugin = vimPlugins.telescope-symbols-nvim; }
       ];
 
       lspconfig = {
-        plugin = pkgs.vimPlugins.nvim-lspconfig;
+        plugin = vimPlugins.nvim-lspconfig;
         type = "lua";
         config = builtins.readFile ./plugins/lspconfig.lua;
       };
 
-      cmp = with pkgs.vimPlugins; [
+      cmp = with vimPlugins; [
         {
           plugin = nvim-cmp;
           type = "lua";
@@ -73,40 +57,40 @@
         { plugin = vim-vsnip; }
       ];
 
-      metals = {
-        plugin = pkgs.vimPlugins.nvim-metals;
+      nvim-metals = {
+        plugin = vimPlugins.nvim-metals;
         type = "lua";
         config = ''
-          local metalsBinary = "${pkgs.metals}/bin/metals"
+          local metalsBinary = "${metals}/bin/metals"
           ${builtins.readFile ./plugins/metals.lua}
         '';
       };
 
       trouble = {
-        plugin = pkgs.vimPlugins.trouble-nvim;
+        plugin = vimPlugins.trouble-nvim;
         type = "lua";
         config = builtins.readFile ./plugins/trouble.lua;
       };
 
       lsp-kind = {
-        plugin = pkgs.vimPlugins.lspkind-nvim;
+        plugin = vimPlugins.lspkind-nvim;
         type = "lua";
       };
 
       indent-blank-line = {
-        plugin = pkgs.vimPlugins.indent-blankline-nvim;
+        plugin = vimPlugins.indent-blankline-nvim;
         type = "lua";
         config = builtins.readFile ./plugins/indent-blankline.lua;
       };
 
       which-key = {
-        plugin = pkgs.vimPlugins.which-key-nvim;
+        plugin = vimPlugins.which-key-nvim;
         type = "lua";
         config = builtins.readFile ./plugins/which-key.lua;
       };
 
       gitsigns = {
-        plugin = pkgs.vimPlugins.gitsigns-nvim;
+        plugin = vimPlugins.gitsigns-nvim;
         type = "lua";
         config = ''
           require("gitsigns").setup()
@@ -114,13 +98,13 @@
       };
 
       lualine = {
-        plugin = pkgs.vimPlugins.lualine-nvim;
+        plugin = vimPlugins.lualine-nvim;
         type = "lua";
         config = builtins.readFile ./plugins/lualine.lua;
       };
 
       surround = {
-        plugin = pkgs.vimPlugins.nvim-surround;
+        plugin = vimPlugins.nvim-surround;
         type = "lua";
         config = ''
           require("nvim-surround").setup({})
@@ -128,35 +112,35 @@
       };
 
       nvim-lint = {
-        plugin = pkgs.vimPlugins.nvim-lint;
+        plugin = vimPlugins.nvim-lint;
         type = "lua";
         config = builtins.readFile ./plugins/nvim-lint.lua;
       };
 
       conform-nvim = {
-        plugin = pkgs.vimPlugins.conform-nvim;
+        plugin = vimPlugins.conform-nvim;
         type = "lua";
         config = builtins.readFile ./plugins/conform-nvim.lua;
       };
 
       haskell-tools = {
-        plugin = pkgs.vimPlugins.haskell-tools-nvim;
+        plugin = vimPlugins.haskell-tools-nvim;
         type = "lua";
         config = builtins.readFile ./plugins/haskell-tools.lua;
       };
 
       telescope_hoogle = {
-        plugin = pkgs.vimPlugins.telescope_hoogle;
+        plugin = vimPlugins.telescope_hoogle;
         type = "lua";
       };
 
       telescope-manix = {
-        plugin = pkgs.vimPlugins.telescope-manix;
+        plugin = vimPlugins.telescope-manix;
         type = "lua";
       };
 
       nvim-notify = {
-        plugin = pkgs.vimPlugins.nvim-notify;
+        plugin = vimPlugins.nvim-notify;
         type = "lua";
         config = ''
           vim.notify = require("notify")
@@ -164,7 +148,7 @@
       };
 
       fidget = {
-        plugin = pkgs.vimPlugins.fidget-nvim;
+        plugin = vimPlugins.fidget-nvim;
         type = "lua";
         config = ''
           require("fidget").setup {}
@@ -172,12 +156,12 @@
       };
 
       lush = {
-        plugin = pkgs.vimPlugins.lush-nvim;
+        plugin = vimPlugins.lush-nvim;
         type = "lua";
       };
 
       neogit = {
-        plugin = pkgs.vimPlugins.neogit;
+        plugin = vimPlugins.neogit;
         type = "lua";
         config = ''
           local neogit = require('neogit')
@@ -185,10 +169,9 @@
         '';
       };
 
-      vim-tmux-nav = { plugin = pkgs.vimPlugins.vim-tmux-navigator; };
+      vim-tmux-nav = { plugin = vimPlugins.vim-tmux-navigator; };
 
-    in pkgs.lib.lists.flatten [
-      # lsp-progress
+    in lib.lists.flatten [
       # nvim-notify
       cmp
       conform-nvim
@@ -201,7 +184,7 @@
       lspconfig
       lualine
       lush
-      metals
+      nvim-metals
       neogit
       nvim-lint
       oil
@@ -217,7 +200,7 @@
       which-key
     ];
 
-    extraPackages = with pkgs; [
+    extraPackages = [
       gopls
       haskell-language-server
       lua-language-server
