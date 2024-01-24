@@ -29,10 +29,7 @@
     enable = true;
     enableBashIntegration = true;
     # enableFishIntegration = true; # fish integration is automatic
-    config = ''
-      [global]
-      warn_timeout = "30s"
-    '';
+    config = { global = { warn_timeout = "30s"; }; };
     nix-direnv.enable = true;
   };
 
