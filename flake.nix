@@ -117,7 +117,7 @@
             modules = [
               ({ pkgs, config, ... }: {
                 languages.lua.enable = true;
-                # languages.nix.enable = true; # TODO: uncomment when fixed
+                languages.nix.enable = true;
               })
             ];
           };
