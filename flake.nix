@@ -72,11 +72,8 @@
       eachSystem = genAttrs systems;
 
       overlays = [
-        # my-pkgs.overlays.default
-        git-summary.overlays.default
-        kauz.overlays.default
         # unstable overlay idea taken from https://github.com/Misterio77/nix-starter-configs/blob/main/standard/overlays/default.nix
-        # we select the unstable branch according to advise in https://nix.dev/concepts/faq.html#rolling
+        # we select the unstable branch according to recommendation in https://nix.dev/concepts/faq.html#rolling
         (final: prev: {
           unstable = import (if (isDarwin final.system) then
             nixpkgs-unstable
@@ -89,9 +86,12 @@
         # pick some packages from unstable
         (final: prev: {
           inherit (final.unstable)
-            haskell-language-server manix metals neovim-unwrapped nil sbt
-            scala-cli statix typst typst-live typst-lsp typstfmt vimPlugins;
+            coursier haskell-language-server manix metals neovim-unwrapped nil
+            sbt scala-cli statix typst typst-live typst-lsp typstfmt vimPlugins;
         })
+        my-pkgs.overlays.default
+        git-summary.overlays.default
+        kauz.overlays.default
       ];
 
       pkgsBySystem = builtins.listToAttrs (builtins.map (system: {
