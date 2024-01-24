@@ -86,6 +86,12 @@
               config.allowUnfree = true;
             };
         })
+        # pick some packages from unstable
+        (final: prev: {
+          inherit (final.unstable)
+            haskell-language-server manix metals neovim-unwrapped nil sbt
+            scala-cli statix typst typst-live typst-lsp typstfmt vimPlugins;
+        })
       ];
 
       pkgsBySystem = builtins.listToAttrs (builtins.map (system: {

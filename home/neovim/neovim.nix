@@ -1,7 +1,6 @@
 { pkgs, ... }: {
 
-  # by default, everything for neovim is taken from unstable
-  programs.neovim = with pkgs.unstable; {
+  programs.neovim = with pkgs; {
     enable = true;
     package = neovim-unwrapped;
     viAlias = true;

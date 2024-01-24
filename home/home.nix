@@ -62,7 +62,7 @@
     gh
     ghc
     git-gone
-    # git-summary
+    git-summary
     go
     hey
     hoogle
@@ -73,7 +73,6 @@
     just
     killall
     kubernetes-helm
-    lazygit
     librsvg
     manix
     mdformat
@@ -114,7 +113,6 @@
     wget
     yarn
     yazi
-    zig
     zoxide
   ];
 
