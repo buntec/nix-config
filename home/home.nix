@@ -59,6 +59,7 @@
     d2
     eza
     fd
+    fx
     fzf
     gh
     ghc
@@ -70,6 +71,7 @@
     httpie
     hyperfine
     jdk
+    jless
     jq
     just
     killall

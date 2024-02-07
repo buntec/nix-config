@@ -183,11 +183,12 @@
       lspconfig
       lualine
       lush
-      nvim-metals
       neogit
       nvim-lint
+      nvim-metals
       oil
       plenary
+      stylelint
       surround
       telescope
       telescope-manix
