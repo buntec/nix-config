@@ -206,7 +206,9 @@
       lua-language-server
       nil
       nodePackages.bash-language-server
+      nodePackages.prettier
       nodePackages.typescript-language-server
+      prettierd
       texlab
       vscode-langservers-extracted
     ];

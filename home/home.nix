@@ -81,7 +81,7 @@
     mdformat
     metals
     minikube
-    ncdu
+    # ncdu # TODO: re-enable when fixed in nixpkgs
     nix-output-monitor
     nixfmt
     nixpkgs-fmt
@@ -115,6 +115,7 @@
     watchexec
     wget
     yarn
+    yamlfmt
     yazi
     zoxide
   ];
