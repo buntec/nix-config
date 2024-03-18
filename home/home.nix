@@ -81,7 +81,7 @@
     mdformat
     metals
     minikube
-    # ncdu # TODO: re-enable when fixed in nixpkgs
+    ncdu
     nix-output-monitor
     nixfmt
     nixpkgs-fmt

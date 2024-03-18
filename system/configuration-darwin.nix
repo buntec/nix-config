@@ -73,6 +73,7 @@
       "kitty"
       "racket"
       "skim"
+      "slack"
       "spotify"
       "telegram"
       "whatsapp"
