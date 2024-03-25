@@ -54,6 +54,7 @@
     atool
     bat
     cargo
+    cmake
     coursier
     curl
     d2

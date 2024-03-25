@@ -201,6 +201,7 @@
     ];
 
     extraPackages = [
+      cmake-language-server
       gopls
       haskell-language-server
       lua-language-server
