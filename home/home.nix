@@ -98,9 +98,9 @@
     ruff-lsp
     sbt
     scala-cli
-    smithy-cli
-    smithy-language-server
-    smithy4s-codegen-cli
+    # smithy-cli
+    # smithy-language-server
+    # smithy4s-codegen-cli
     stack
     statix
     stylua

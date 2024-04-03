@@ -90,7 +90,7 @@
             nil sbt scala-cli statix typst typst-live typst-lsp typstfmt
             vimPlugins;
         })
-        my-pkgs.overlays.default
+        # my-pkgs.overlays.default
         git-summary.overlays.default
         kauz.overlays.default
       ];
