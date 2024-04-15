@@ -86,9 +86,9 @@
         # pick some packages from unstable
         (final: prev: {
           inherit (final.unstable)
-            ncdu coursier haskell-language-server manix metals neovim-unwrapped
-            nil sbt scala-cli statix typst typst-live typst-lsp typstfmt
-            vimPlugins;
+            ncdu coursier csvlens haskell-language-server manix metals
+            neovim-unwrapped nil sbt scala-cli statix typst typst-live typst-lsp
+            typstfmt vimPlugins;
         })
         # my-pkgs.overlays.default
         git-summary.overlays.default
