@@ -53,9 +53,11 @@
     any-nix-shell
     atool
     bat
+    broot
     cargo
     cmake
     coursier
+    csvlens
     curl
     d2
     eza
