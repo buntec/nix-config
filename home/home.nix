@@ -25,6 +25,13 @@
 
   programs.ssh.enable = true;
 
+  programs.readline = {
+    enable = true;
+    extraConfig = ''
+      set editing-mode vi
+    '';
+  };
+
   programs.direnv = {
     enable = true;
     enableBashIntegration = true;
@@ -49,13 +56,19 @@
     inherit (pkgs.haskellPackages) hoogle;
     inherit (pkgs.python311Packages) mdformat;
   in with pkgs; [
+    # git-summary
+    # smithy-cli
+    # smithy-language-server
+    # smithy4s-codegen-cli
     amber
     any-nix-shell
     atool
     bat
     broot
     cargo
+    ccls
     cmake
+    cmake-language-server
     coursier
     csvlens
     curl
@@ -67,8 +80,9 @@
     gh
     ghc
     git-gone
-    # git-summary
     go
+    gopls
+    haskell-language-server
     hey
     hoogle
     httpie
@@ -80,18 +94,25 @@
     killall
     kubernetes-helm
     librsvg
+    lua-language-server
     manix
+    marp-cli
     mdformat
     metals
     minikube
     ncdu
+    nil
     nix-output-monitor
     nixfmt
     nixpkgs-fmt
+    nodePackages.bash-language-server
     nodePackages.live-server
+    nodePackages.prettier
+    nodePackages.typescript-language-server
     nodejs
     pandoc
     postgresql
+    prettierd
     python-with-packages
     racket
     restic
@@ -100,14 +121,13 @@
     ruff-lsp
     sbt
     scala-cli
-    # smithy-cli
-    # smithy-language-server
-    # smithy4s-codegen-cli
     stack
     statix
     stylua
+    texlab
     tldr
     tree
+    treefmt
     typst
     typst-live
     typst-lsp
@@ -115,19 +135,22 @@
     vale
     vifm
     visualvm
+    vscode-langservers-extracted
     watchexec
     wget
-    yarn
     yamlfmt
+    yarn
     yazi
     zoxide
   ];
 
   programs.git = {
     enable = true;
-    userEmail = "christophbunte@gmail.com";
+    userEmail = pkgs.lib.mkDefault
+      "christophbunte@gmail.com"; # we might want to override this
     userName = "Christoph Bunte";
     diff-so-fancy.enable = true;
+    extraConfig = { init.defaultBranch = "main"; };
   };
 
   programs.java = { enable = true; };
