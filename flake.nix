@@ -2,8 +2,11 @@
   description = "My Nix configs";
 
   inputs = {
+    # default branch
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+
     # stable branches
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-nixos.url = "github:nixos/nixpkgs/nixos-23.11";
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
 
     # unstable branches
@@ -13,7 +16,7 @@
     home-manager = {
       # url = "github:nix-community/home-manager/release-23.11"; # for nixpkgs-23.11
       url = "github:nix-community/home-manager"; # for nixpkgs-unstable
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     darwin.url = "github:lnl7/nix-darwin";
@@ -42,9 +45,9 @@
     extra-substituters = "https://devenv.cachix.org";
   };
 
-  outputs = inputs@{ self, darwin, nixpkgs, nixpkgs-darwin, nixpkgs-unstable
-    , nixpkgs-nixos-unstable, home-manager, devenv, flake-utils, my-pkgs
-    , git-summary, treefmt-nix, kauz, ... }:
+  outputs = inputs@{ self, darwin, nixpkgs, nixpkgs-nixos, nixpkgs-darwin
+    , nixpkgs-unstable, nixpkgs-nixos-unstable, home-manager, devenv
+    , flake-utils, my-pkgs, git-summary, treefmt-nix, kauz, ... }:
     let
       inherit (nixpkgs) lib;
       inherit (lib) genAttrs;
@@ -68,11 +71,15 @@
       ];
 
       isDarwin = system: (builtins.match ".*darwin" system) != null;
+
       darwinMachines =
         builtins.filter (machine: (isDarwin machine.system)) machines;
+
       nixosMachines =
         builtins.filter (machine: !(isDarwin machine.system)) machines;
+
       machinesBySystem = builtins.groupBy (machine: machine.system) machines;
+
       systems = builtins.attrNames machinesBySystem;
 
       eachSystem = genAttrs systems;
@@ -80,8 +87,10 @@
       overlays = [
         # overlay idea taken from https://github.com/Misterio77/nix-starter-configs/blob/main/standard/overlays/default.nix
         (final: prev: {
-          nixpkgs-stable = import
-            (if (isDarwin final.system) then nixpkgs-darwin else nixpkgs) {
+          nixpkgs-stable = import (if (isDarwin final.system) then
+            nixpkgs-darwin
+          else
+            nixpkgs-nixos) {
               inherit (final) system;
               config.allowUnfree = true;
             };
