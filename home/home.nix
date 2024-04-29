@@ -80,6 +80,7 @@
     gh
     ghc
     git-gone
+    gitui
     go
     gopls
     haskell-language-server
@@ -125,6 +126,7 @@
     statix
     stylua
     texlab
+    tig
     tldr
     tree
     treefmt
