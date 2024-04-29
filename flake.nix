@@ -2,13 +2,19 @@
   description = "My Nix configs";
 
   inputs = {
+    # stable branches
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
+
+    # unstable branches
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-nixos-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      # url = "github:nix-community/home-manager/release-23.11"; # for nixpkgs-23.11
+      url = "github:nix-community/home-manager"; # for nixpkgs-unstable
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -72,36 +78,37 @@
       eachSystem = genAttrs systems;
 
       overlays = [
-        # unstable overlay idea taken from https://github.com/Misterio77/nix-starter-configs/blob/main/standard/overlays/default.nix
-        # we select the unstable branch according to recommendation in https://nix.dev/concepts/faq.html#rolling
+        # overlay idea taken from https://github.com/Misterio77/nix-starter-configs/blob/main/standard/overlays/default.nix
         (final: prev: {
-          unstable = import (if (isDarwin final.system) then
-            nixpkgs-unstable
-          else
-            nixpkgs-nixos-unstable) {
+          nixpkgs-stable = import
+            (if (isDarwin final.system) then nixpkgs-darwin else nixpkgs) {
               inherit (final) system;
               config.allowUnfree = true;
             };
         })
-        # pick some packages from unstable
-        (final: prev: {
-          inherit (final.unstable)
-            ncdu coursier csvlens haskell-language-server manix metals
-            neovim-unwrapped nil sbt scala-cli statix typst typst-live typst-lsp
-            typstfmt vimPlugins;
-        })
+
+        # pick some packages from stable
+        # (final: prev: {
+        # inherit (final.nixpkgs-stable)
+        # ncdu
+        # })
+
         # my-pkgs.overlays.default
         git-summary.overlays.default
         kauz.overlays.default
       ];
 
+      # we select the branch according to recommendation in https://nix.dev/concepts/faq.html#rolling
       pkgsBySystem = builtins.listToAttrs (builtins.map (system: {
         name = system;
-        value = import (if (isDarwin system) then nixpkgs-darwin else nixpkgs) {
-          inherit system;
-          inherit overlays;
-          config = { allowUnfree = true; };
-        };
+        value = import (if (isDarwin system) then
+          nixpkgs-unstable
+        else
+          nixpkgs-nixos-unstable) {
+            inherit system;
+            inherit overlays;
+            config = { allowUnfree = true; };
+          };
       }) systems);
 
       treefmtEval = eachSystem (system:
