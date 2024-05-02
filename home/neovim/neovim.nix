@@ -17,6 +17,14 @@
 
       dressing = { plugin = vimPlugins.dressing-nvim; };
 
+      diffview = {
+        plugin = vimPlugins.diffview-nvim;
+        type = "lua";
+        config = ''
+          require("diffview").setup({})
+        '';
+      };
+
       web-devicons = { plugin = vimPlugins.nvim-web-devicons; };
 
       oil = {
@@ -174,6 +182,7 @@
       # nvim-notify
       cmp
       conform-nvim
+      diffview
       dressing
       fidget
       gitsigns
