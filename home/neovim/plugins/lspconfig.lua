@@ -17,7 +17,8 @@ lsp_config.html.setup({})
 lsp_config.pylsp.setup({})
 lsp_config.smithy_ls.setup({})
 lsp_config.tsserver.setup({})
-lsp_config.ccls.setup({})
+-- lsp_config.ccls.setup({}) -- clangd works much better than ccls!
+lsp_config.clangd.setup({})
 lsp_config.cmake.setup({})
 
 lsp_config.typst_lsp.setup({

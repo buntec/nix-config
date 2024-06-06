@@ -178,6 +178,12 @@
 
       vim-tmux-nav = { plugin = vimPlugins.vim-tmux-navigator; };
 
+      markdown-preview = {
+        plugin = vimPlugins.markdown-preview-nvim;
+        type = "lua";
+        config = "";
+      };
+
     in lib.lists.flatten [
       # nvim-notify
       cmp
@@ -192,6 +198,7 @@
       lspconfig
       lualine
       lush
+      markdown-preview
       neogit
       nvim-lint
       nvim-metals

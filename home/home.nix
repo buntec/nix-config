@@ -61,6 +61,7 @@
     # smithy-language-server
     # smithy4s-codegen-cli
     amber
+    # ncdu # breaks often, use gdu instead for now
     any-nix-shell
     atool
     bat
@@ -77,6 +78,7 @@
     fd
     fx
     fzf
+    gdu
     gh
     ghc
     git-gone
@@ -101,7 +103,6 @@
     mdformat
     metals
     minikube
-    ncdu
     nil
     nix-output-monitor
     nixfmt
