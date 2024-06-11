@@ -69,6 +69,7 @@
     cargo
     ccls
     cmake
+    cmake-format
     cmake-language-server
     coursier
     csvlens
