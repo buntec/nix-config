@@ -15,11 +15,11 @@ cmp.setup({
     ["<CR>"] = cmp.mapping.confirm({ select = true }),
   }),
   sources = {
-    { name = "nvim_lsp", priority = 10 },
+    { name = "nvim_lsp_signature_help" },
+    { name = "nvim_lsp" },
     { name = "buffer" },
     { name = "vsnip" },
     { name = "path" },
-    { name = "nvim_lsp_signature_help" },
   },
   formatting = {
     format = lspkind.cmp_format({
