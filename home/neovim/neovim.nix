@@ -184,7 +184,20 @@
         config = "";
       };
 
+      navic = {
+        plugin = vimPlugins.nvim-navic;
+        type = "lua";
+        config = "";
+      };
+
+      ts-context = {
+        plugin = vimPlugins.nvim-treesitter-context;
+        type = "lua";
+        config = "";
+      };
+
     in lib.lists.flatten [
+      # navic
       # nvim-notify
       cmp
       conform-nvim
@@ -211,6 +224,7 @@
       telescope_hoogle
       treesitter
       trouble
+      ts-context
       vim-tmux-nav
       web-devicons
       which-key
