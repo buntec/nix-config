@@ -97,6 +97,7 @@
     just
     killall
     kubernetes-helm
+    lazygit
     librsvg
     lua-language-server
     manix
