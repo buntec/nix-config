@@ -39,12 +39,6 @@
     kauz.url = "github:buntec/kauz";
   };
 
-  nixConfig = {
-    extra-trusted-public-keys =
-      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=";
-    extra-substituters = "https://devenv.cachix.org";
-  };
-
   outputs = inputs@{ self, darwin, nixpkgs, nixpkgs-nixos, nixpkgs-darwin
     , nixpkgs-unstable, nixpkgs-nixos-unstable, home-manager, devenv
     , flake-utils, my-pkgs, git-summary, treefmt-nix, kauz, ... }:
