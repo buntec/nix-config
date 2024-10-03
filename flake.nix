@@ -164,28 +164,30 @@
         };
       }) darwinMachines);
 
-      homeConfigurations = builtins.listToAttrs (builtins.map (machine: {
-        inherit (machine) name;
-        value = home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgsBySystem.${machine.system};
-          extraSpecialArgs = { inherit inputs; };
-          modules = [
-            {
-              imports = [ kauz.homeModules.default ];
-              home.username = machine.user;
-              home.homeDirectory = if (isDarwin machine.system) then
-                "/Users/${machine.user}"
-              else
-                "/home/${machine.user}";
-            }
-            ./home/home.nix
-            ./home/home-${
-              if (isDarwin machine.system) then "darwin" else "nixos"
-            }.nix
-            ./home/home-${machine.name}.nix
-          ];
-        };
-      }) machines);
+      homeConfigurations = builtins.listToAttrs (builtins.concatMap (mode:
+        builtins.map (machine: {
+          name = "${machine.name}-${mode}";
+          value = home-manager.lib.homeManagerConfiguration {
+            pkgs = pkgsBySystem.${machine.system};
+            extraSpecialArgs = { inherit inputs; };
+            modules = [
+              {
+                imports = [ kauz.homeModules.default ];
+                kauz.light = mode == "light";
+                home.username = machine.user;
+                home.homeDirectory = if (isDarwin machine.system) then
+                  "/Users/${machine.user}"
+                else
+                  "/home/${machine.user}";
+              }
+              ./home/home.nix
+              ./home/home-${
+                if (isDarwin machine.system) then "darwin" else "nixos"
+              }.nix
+              ./home/home-${machine.name}.nix
+            ];
+          };
+        }) machines) [ "light" "dark" ]);
 
       apps = builtins.mapAttrs (system: machines:
         builtins.listToAttrs (lib.flatten (builtins.map (machine:
@@ -198,10 +200,14 @@
                 }/sw/bin/darwin-rebuild switch --flake ${self}#${machine.name}"
               else
                 "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${self}#${machine.name}");
-            hmSwitchScript = pkgs.writeShellScript "hm-switch-${machine.name}"
-              "${
+            hmSwitchScriptLight =
+              pkgs.writeShellScript "hm-switch-${machine.name}-light" "${
                 inputs.home-manager.packages.${system}.home-manager
-              }/bin/home-manager switch --flake ${self}#${machine.name}";
+              }/bin/home-manager switch --flake ${self}#${machine.name}-light";
+            hmSwitchScriptDark =
+              pkgs.writeShellScript "hm-switch-${machine.name}-dark" "${
+                inputs.home-manager.packages.${system}.home-manager
+              }/bin/home-manager switch --flake ${self}#${machine.name}-dark";
           in [
             {
               name = "rebuild-${machine.name}";
@@ -211,10 +217,17 @@
               };
             }
             {
-              name = "hm-switch-${machine.name}";
+              name = "hm-switch-${machine.name}-dark";
               value = {
                 type = "app";
-                program = "${hmSwitchScript}";
+                program = "${hmSwitchScriptDark}";
+              };
+            }
+            {
+              name = "hm-switch-${machine.name}-light";
+              value = {
+                type = "app";
+                program = "${hmSwitchScriptLight}";
               };
             }
           ]) machines))) machinesBySystem;
