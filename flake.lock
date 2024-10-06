@@ -342,11 +342,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1727961475,
-        "narHash": "sha256-9Kw2LaZmpR3L3x+lPY5qh5Nl+syiHPK3A2IY50Y2kTg=",
+        "lastModified": 1728217536,
+        "narHash": "sha256-1bf5LvRXOtmfEUZCyp5cNB2Z9B3mBjp6A0lFtrNcX40=",
         "owner": "buntec",
         "repo": "kauz",
-        "rev": "0995ae74619c07fd8290f4fe4263af52d4eb450d",
+        "rev": "3e1a1ff3b2e848323c15f3cafeb0039a4edf2e71",
         "type": "github"
       },
       "original": {

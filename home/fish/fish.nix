@@ -1,10 +1,13 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs.fish = {
     enable = true;
-    plugins = [{
-      name = "pure";
-      inherit (pkgs.fishPlugins.pure) src;
-    }];
+    plugins = [
+      {
+        name = "pure";
+        inherit (pkgs.fishPlugins.pure) src;
+      }
+    ];
 
     interactiveShellInit = ''
       fish_vi_key_bindings

@@ -39,9 +39,24 @@
     kauz.url = "github:buntec/kauz";
   };
 
-  outputs = inputs@{ self, darwin, nixpkgs, nixpkgs-nixos, nixpkgs-darwin
-    , nixpkgs-unstable, nixpkgs-nixos-unstable, home-manager, devenv
-    , flake-utils, my-pkgs, git-summary, treefmt-nix, kauz, ... }:
+  outputs =
+    inputs@{
+      self,
+      darwin,
+      nixpkgs,
+      nixpkgs-nixos,
+      nixpkgs-darwin,
+      nixpkgs-unstable,
+      nixpkgs-nixos-unstable,
+      home-manager,
+      devenv,
+      flake-utils,
+      my-pkgs,
+      git-summary,
+      treefmt-nix,
+      kauz,
+      ...
+    }:
     let
       inherit (nixpkgs) lib;
       inherit (lib) genAttrs;
@@ -66,11 +81,9 @@
 
       isDarwin = system: (builtins.match ".*darwin" system) != null;
 
-      darwinMachines =
-        builtins.filter (machine: (isDarwin machine.system)) machines;
+      darwinMachines = builtins.filter (machine: (isDarwin machine.system)) machines;
 
-      nixosMachines =
-        builtins.filter (machine: !(isDarwin machine.system)) machines;
+      nixosMachines = builtins.filter (machine: !(isDarwin machine.system)) machines;
 
       machinesBySystem = builtins.groupBy (machine: machine.system) machines;
 
@@ -81,13 +94,10 @@
       overlays = [
         # overlay idea taken from https://github.com/Misterio77/nix-starter-configs/blob/main/standard/overlays/default.nix
         (final: prev: {
-          nixpkgs-stable = import (if (isDarwin final.system) then
-            nixpkgs-darwin
-          else
-            nixpkgs-nixos) {
-              inherit (final) system;
-              config.allowUnfree = true;
-            };
+          nixpkgs-stable = import (if (isDarwin final.system) then nixpkgs-darwin else nixpkgs-nixos) {
+            inherit (final) system;
+            config.allowUnfree = true;
+          };
         })
 
         # pick some packages from stable
@@ -102,155 +112,203 @@
       ];
 
       # we select the branch according to recommendation in https://nix.dev/concepts/faq.html#rolling
-      pkgsBySystem = builtins.listToAttrs (builtins.map (system: {
-        name = system;
-        value = import (if (isDarwin system) then
-          nixpkgs-unstable
-        else
-          nixpkgs-nixos-unstable) {
+      pkgsBySystem = builtins.listToAttrs (
+        builtins.map (system: {
+          name = system;
+          value = import (if (isDarwin system) then nixpkgs-unstable else nixpkgs-nixos-unstable) {
             inherit system;
             inherit overlays;
-            config = { allowUnfree = true; };
+            config = {
+              allowUnfree = true;
+            };
           };
-      }) systems);
+        }) systems
+      );
 
-      treefmtEval = eachSystem (system:
-        let pkgs = pkgsBySystem.${system};
-        in treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+      treefmtEval = eachSystem (
+        system:
+        let
+          pkgs = pkgsBySystem.${system};
+        in
+        treefmt-nix.lib.evalModule pkgs ./treefmt.nix
+      );
 
-    in {
+    in
+    {
 
-      devShells = eachSystem (system:
-        let pkgs = pkgsBySystem.${system};
-        in {
+      devShells = eachSystem (
+        system:
+        let
+          pkgs = pkgsBySystem.${system};
+        in
+        {
           default = devenv.lib.mkShell {
             inherit inputs pkgs;
             modules = [
-              ({ pkgs, config, ... }: {
-                languages.lua.enable = true;
-                languages.nix.enable = true;
-              })
+              (
+                { pkgs, config, ... }:
+                {
+                  languages.lua.enable = true;
+                  languages.nix.enable = true;
+                }
+              )
             ];
           };
-        });
+        }
+      );
 
-      formatter = eachSystem (system:
-        let pkgs = pkgsBySystem.${system};
-        in treefmtEval.${pkgs.system}.config.build.wrapper);
+      formatter = eachSystem (
+        system:
+        let
+          pkgs = pkgsBySystem.${system};
+        in
+        treefmtEval.${pkgs.system}.config.build.wrapper
+      );
 
-      nixosConfigurations = builtins.listToAttrs (builtins.map (machine: {
-        inherit (machine) name;
-        value = lib.nixosSystem {
-          inherit (machine) system;
-          specialArgs = { inherit inputs; };
-          modules = [
-            { nixpkgs.pkgs = pkgsBySystem.${machine.system}; }
-            ./system/configuration-nixos.nix
-            ./system/configuration-${machine.name}.nix
-          ];
-        };
-      }) nixosMachines);
-
-      darwinConfigurations = builtins.listToAttrs (builtins.map (machine: {
-        inherit (machine) name;
-        value = darwin.lib.darwinSystem {
-          inherit (machine) system;
-          specialArgs = { inherit inputs; };
-          modules = [
-            { nixpkgs.pkgs = pkgsBySystem.${machine.system}; }
-            ./system/configuration-darwin.nix
-            ./system/configuration-${machine.name}.nix
-          ];
-        };
-      }) darwinMachines);
-
-      homeConfigurations = builtins.listToAttrs (builtins.concatMap (mode:
+      nixosConfigurations = builtins.listToAttrs (
         builtins.map (machine: {
-          name = "${machine.name}-${mode}";
-          value = home-manager.lib.homeManagerConfiguration {
-            pkgs = pkgsBySystem.${machine.system};
-            extraSpecialArgs = { inherit inputs; };
+          inherit (machine) name;
+          value = lib.nixosSystem {
+            inherit (machine) system;
+            specialArgs = {
+              inherit inputs;
+            };
             modules = [
-              {
-                imports = [ kauz.homeModules.default ];
-                kauz.light = mode == "light";
-                home.username = machine.user;
-                home.homeDirectory = if (isDarwin machine.system) then
-                  "/Users/${machine.user}"
-                else
-                  "/home/${machine.user}";
-              }
-              ./home/home.nix
-              ./home/home-${
-                if (isDarwin machine.system) then "darwin" else "nixos"
-              }.nix
-              ./home/home-${machine.name}.nix
+              { nixpkgs.pkgs = pkgsBySystem.${machine.system}; }
+              ./system/configuration-nixos.nix
+              ./system/configuration-${machine.name}.nix
             ];
           };
-        }) machines) [ "light" "dark" ]);
+        }) nixosMachines
+      );
 
-      apps = builtins.mapAttrs (system: machines:
-        builtins.listToAttrs (lib.flatten (builtins.map (machine:
-          let
-            pkgs = pkgsBySystem.${system};
-            rebuildScript = pkgs.writeShellScript "rebuild-${machine.name}"
-              (if (isDarwin machine.system) then
-                "${
-                  self.darwinConfigurations.${machine.name}.system
-                }/sw/bin/darwin-rebuild switch --flake ${self}#${machine.name}"
-              else
-                "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${self}#${machine.name}");
-            hmSwitchScriptLight =
-              pkgs.writeShellScript "hm-switch-${machine.name}-light" "${
-                inputs.home-manager.packages.${system}.home-manager
-              }/bin/home-manager switch --flake ${self}#${machine.name}-light";
-            hmSwitchScriptDark =
-              pkgs.writeShellScript "hm-switch-${machine.name}-dark" "${
-                inputs.home-manager.packages.${system}.home-manager
-              }/bin/home-manager switch --flake ${self}#${machine.name}-dark";
-          in [
-            {
-              name = "rebuild-${machine.name}";
-              value = {
-                type = "app";
-                program = "${rebuildScript}";
+      darwinConfigurations = builtins.listToAttrs (
+        builtins.map (machine: {
+          inherit (machine) name;
+          value = darwin.lib.darwinSystem {
+            inherit (machine) system;
+            specialArgs = {
+              inherit inputs;
+            };
+            modules = [
+              { nixpkgs.pkgs = pkgsBySystem.${machine.system}; }
+              ./system/configuration-darwin.nix
+              ./system/configuration-${machine.name}.nix
+            ];
+          };
+        }) darwinMachines
+      );
+
+      homeConfigurations = builtins.listToAttrs (
+        builtins.concatMap
+          (
+            mode:
+            builtins.map (machine: {
+              name = "${machine.name}-${mode}";
+              value = home-manager.lib.homeManagerConfiguration {
+                pkgs = pkgsBySystem.${machine.system};
+                extraSpecialArgs = {
+                  inherit inputs;
+                };
+                modules = [
+                  {
+                    imports = [ kauz.homeModules.default ];
+                    kauz.light = mode == "light";
+                    home.username = machine.user;
+                    home.homeDirectory =
+                      if (isDarwin machine.system) then "/Users/${machine.user}" else "/home/${machine.user}";
+                  }
+                  ./home/home.nix
+                  ./home/home-${if (isDarwin machine.system) then "darwin" else "nixos"}.nix
+                  ./home/home-${machine.name}.nix
+                ];
               };
-            }
-            {
-              name = "hm-switch-${machine.name}-dark";
-              value = {
-                type = "app";
-                program = "${hmSwitchScriptDark}";
-              };
-            }
-            {
-              name = "hm-switch-${machine.name}-light";
-              value = {
-                type = "app";
-                program = "${hmSwitchScriptLight}";
-              };
-            }
-          ]) machines))) machinesBySystem;
+            }) machines
+          )
+          [
+            "light"
+            "dark"
+          ]
+      );
+
+      apps = builtins.mapAttrs (
+        system: machines:
+        builtins.listToAttrs (
+          lib.flatten (
+            builtins.map (
+              machine:
+              let
+                pkgs = pkgsBySystem.${system};
+                rebuildScript = pkgs.writeShellScript "rebuild-${machine.name}" (
+                  if (isDarwin machine.system) then
+                    "${
+                      self.darwinConfigurations.${machine.name}.system
+                    }/sw/bin/darwin-rebuild switch --flake ${self}#${machine.name}"
+                  else
+                    "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${self}#${machine.name}"
+                );
+                hmSwitchScriptLight = pkgs.writeShellScript "hm-switch-${machine.name}-light" "${
+                  inputs.home-manager.packages.${system}.home-manager
+                }/bin/home-manager switch --flake ${self}#${machine.name}-light";
+                hmSwitchScriptDark = pkgs.writeShellScript "hm-switch-${machine.name}-dark" "${
+                  inputs.home-manager.packages.${system}.home-manager
+                }/bin/home-manager switch --flake ${self}#${machine.name}-dark";
+              in
+              [
+                {
+                  name = "rebuild-${machine.name}";
+                  value = {
+                    type = "app";
+                    program = "${rebuildScript}";
+                  };
+                }
+                {
+                  name = "hm-switch-${machine.name}-dark";
+                  value = {
+                    type = "app";
+                    program = "${hmSwitchScriptDark}";
+                  };
+                }
+                {
+                  name = "hm-switch-${machine.name}-light";
+                  value = {
+                    type = "app";
+                    program = "${hmSwitchScriptLight}";
+                  };
+                }
+              ]
+            ) machines
+          )
+        )
+      ) machinesBySystem;
 
       # add all nixos, darwin and hm configs to checks
-      checks = builtins.mapAttrs (system: machines:
-        builtins.listToAttrs (lib.flatten (builtins.map (machine: [
-          {
-            name = "toplevel-${machine.name}";
-            value = if (isDarwin machine.system) then
-              self.darwinConfigurations.${machine.name}.config.system.build.toplevel
-            else
-              self.nixosConfigurations.${machine.name}.config.system.build.toplevel;
-          }
-          {
-            name = "hm-${machine.name}";
-            value =
-              builtins.trace "system: ${machine.system}, name: ${machine.name}"
-              self.homeConfigurations.${machine.name}.activationPackage;
-          }
-        ]) machines)) // {
+      checks = builtins.mapAttrs (
+        system: machines:
+        builtins.listToAttrs (
+          lib.flatten (
+            builtins.map (machine: [
+              {
+                name = "toplevel-${machine.name}";
+                value =
+                  if (isDarwin machine.system) then
+                    self.darwinConfigurations.${machine.name}.config.system.build.toplevel
+                  else
+                    self.nixosConfigurations.${machine.name}.config.system.build.toplevel;
+              }
+              {
+                name = "hm-${machine.name}";
+                value =
+                  builtins.trace "system: ${machine.system}, name: ${machine.name}"
+                    self.homeConfigurations.${machine.name}.activationPackage;
+              }
+            ]) machines
+          )
+        )
+        // {
           formatting = treefmtEval.${system}.config.build.check self;
-        }) machinesBySystem;
+        }
+      ) machinesBySystem;
 
     };
 

@@ -1,7 +1,12 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
 
-  imports =
-    [ ./kitty/kitty.nix ./fish/fish.nix ./tmux/tmux.nix ./neovim/neovim.nix ];
+  imports = [
+    ./kitty/kitty.nix
+    ./fish/fish.nix
+    ./tmux/tmux.nix
+    ./neovim/neovim.nix
+  ];
 
   home.stateVersion = "22.11";
 
@@ -36,131 +41,144 @@
     enable = true;
     enableBashIntegration = true;
     # enableFishIntegration = true; # fish integration is automatic
-    config = { global = { warn_timeout = "30s"; }; };
+    config = {
+      global = {
+        warn_timeout = "30s";
+      };
+    };
     nix-direnv.enable = true;
   };
 
-  home.packages = let
-    python-packages = ps:
-      with ps; [
-        jupyter
-        matplotlib
-        numpy
-        pandas
-        python-lsp-ruff
-        python-lsp-server
-        requests
-        scipy
+  home.packages =
+    let
+      python-packages =
+        ps: with ps; [
+          jupyter
+          matplotlib
+          numpy
+          pandas
+          python-lsp-ruff
+          python-lsp-server
+          requests
+          scipy
+        ];
+      python-with-packages = pkgs.python3.withPackages python-packages;
+      linters = with pkgs; [
+        statix
+        vale
       ];
-    python-with-packages = pkgs.python3.withPackages python-packages;
-    inherit (pkgs.haskellPackages) hoogle;
-    inherit (pkgs.python311Packages) mdformat;
-  in with pkgs; [
-    # git-summary
-    # smithy-cli
-    # smithy-language-server
-    # smithy4s-codegen-cli
-    amber
-    # ncdu # breaks often, use gdu instead for now
-    any-nix-shell
-    atool
-    bat
-    broot
-    cargo
-    ccls
-    cmake
-    cmake-format
-    cmake-language-server
-    coursier
-    csvlens
-    curl
-    d2
-    eza
-    fd
-    fx
-    fzf
-    gdu
-    gh
-    ghc
-    git-gone
-    gitui
-    go
-    gopls
-    haskell-language-server
-    hey
-    hoogle
-    httpie
-    hyperfine
-    jdk
-    jless
-    jq
-    just
-    killall
-    kubernetes-helm
-    lazygit
-    librsvg
-    lua-language-server
-    manix
-    marp-cli
-    mdformat
-    metals
-    minikube
-    nil
-    nix-output-monitor
-    nixfmt
-    nixpkgs-fmt
-    nodePackages.bash-language-server
-    nodePackages.live-server
-    nodePackages.prettier
-    nodePackages.typescript-language-server
-    nodejs
-    pandoc
-    postgresql
-    prettierd
-    python-with-packages
-    racket
-    restic
-    ripgrep
-    ruff
-    ruff-lsp
-    sbt
-    scala-cli
-    stack
-    statix
-    stylua
-    texlab
-    tig
-    tldr
-    tree
-    treefmt
-    typst
-    typst-live
-    typst-lsp
-    typstfmt
-    vale
-    vifm
-    visualvm
-    vscode-langservers-extracted
-    watchexec
-    wget
-    yamlfmt
-    yarn
-    yazi
-    zoxide
-  ];
+      formatters = with pkgs; [
+        cmake-format
+        nixfmt-rfc-style
+        nodePackages.prettier
+        prettierd
+        python311Packages.mdformat
+        ruff
+        stylua
+        treefmt
+        yamlfmt
+      ];
+      lsps = with pkgs; [
+        ccls
+        cmake-language-server
+        gopls
+        haskell-language-server
+        lua-language-server
+        metals
+        nil
+        nodePackages.bash-language-server
+        nodePackages.typescript-language-server
+        ruff-lsp
+        vscode-langservers-extracted
+      ];
+      nix-tools = with pkgs; [
+        any-nix-shell
+        manix
+        nix-output-monitor
+      ];
+      lang-tools = with pkgs; [
+        cargo
+        cmake
+        coursier
+        ghc
+        go
+        haskellPackages.hoogle
+        jdk
+        nodejs
+        python-with-packages
+        racket
+        sbt
+        scala-cli
+        stack
+        texlab
+        visualvm
+        yarn
+      ];
+      git-tools = with pkgs; [
+        gh
+        git-gone
+        gitui
+        lazygit
+      ];
+    in
+    linters
+    ++ formatters
+    ++ lsps
+    ++ nix-tools
+    ++ lang-tools
+    ++ git-tools
+    ++ (with pkgs; [
+      amber
+      atool
+      bat
+      broot
+      csvlens
+      curl
+      d2
+      eza
+      fd
+      fx
+      fzf
+      gdu # ncdu breaks often, use gdu instead for now
+      hey
+      httpie
+      hyperfine
+      jless
+      jq
+      just
+      killall
+      marp-cli
+      nodePackages.live-server
+      pandoc
+      restic
+      ripgrep
+      tig
+      tldr
+      tree
+      vifm
+      watchexec
+      wget
+      yazi
+      zoxide
+    ]);
 
   programs.git = {
     enable = true;
-    userEmail = pkgs.lib.mkDefault
-      "christophbunte@gmail.com"; # we might want to override this
+    userEmail = pkgs.lib.mkDefault "christophbunte@gmail.com"; # we might want to override this
     userName = "Christoph Bunte";
     diff-so-fancy.enable = true;
-    extraConfig = { init.defaultBranch = "main"; };
+    extraConfig = {
+      init.defaultBranch = "main";
+    };
   };
 
-  programs.java = { enable = true; };
+  programs.java = {
+    enable = true;
+  };
 
-  programs.zsh = { enable = true; };
+  programs.zsh = {
+    enable = true;
+  };
 
   programs.htop.enable = true;
   programs.htop.settings.show_program_path = true;

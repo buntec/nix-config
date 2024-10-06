@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   nix.extraOptions = ''
     experimental-features = nix-command flakes
     extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=
@@ -44,18 +45,20 @@
 
   # `home-manager` currently has issues adding them to `~/Applications`
   # Issue: https://github.com/nix-community/home-manager/issues/1341
-  environment.systemPackages = with pkgs;
-    [
-      # kitty
-    ];
+  environment.systemPackages = with pkgs; [
+    # kitty
+  ];
 
   # Fonts
-  fonts.packages = with pkgs;
-    [
-      (nerdfonts.override {
-        fonts = [ "FiraCode" "JetBrainsMono" "DroidSansMono" ];
-      })
-    ];
+  fonts.packages = with pkgs; [
+    (nerdfonts.override {
+      fonts = [
+        "FiraCode"
+        "JetBrainsMono"
+        "DroidSansMono"
+      ];
+    })
+  ];
 
   homebrew = {
     enable = true;
@@ -63,6 +66,9 @@
       autoUpdate = true;
       cleanup = "zap";
     };
+    brews = [
+      "pixi"
+    ];
     casks = [
       "discord"
       "docker"
@@ -74,7 +80,6 @@
       "skim"
       "slack"
       "spotify"
-      "telegram"
       "whatsapp"
     ];
   };
