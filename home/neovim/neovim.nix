@@ -203,7 +203,11 @@
         ts-context = {
           plugin = vimPlugins.nvim-treesitter-context;
           type = "lua";
-          config = "";
+          config = ''
+            require'treesitter-context'.setup{
+              enable = false
+            }
+          '';
         };
 
       in
