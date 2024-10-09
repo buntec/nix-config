@@ -37,6 +37,19 @@
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     kauz.url = "github:buntec/kauz";
+
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+
   };
 
   outputs =
@@ -55,6 +68,9 @@
       git-summary,
       treefmt-nix,
       kauz,
+      nix-homebrew,
+      homebrew-core,
+      homebrew-cask,
       ...
     }:
     let
@@ -194,6 +210,19 @@
               { nixpkgs.pkgs = pkgsBySystem.${machine.system}; }
               ./system/configuration-darwin.nix
               ./system/configuration-${machine.name}.nix
+              nix-homebrew.darwinModules.nix-homebrew
+              {
+                nix-homebrew = {
+                  inherit (machine) user;
+                  enable = true;
+                  enableRosetta = true;
+                  taps = {
+                    "homebrew/homebrew-core" = homebrew-core;
+                    "homebrew/homebrew-cask" = homebrew-cask;
+                  };
+                  autoMigrate = true; # Automatically migrate existing Homebrew installations
+                };
+              }
             ];
           };
         }) darwinMachines
