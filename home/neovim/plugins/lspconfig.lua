@@ -20,6 +20,7 @@ lsp_config.ts_ls.setup({})
 -- lsp_config.ccls.setup({}) -- clangd works much better than ccls!
 lsp_config.clangd.setup({})
 lsp_config.cmake.setup({})
+lsp_config.taplo.setup({})
 
 lsp_config.typst_lsp.setup({
   settings = {

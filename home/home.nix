@@ -110,6 +110,7 @@
         sbt
         scala-cli
         stack
+        taplo
         texlab
         visualvm
         yarn
