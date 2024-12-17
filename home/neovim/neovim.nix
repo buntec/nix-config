@@ -72,6 +72,12 @@
           { plugin = vim-vsnip; }
         ];
 
+        blink-cmp = {
+          plugin = vimPlugins.blink-cmp;
+          type = "lua";
+          config = builtins.readFile ./plugins/blink-cmp.lua;
+        };
+
         nvim-metals = {
           plugin = vimPlugins.nvim-metals;
           type = "lua";
@@ -214,7 +220,8 @@
       lib.lists.flatten [
         # navic
         # nvim-notify
-        cmp
+        # cmp
+        blink-cmp
         conform-nvim
         diffview
         dressing
