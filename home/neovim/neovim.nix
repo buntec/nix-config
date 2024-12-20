@@ -148,12 +148,6 @@
           plugin = vimPlugins.vim-tmux-navigator;
         };
 
-        markdown-preview = {
-          plugin = vimPlugins.markdown-preview-nvim;
-          type = "lua";
-          config = "";
-        };
-
         ts-context = {
           plugin = vimPlugins.nvim-treesitter-context;
           type = "lua";
@@ -161,6 +155,15 @@
             require'treesitter-context'.setup{
               enable = false
             }
+          '';
+        };
+
+        grug-far = {
+          plugin = vimPlugins.grug-far-nvim;
+          type = "lua";
+          config = ''
+            require('grug-far').setup({
+            });
           '';
         };
 
@@ -172,12 +175,12 @@
         fidget
         fzf-lua
         gitsigns
+        grug-far
         haskell-tools
         lsp-kind
         lspconfig
         lualine
         lush
-        markdown-preview
         neogit
         nvim-lint
         nvim-metals
