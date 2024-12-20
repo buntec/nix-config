@@ -10,15 +10,16 @@
 
     plugins =
       let
-
         treesitter = {
           plugin = vimPlugins.nvim-treesitter.withAllGrammars;
           type = "lua";
           config = builtins.readFile ./plugins/treesitter.lua;
         };
 
-        dressing = {
-          plugin = vimPlugins.dressing-nvim;
+        fzf-lua = {
+          plugin = vimPlugins.fzf-lua;
+          type = "lua";
+          config = builtins.readFile ./plugins/fzf-lua.lua;
         };
 
         diffview = {
@@ -43,34 +44,17 @@
           plugin = vimPlugins.plenary-nvim;
         };
 
-        telescope = [
-          {
-            plugin = vimPlugins.telescope-nvim;
-            type = "lua";
-            config = builtins.readFile ./plugins/telescope.lua;
-          }
-          { plugin = vimPlugins.telescope-symbols-nvim; }
-        ];
-
         lspconfig = {
           plugin = vimPlugins.nvim-lspconfig;
           type = "lua";
           config = builtins.readFile ./plugins/lspconfig.lua;
         };
 
-        cmp = with vimPlugins; [
-          {
-            plugin = nvim-cmp;
-            type = "lua";
-            config = builtins.readFile ./plugins/cmp.lua;
-          }
-          { plugin = cmp-buffer; }
-          { plugin = cmp-path; }
-          { plugin = cmp-vsnip; }
-          { plugin = cmp-nvim-lsp; }
-          { plugin = cmp-nvim-lsp-signature-help; }
-          { plugin = vim-vsnip; }
-        ];
+        snacks = {
+          plugin = vimPlugins.snacks-nvim;
+          type = "lua";
+          config = builtins.readFile ./plugins/snacks.lua;
+        };
 
         blink-cmp = {
           plugin = vimPlugins.blink-cmp;
@@ -87,21 +71,9 @@
           '';
         };
 
-        trouble = {
-          plugin = vimPlugins.trouble-nvim;
-          type = "lua";
-          config = builtins.readFile ./plugins/trouble.lua;
-        };
-
         lsp-kind = {
           plugin = vimPlugins.lspkind-nvim;
           type = "lua";
-        };
-
-        indent-blank-line = {
-          plugin = vimPlugins.indent-blankline-nvim;
-          type = "lua";
-          config = builtins.readFile ./plugins/indent-blankline.lua;
         };
 
         which-key = {
@@ -150,24 +122,6 @@
           config = builtins.readFile ./plugins/haskell-tools.lua;
         };
 
-        telescope_hoogle = {
-          plugin = vimPlugins.telescope_hoogle;
-          type = "lua";
-        };
-
-        telescope-manix = {
-          plugin = vimPlugins.telescope-manix;
-          type = "lua";
-        };
-
-        nvim-notify = {
-          plugin = vimPlugins.nvim-notify;
-          type = "lua";
-          config = ''
-            vim.notify = require("notify")
-          '';
-        };
-
         fidget = {
           plugin = vimPlugins.fidget-nvim;
           type = "lua";
@@ -200,12 +154,6 @@
           config = "";
         };
 
-        navic = {
-          plugin = vimPlugins.nvim-navic;
-          type = "lua";
-          config = "";
-        };
-
         ts-context = {
           plugin = vimPlugins.nvim-treesitter-context;
           type = "lua";
@@ -218,17 +166,13 @@
 
       in
       lib.lists.flatten [
-        # navic
-        # nvim-notify
-        # cmp
         blink-cmp
         conform-nvim
         diffview
-        dressing
         fidget
+        fzf-lua
         gitsigns
         haskell-tools
-        indent-blank-line
         lsp-kind
         lspconfig
         lualine
@@ -239,13 +183,10 @@
         nvim-metals
         oil
         plenary
+        snacks
         stylelint
         surround
-        telescope
-        telescope-manix
-        telescope_hoogle
         treesitter
-        trouble
         ts-context
         vim-tmux-nav
         web-devicons
