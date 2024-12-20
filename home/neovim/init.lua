@@ -64,9 +64,15 @@ map("n", "<leader>ff", fzf.files, { desc = "find files" })
 
 map("n", "<leader>gf", fzf.git_files, { desc = "find files (git)" })
 
+map("n", "<leader>fh", fzf.oldfiles, { desc = "opened files history" })
+
 map("n", "<leader>lg", fzf.live_grep, { desc = "live grep" })
 
 map("n", "<leader>fs", fzf.grep_cword, { desc = "grep word under cursor" })
+
+map("n", "<leader>sh", fzf.search_history, { desc = "search history" })
+
+map("n", "<leader>re", fzf.resume, { desc = "resume last command/query" })
 
 map("n", "<leader>bu", fzf.buffers, { desc = "buffers" })
 
@@ -127,6 +133,8 @@ map("n", "<localleader>s", fzf.lsp_document_symbols, { desc = "lsp document symb
 map("n", "<localleader>dw", fzf.diagnostics_workspace, { desc = "toggle workspace diagnostics" })
 
 map("n", "<localleader>dd", fzf.diagnostics_document, { desc = "toggle document diagnostics" })
+
+map("n", "<leader>ca", fzf.lsp_code_actions, { desc = "lsp code actions" })
 
 -- map({ "n", "v" }, "<localleader>f", vim.lsp.buf.format, { desc = "lsp format" }) -- we prefer Conform
 

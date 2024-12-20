@@ -25,7 +25,7 @@ fzf.setup({
   actions = {
     files = {
       true, -- inherit defaults
-      ["ctrl-i"] = actions.toggle_ignore,
+      -- ["ctrl-i"] = actions.toggle_ignore,
       ["ctrl-h"] = actions.toggle_hidden,
     },
   },
