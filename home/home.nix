@@ -57,8 +57,6 @@
           matplotlib
           numpy
           pandas
-          python-lsp-ruff
-          python-lsp-server
           requests
           scipy
         ];
@@ -69,10 +67,10 @@
       ];
       formatters = with pkgs; [
         cmake-format
+        mdformat
         nixfmt-rfc-style
-        nodePackages.prettier
+        nodePackages.prettier # is this really needed on top of prettierd?
         prettierd
-        python311Packages.mdformat
         ruff
         stylua
         treefmt
@@ -98,6 +96,7 @@
       ];
       lang-tools = with pkgs; [
         cargo
+        clang-tools
         cmake
         coursier
         ghc
@@ -120,6 +119,19 @@
         git-gone
         gitui
         lazygit
+        tig
+      ];
+      json-tools = with pkgs; [
+        fx
+        jless
+        jq
+      ];
+      network-tools = with pkgs; [
+        curl
+        hey
+        # httpie # xh is faster alternative in rust
+        wget
+        xh
       ];
     in
     linters
@@ -128,39 +140,33 @@
     ++ nix-tools
     ++ lang-tools
     ++ git-tools
+    ++ json-tools
+    ++ network-tools
     ++ (with pkgs; [
-      amber
-      atool
-      bat
-      broot
-      csvlens
-      curl
-      d2
-      eza
-      fd
-      fx
-      fzf
+      amber # search & replace - https://github.com/dalance/amber
+      ast-grep # https://github.com/ast-grep/ast-grep
+      atool # archive tool - https://www.nongnu.org/atool/
+      bat # better cat - https://github.com/sharkdp/bat
+      broot # https://dystroy.org/broot/
+      csvlens # https://github.com/YS-L/csvlens
+      d2 # https://github.com/terrastruct/d2
+      eza # better ls - https://github.com/eza-community/eza
+      fd # better find - https://github.com/sharkdp/fd
+      fzf # https://github.com/junegunn/fzf
       gdu # ncdu breaks often, use gdu instead for now
-      hey
-      httpie
-      hyperfine
-      jless
-      jq
-      just
+      hyperfine # https://github.com/sharkdp/hyperfine
+      just # https://github.com/casey/just
       killall
-      marp-cli
+      marp-cli # https://github.com/marp-team/marp-cli
       nodePackages.live-server
-      pandoc
-      restic
-      ripgrep
-      tig
-      tldr
-      tree
-      vifm
-      watchexec
-      wget
-      yazi
-      zoxide
+      pandoc # https://github.com/jgm/pandoc
+      restic # backup - https://github.com/restic/restic
+      ripgrep # better grep - https://github.com/BurntSushi/ripgrep
+      tldr # https://github.com/tldr-pages/tldr
+      tree # https://oldmanprogrammer.net/source.php?dir=projects/tree
+      watchexec # https://watchexec.github.io/
+      yazi # https://github.com/sxyazi/yazi
+      zoxide # smart cd - https://github.com/ajeetdsouza/zoxide
     ]);
 
   programs.git = {
