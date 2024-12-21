@@ -146,7 +146,17 @@
 
         # https://github.com/folke/snacks.nvim
         snacks = {
-          plugin = vimPlugins.snacks-nvim;
+          plugin = vimUtils.buildVimPlugin {
+            pname = "snacks.nvim";
+            version = "2024-12-09";
+            src = fetchFromGitHub {
+              owner = "folke";
+              repo = "snacks.nvim";
+              rev = "98df370703b3c47a297988f3e55ce99628639590";
+              sha256 = "sha256-Gvd2QfAgrpRxJvZ41LAOPRrDGwVdeZUb8BGrzzcpcHU=";
+            };
+            meta.homepage = "https://github.com/folke/snacks.nvim/";
+          };
           type = "lua";
           config = builtins.readFile ./plugins/snacks.lua;
         };
@@ -156,15 +166,6 @@
           type = "lua";
           config = ''
             require("nvim-surround").setup({})
-          '';
-        };
-
-        # decorate scrollbar
-        satellite = {
-          plugin = vimPlugins.satellite-nvim;
-          type = "lua";
-          config = ''
-            require('satellite').setup({})
           '';
         };
 
@@ -226,7 +227,6 @@
         nvim-metals
         oil
         plenary
-        satellite
         snacks
         stylelint
         surround

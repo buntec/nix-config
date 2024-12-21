@@ -7,8 +7,17 @@ snacks.setup({
   indent = { enabled = true },
   quickfile = { enabled = true },
   -- notifier = { enabled = true },
-  scope = { enabled = true },
-  scroll = { enabled = true },
+  scope = {
+    enabled = true,
+  },
+  scroll = {
+    enabled = true,
+    animate = {
+      duration = { step = 10, total = 150 },
+      easing = "inQuad",
+    },
+  },
   words = { enabled = true },
+  toggle = { enabled = true },
   statuscolumn = { enabled = true },
 })

@@ -56,9 +56,11 @@ local fzf = require("fzf-lua")
 local conform = require("conform")
 local tscontext = require("treesitter-context")
 
+-- stylua: ignore start
+
 map("n", "<leader>cf", "<cmd>edit $MYVIMRC<CR>", { desc = "open init.lua" })
 
-map("n", "<leader>-", oil.open, { desc = "Browse parent directory" })
+map("n", "<leader>-", oil.open, { desc = "browse parent directory" })
 
 map("n", "<leader>ctx", tscontext.toggle, { desc = "toggle treesitter context" })
 
@@ -93,23 +95,31 @@ map("n", "<leader>cs", fzf.colorschemes, { desc = "colorschemes" })
 -- Git
 
 map("n", "<leader>gc", fzf.git_commits, { desc = "git commits" })
-map("n", "<leader>gbc", fzf.git_bcommits, { desc = "git commit log (buffer)" })
+
+map("n", "<leader>gl", fzf.git_bcommits, { desc = "git commit log (buffer)" })
+
 map("n", "<leader>gb", fzf.git_branches, { desc = "git branches" })
+
 map("n", "<leader>gs", fzf.git_status, { desc = "git status" })
 
-map("n", "<leader>nh", function()
-  gitsigns.nav_hunk("next")
-end, { desc = "jump to next hunk in current buffer" })
+map("n", "<leader>hn", function() gitsigns.nav_hunk("next") end, { desc = "jump to next hunk in current buffer" })
 
-map("n", "<leader>ph", function()
-  gitsigns.nav_hunk("prev")
-end, { desc = "jump to previous hunk in current buffer" })
+map("n", "<leader>hp", function() gitsigns.nav_hunk("prev") end, { desc = "jump to previous hunk in current buffer" })
 
-map("n", "<leader>grh", gitsigns.reset_hunk, { desc = "reset hunk" })
-map("n", "<leader>gph", gitsigns.preview_hunk, { desc = "preview hunk" })
-map("n", "<leader>bl", gitsigns.toggle_current_line_blame, { desc = "blame line" })
+map("n", "<leader>hv", gitsigns.preview_hunk, { desc = "preview hunk" })
+
+map("n", "<leader>hs", gitsigns.stage_hunk, { desc = "stage hunk" })
+
+map("n", "<leader>hrx", gitsigns.reset_hunk, { desc = "reset hunk" })
+
+map("n", "<leader>brx", gitsigns.reset_buffer, { desc = "reset buffer" })
+
+map("n", "<leader>lb", gitsigns.toggle_current_line_blame, { desc = "blame line" })
 
 map("n", "<leader>ng", "<cmd>Neogit<cr>", { desc = "open Neogit" })
+
+map("n", "<leader>gg", function() Snacks.lazygit() end, { desc = "open Lazygit" })
+
 map("n", "<leader>dv", "<cmd>DiffviewOpen<cr>", { desc = "open Diffview" })
 
 -- LSP
@@ -134,11 +144,10 @@ map("n", "<localleader>s", fzf.lsp_document_symbols, { desc = "lsp document symb
 
 map("n", "<leader>ca", fzf.lsp_code_actions, { desc = "lsp code actions" })
 
+map({ "n", "v" }, "<localleader>f", function() conform.format({ async = true, lsp_format = "fallback" }) end, { desc = "format buffer" })
 -- map({ "n", "v" }, "<localleader>f", vim.lsp.buf.format, { desc = "lsp format" }) -- we prefer Conform
 
-map({ "n", "v" }, "<localleader>f", function()
-  conform.format({ async = true, lsp_format = "fallback" })
-end, { desc = "format buffer" })
+-- stylua: ignore end
 
 -- enable spell checking for text files
 local spell_augroup = vim.api.nvim_create_augroup("spell", { clear = true })
