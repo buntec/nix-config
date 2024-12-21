@@ -10,18 +10,22 @@
 
     plugins =
       let
-        treesitter = {
-          plugin = vimPlugins.nvim-treesitter.withAllGrammars;
+
+        # https://github.com/Saghen/blink.cmp
+        blink-cmp = {
+          plugin = vimPlugins.blink-cmp;
           type = "lua";
-          config = builtins.readFile ./plugins/treesitter.lua;
+          config = builtins.readFile ./plugins/blink-cmp.lua;
         };
 
-        fzf-lua = {
-          plugin = vimPlugins.fzf-lua;
+        # https://github.com/stevearc/conform.nvim
+        conform = {
+          plugin = vimPlugins.conform-nvim;
           type = "lua";
-          config = builtins.readFile ./plugins/fzf-lua.lua;
+          config = builtins.readFile ./plugins/conform-nvim.lua;
         };
 
+        # https://github.com/sindrets/diffview.nvim
         diffview = {
           plugin = vimPlugins.diffview-nvim;
           type = "lua";
@@ -30,38 +34,95 @@
           '';
         };
 
-        web-devicons = {
-          plugin = vimPlugins.nvim-web-devicons;
-        };
-
-        oil = {
-          plugin = vimPlugins.oil-nvim;
+        # https://github.com/stevearc/dressing.nvim
+        dressing = {
+          plugin = vimPlugins.dressing-nvim;
           type = "lua";
-          config = builtins.readFile ./plugins/oil.lua;
+          config = ''
+            require("dressing").setup({})
+          '';
         };
 
-        plenary = {
-          plugin = vimPlugins.plenary-nvim;
+        # https://github.com/j-hui/fidget.nvim
+        fidget = {
+          plugin = vimPlugins.fidget-nvim;
+          type = "lua";
+          config = ''
+            require("fidget").setup({})
+          '';
         };
 
+        # https://github.com/ibhagwan/fzf-lua
+        fzf-lua = {
+          plugin = vimPlugins.fzf-lua;
+          type = "lua";
+          config = builtins.readFile ./plugins/fzf-lua.lua;
+        };
+
+        # https://github.com/lewis6991/gitsigns.nvim
+        gitsigns = {
+          plugin = vimPlugins.gitsigns-nvim;
+          type = "lua";
+          config = ''
+            require("gitsigns").setup({})
+          '';
+        };
+
+        # https://github.com/MagicDuck/grug-far.nvim
+        grug-far = {
+          plugin = vimPlugins.grug-far-nvim;
+          type = "lua";
+          config = ''
+            require('grug-far').setup({});
+          '';
+        };
+
+        # https://github.com/mrcjkb/haskell-tools.nvim
+        haskell-tools = {
+          plugin = vimPlugins.haskell-tools-nvim;
+          type = "lua";
+          config = builtins.readFile ./plugins/haskell-tools.lua;
+        };
+
+        # https://github.com/nvim-lualine/lualine.nvim
+        lualine = {
+          plugin = vimPlugins.lualine-nvim;
+          type = "lua";
+          config = builtins.readFile ./plugins/lualine.lua;
+        };
+
+        # https://github.com/rktjmp/lush.nvim
+        lush = {
+          plugin = vimPlugins.lush-nvim;
+          type = "lua";
+        };
+
+        # https://github.com/neovim/nvim-lspconfig
         lspconfig = {
           plugin = vimPlugins.nvim-lspconfig;
           type = "lua";
           config = builtins.readFile ./plugins/lspconfig.lua;
         };
 
-        snacks = {
-          plugin = vimPlugins.snacks-nvim;
+        # https://github.com/NeogitOrg/neogit
+        neogit = {
+          plugin = vimPlugins.neogit;
           type = "lua";
-          config = builtins.readFile ./plugins/snacks.lua;
+          config = ''
+            require('neogit').setup({})
+          '';
         };
 
-        blink-cmp = {
-          plugin = vimPlugins.blink-cmp;
+        # https://github.com/echasnovski/mini.icons
+        mini-icons = {
+          plugin = vimPlugins.mini-icons;
           type = "lua";
-          config = builtins.readFile ./plugins/blink-cmp.lua;
+          config = ''
+            require('mini.icons').setup({})
+          '';
         };
 
+        # https://github.com/scalameta/nvim-metals
         nvim-metals = {
           plugin = vimPlugins.nvim-metals;
           type = "lua";
@@ -71,29 +132,30 @@
           '';
         };
 
-        lsp-kind = {
-          plugin = vimPlugins.lspkind-nvim;
+        # https://github.com/mfussenegger/nvim-lint
+        nvim-lint = {
+          plugin = vimPlugins.nvim-lint;
           type = "lua";
+          config = builtins.readFile ./plugins/nvim-lint.lua;
         };
 
-        which-key = {
-          plugin = vimPlugins.which-key-nvim;
+        # https://github.com/stevearc/oil.nvim
+        oil = {
+          plugin = vimPlugins.oil-nvim;
           type = "lua";
-          config = builtins.readFile ./plugins/which-key.lua;
+          config = builtins.readFile ./plugins/oil.lua;
         };
 
-        gitsigns = {
-          plugin = vimPlugins.gitsigns-nvim;
-          type = "lua";
-          config = ''
-            require("gitsigns").setup()
-          '';
+        # https://github.com/nvim-lua/plenary.nvim
+        plenary = {
+          plugin = vimPlugins.plenary-nvim;
         };
 
-        lualine = {
-          plugin = vimPlugins.lualine-nvim;
+        # https://github.com/folke/snacks.nvim
+        snacks = {
+          plugin = vimPlugins.snacks-nvim;
           type = "lua";
-          config = builtins.readFile ./plugins/lualine.lua;
+          config = builtins.readFile ./plugins/snacks.lua;
         };
 
         surround = {
@@ -104,88 +166,75 @@
           '';
         };
 
-        nvim-lint = {
-          plugin = vimPlugins.nvim-lint;
-          type = "lua";
-          config = builtins.readFile ./plugins/nvim-lint.lua;
-        };
-
-        conform-nvim = {
-          plugin = vimPlugins.conform-nvim;
-          type = "lua";
-          config = builtins.readFile ./plugins/conform-nvim.lua;
-        };
-
-        haskell-tools = {
-          plugin = vimPlugins.haskell-tools-nvim;
-          type = "lua";
-          config = builtins.readFile ./plugins/haskell-tools.lua;
-        };
-
-        fidget = {
-          plugin = vimPlugins.fidget-nvim;
+        # decorate scrollbar
+        satellite = {
+          plugin = vimPlugins.satellite-nvim;
           type = "lua";
           config = ''
-            require("fidget").setup {}
+            require('satellite').setup({})
           '';
         };
 
-        lush = {
-          plugin = vimPlugins.lush-nvim;
+        # https://github.com/nvim-treesitter/nvim-treesitter
+        treesitter = {
+          plugin = vimPlugins.nvim-treesitter.withAllGrammars;
           type = "lua";
+          config = builtins.readFile ./plugins/treesitter.lua;
         };
 
-        neogit = {
-          plugin = vimPlugins.neogit;
-          type = "lua";
-          config = ''
-            local neogit = require('neogit')
-            neogit.setup {}
-          '';
-        };
-
-        vim-tmux-nav = {
-          plugin = vimPlugins.vim-tmux-navigator;
-        };
-
+        # https://github.com/nvim-treesitter/nvim-treesitter-context
         ts-context = {
           plugin = vimPlugins.nvim-treesitter-context;
           type = "lua";
           config = ''
-            require'treesitter-context'.setup{
+            require'treesitter-context'.setup({
               enable = false
-            }
+            })
           '';
         };
 
-        grug-far = {
-          plugin = vimPlugins.grug-far-nvim;
+        # https://github.com/christoomey/vim-tmux-navigator
+        vim-tmux-nav = {
+          plugin = vimPlugins.vim-tmux-navigator;
+        };
+
+        # https://github.com/nvim-tree/nvim-web-devicons
+        web-devicons = {
+          plugin = vimPlugins.nvim-web-devicons;
           type = "lua";
           config = ''
-            require('grug-far').setup({
-            });
+            require'nvim-web-devicons'.setup({})
           '';
+        };
+
+        # https://github.com/folke/which-key.nvim
+        which-key = {
+          plugin = vimPlugins.which-key-nvim;
+          type = "lua";
+          config = builtins.readFile ./plugins/which-key.lua;
         };
 
       in
       lib.lists.flatten [
         blink-cmp
-        conform-nvim
+        conform
         diffview
+        dressing
         fidget
         fzf-lua
         gitsigns
         grug-far
         haskell-tools
-        lsp-kind
         lspconfig
         lualine
         lush
+        mini-icons
         neogit
         nvim-lint
         nvim-metals
         oil
         plenary
+        satellite
         snacks
         stylelint
         surround

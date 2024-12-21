@@ -24,6 +24,8 @@ global_opt.splitright = true -- Put new windows right of current
 global_opt.termguicolors = true -- True color support
 global_opt.wildmode = "list:longest" -- Command-line completion mode
 global_opt.clipboard = "unnamedplus"
+global_opt.timeout = true
+global_opt.timeoutlen = 500 -- deafult is 1000
 
 local indent = 2
 
@@ -129,10 +131,6 @@ map("n", "<localleader>r", fzf.lsp_references, { desc = "lsp references" })
 
 map("n", "<localleader>s", fzf.lsp_document_symbols, { desc = "lsp document symbols" })
 --map("n", "<localleader>s", vim.lsp.buf.document_symbol, { desc = "lsp document symbol" })
-
-map("n", "<localleader>dw", fzf.diagnostics_workspace, { desc = "toggle workspace diagnostics" })
-
-map("n", "<localleader>dd", fzf.diagnostics_document, { desc = "toggle document diagnostics" })
 
 map("n", "<leader>ca", fzf.lsp_code_actions, { desc = "lsp code actions" })
 
