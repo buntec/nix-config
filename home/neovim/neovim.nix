@@ -77,13 +77,6 @@
           '';
         };
 
-        # https://github.com/mrcjkb/haskell-tools.nvim
-        haskell-tools = {
-          plugin = vimPlugins.haskell-tools-nvim;
-          type = "lua";
-          config = builtins.readFile ./plugins/haskell-tools.lua;
-        };
-
         # https://github.com/nvim-lualine/lualine.nvim
         lualine = {
           plugin = vimPlugins.lualine-nvim;
@@ -224,7 +217,6 @@
         fzf-lua
         gitsigns
         grug-far
-        haskell-tools
         lspconfig
         lualine
         lush

@@ -63,6 +63,7 @@
       python-with-packages = pkgs.python3.withPackages python-packages;
       linters = with pkgs; [
         statix
+        stylelint
         vale
       ];
       formatters = with pkgs; [
