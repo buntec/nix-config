@@ -130,8 +130,11 @@ map("n", "<localleader>h", vim.lsp.buf.hover, { desc = "lsp hover" })
 
 map("n", "<localleader>m", vim.lsp.buf.rename, { desc = "lsp rename" })
 
-map("n", "<localleader>d", fzf.lsp_definitions, { desc = "lsp definitions" })
--- map("n", "<localleader>d", vim.lsp.buf.definition, { desc = "lsp definition" })
+map("n", "<localleader>d", vim.lsp.buf.definition, { desc = "lsp definition" })
+
+-- typically there should only be one definition, and we don't want to open fzf in that case
+-- we therefore map this to `k` for those rare cases where it makes sense and use `d` for the far more common scenario
+map("n", "<localleader>k", fzf.lsp_definitions, { desc = "lsp definitions" })
 
 map("n", "<localleader>i", fzf.lsp_implementations, { desc = "lsp implementation" })
 --map("n", "<localleader>i", vim.lsp.buf.implementation, { desc = "lsp implementation" })
