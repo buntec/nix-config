@@ -3,6 +3,7 @@ local actions = require("fzf-lua.actions")
 
 fzf.setup({
   winopts = {
+    fullscreen = true,
     height = 0.95,
     width = 0.95,
     preview = {
@@ -28,5 +29,8 @@ fzf.setup({
       -- ["ctrl-i"] = actions.toggle_ignore,
       ["ctrl-h"] = actions.toggle_hidden,
     },
+  },
+  fzf_opts = {
+    ["--cycle"] = true,
   },
 })
