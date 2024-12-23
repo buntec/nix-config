@@ -13,8 +13,8 @@ snacks.setup({
   scroll = {
     enabled = true,
     animate = {
-      duration = { step = 10, total = 150 },
-      easing = "inQuad",
+      duration = { step = 10, total = 100 },
+      easing = "linear",
     },
   },
   words = { enabled = true },
