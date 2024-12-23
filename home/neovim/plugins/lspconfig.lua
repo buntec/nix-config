@@ -8,21 +8,17 @@ capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 lsp_config.util.default_config =
   vim.tbl_extend("force", lsp_config.util.default_config, { capabilities = capabilities })
 
--- NOTE: haskell-language-server is managed by haskell-tools.nvim
--- lsp_config.hls.setup {}
-
--- NOTE: scala metals is managed by nvim-metals
--- lsp_config.metals.setup {}
-
+-- lsp_config.metals.setup {} -- NOTE: scala metals is managed by nvim-metals
 lsp_config.bashls.setup({})
-lsp_config.gopls.setup({})
-lsp_config.html.setup({})
-lsp_config.pylsp.setup({})
-lsp_config.smithy_ls.setup({})
-lsp_config.ts_ls.setup({})
 lsp_config.clangd.setup({})
 lsp_config.cmake.setup({})
+lsp_config.gopls.setup({})
+lsp_config.hls.setup({})
+lsp_config.html.setup({})
+lsp_config.pyright.setup({})
+lsp_config.smithy_ls.setup({})
 lsp_config.taplo.setup({})
+lsp_config.ts_ls.setup({})
 
 lsp_config.nil_ls.setup({
   settings = {
