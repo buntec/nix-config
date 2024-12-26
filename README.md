@@ -24,19 +24,18 @@ sudo nix run .#rebuild-thinkpad-x1
 4. Activate home-manager:
 
 ```bash
-sudo nix run .#hm-switch-thinkpad-x1
+nix run .#hm-switch-thinkpad-x1
 ```
 
-### Notes: 
+### Notes:
 
-On a Thinkpad X1 you might have to remove the line 
+On a Thinkpad X1 you might have to remove the line
 
 ```
 hardware.video.hidpi.enable = lib.mkDefault true;
 ```
 
 from `hardware-configuration.nix` if `nixos-rebuild` complains about this option having no effect.
-
 
 ## Fresh macOS install
 
@@ -45,16 +44,19 @@ from `hardware-configuration.nix` if `nixos-rebuild` complains about this option
 To bootstrap a fresh macOS install, follow these steps:
 
 1. Install Homebrew (only needed for managing GUI apps via casks)
+
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 2. Install Nix:
+
 ```bash
 curl -L https://nixos.org/nix/install | sh
 ```
 
 3. Enable flakes
+
 ```bash
 mkdir -p ~/.config/nix
 cat <<EOF > ~/.config/nix/nix.conf
@@ -63,11 +65,13 @@ EOF
 ```
 
 4. (Probably no longer needed.) To work around this [issue](https://github.com/LnL7/nix-darwin/issues/149)
+
 ```bash
 sudo mv /etc/nix/nix.conf /etc/nix/.nix-darwin.bkp.nix.conf
 ```
 
 5. Clone this repo, `cd` into it, then build and activate:
+
 ```bash
 nix run .#rebuild-macbook-pro-m1 # nix-darwin
 nix run .#hm-switch-macbook-pro-m1 # home-manager
@@ -76,6 +80,7 @@ nix run .#hm-switch-macbook-pro-m1 # home-manager
 ## Migrating an existing macOS install to Nix
 
 1. Uninstall Homebrew:
+
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
 ```

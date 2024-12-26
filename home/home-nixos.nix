@@ -23,7 +23,4 @@
 
   home.packages = with pkgs; [ docker ];
 
-  programs.kitty.extraConfig = ''
-    hide_window_decorations yes
-  '';
 }
