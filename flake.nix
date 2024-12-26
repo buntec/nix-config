@@ -93,6 +93,11 @@
           user = "christophbunte";
           system = flake-utils.lib.system.x86_64-darwin;
         }
+        {
+          name = "macbook-pro-m1-nixos";
+          user = "christophbunte";
+          system = flake-utils.lib.system.aarch64-linux;
+        }
       ];
 
       isDarwin = system: (builtins.match ".*darwin" system) != null;

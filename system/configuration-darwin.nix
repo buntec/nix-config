@@ -76,6 +76,7 @@
       "skim"
       "slack"
       "spotify"
+      "vmware-fusion"
       "whatsapp"
     ];
   };
