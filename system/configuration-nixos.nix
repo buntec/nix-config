@@ -61,8 +61,6 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -91,13 +89,11 @@
     ];
     packages = with pkgs; [
       firefox
-      keepassxc
-      brave
-      spotify
-      discord
-      telegram-desktop
-      whatsapp-for-linux
-      #  thunderbird
+      # keepassxc
+      # spotify
+      # discord
+      # whatsapp-for-linux
+      # thunderbird
     ];
   };
 
