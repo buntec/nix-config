@@ -95,7 +95,7 @@
         }
         {
           name = "macbook-pro-m1-nixos";
-          user = "christophbunte";
+          user = "buntec";
           system = flake-utils.lib.system.aarch64-linux;
         }
       ];
