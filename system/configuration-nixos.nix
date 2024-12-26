@@ -46,10 +46,13 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    # keymaps
-    layout = "us";
-    xkb.options = "ctrl:nocaps";
-    xkb.variant = "";
+
+    xkb = {
+      layout = "us";
+      options = "ctrl:nocaps";
+      variant = "";
+    };
+
     # Enable the GNOME Desktop Environment.
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
