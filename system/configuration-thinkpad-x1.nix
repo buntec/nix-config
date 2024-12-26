@@ -6,6 +6,11 @@
 
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
+  # Setup keyfile
+  boot.initrd.secrets = {
+    "/crypto_keyfile.bin" = null;
+  };
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
