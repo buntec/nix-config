@@ -44,18 +44,15 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  services.xserver.xkbOptions = "ctrl:nocaps";
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
   services.xserver = {
+    enable = true;
+    # keymaps
     layout = "us";
-    xkbVariant = "";
+    xkb.options = "ctrl:nocaps";
+    xkb.variant = "";
+    # Enable the GNOME Desktop Environment.
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
   };
 
   # Enable CUPS to print documents.
@@ -115,13 +112,9 @@
   # Fonts
   fonts.fontDir.enable = true;
   fonts.packages = with pkgs; [
-    (nerdfonts.override {
-      fonts = [
-        "FiraCode"
-        "JetBrainsMono"
-        "DroidSansMono"
-      ];
-    })
+    nerd-fonts.fira-code
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.droid-sans-mono
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
