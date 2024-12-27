@@ -20,7 +20,6 @@
     ];
     extraConfig = ''
       set -g default-command "exec ${pkgs.fish}/bin/fish"
-      set -g set-clipboard on
       ${builtins.readFile ./extra.conf}
     '';
   };
