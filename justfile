@@ -1,5 +1,8 @@
 host := `hostname`
 
+light := 'light'
+dark := 'dark'
+
 # list recipes
 default:
     just --list
@@ -11,8 +14,8 @@ nixos-switch:
 
 # rebuild Home Manager config and switch
 [unix]
-hm-switch:
-    nix run .#hm-switch-{{ host }}
+hm-switch mode=light:
+    nix run .#hm-switch-{{ host }}-{{ mode }}
 
 # rebuild nix-darwin config and switch
 [macos]
