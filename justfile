@@ -1,7 +1,7 @@
 host := `hostname`
 
-light := 'light'
 dark := 'dark'
+light := 'light'
 
 # list recipes
 default:
@@ -21,3 +21,8 @@ hm-switch mode=light:
 [macos]
 nix-darwin-switch:
     nix run .#rebuild-{{ host }}
+
+# clean up by removing old generations etc.
+[unix]
+collect-garbage:
+  nix-collect-garbage -d
