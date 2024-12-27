@@ -71,12 +71,14 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    git
-    clang
+    curl
     gcc
+    git
     gnomeExtensions.just-perfection
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim # Do not forget to add an editor to edit configuration.nix!
+    wget
     wl-clipboard
+    xclip
   ];
 
   # Shells
