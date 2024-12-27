@@ -8,4 +8,11 @@
     '';
   };
 
+  # Set display scaling to 200%; everything is just too small otherwise on a retina display
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      scaling-factor = 2;
+    };
+  };
+
 }
