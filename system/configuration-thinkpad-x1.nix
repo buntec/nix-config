@@ -4,6 +4,17 @@
 
   networking.hostName = "thinkpad-x1"; # Define your hostname.
 
+  users.users.buntec = {
+
+    packages = with pkgs; [
+      keepassxc
+      spotify
+      discord
+      whatsapp-for-linux
+    ];
+
+  };
+
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
   # Setup keyfile

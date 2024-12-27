@@ -65,14 +65,7 @@
       "networkmanager"
       "wheel"
     ];
-    packages = with pkgs; [
-      firefox
-      # keepassxc
-      # spotify
-      # discord
-      # whatsapp-for-linux
-      # thunderbird
-    ];
+    packages = with pkgs; [ firefox ];
   };
 
   # List packages installed in system profile. To search, run:
