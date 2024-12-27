@@ -242,12 +242,12 @@
               value = home-manager.lib.homeManagerConfiguration {
                 pkgs = pkgsBySystem.${machine.system};
                 extraSpecialArgs = {
-                  inherit inputs;
+                  inherit inputs mode;
                 };
                 modules = [
                   {
                     imports = [ kauz.homeModules.default ];
-                    kauz.light = mode == "light";
+                    kauz."light" = mode == "light";
                     home.username = machine.user;
                     home.homeDirectory =
                       if (isDarwin machine.system) then "/Users/${machine.user}" else "/home/${machine.user}";

@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  mode,
+  ...
+}:
 {
   programs.git = {
     extraConfig = {
@@ -18,6 +23,9 @@
       delay = lib.hm.gvariant.mkUint32 250;
       repeat-interval = lib.hm.gvariant.mkUint32 25;
       repeat = true;
+    };
+    "org/gnome/desktop/interface" = {
+      color-scheme = if (mode == "light") then "default" else "prefer-dark";
     };
   };
 
