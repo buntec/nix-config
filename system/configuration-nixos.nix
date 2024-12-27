@@ -78,7 +78,6 @@
     vim # Do not forget to add an editor to edit configuration.nix!
     wget
     wl-clipboard
-    xclip
   ];
 
   # Shells
