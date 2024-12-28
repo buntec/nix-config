@@ -16,4 +16,19 @@
 
   # Don't require password for sudo
   security.sudo.wheelNeedsPassword = false;
+
+  # https://github.com/NixOS/nixpkgs/issues/46529
+  fileSystems."/host" = {
+    device = ".host:/";
+    fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
+    options = [
+      "umask=22"
+      "uid=1000"
+      "gid=100"
+      "allow_other"
+      "defaults"
+      "auto_unmount"
+    ];
+  };
+
 }
