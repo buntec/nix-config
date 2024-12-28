@@ -75,6 +75,7 @@
     curl
     git
     gnomeExtensions.just-perfection
+    gnomeExtensions.hide-top-bar
     just
     vim # Do not forget to add an editor to edit configuration.nix!
     wget
