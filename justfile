@@ -34,7 +34,6 @@ remote-install-nixos ip:
     --build-on-remote \
     --generate-hardware-config nixos-generate-config ./system/hardware-configuration.nix \
     --target-host nixos@{{ ip }}
-
-[unix]
-copy-ssh-keys ip:
     rsync -av ~/.ssh/ {{ user }}@{{ ip }}:~/.ssh
+    rsync -av . {{ user }}@{{ ip }}:~/nix-config
+    ssh -v {{ user }}@{{ ip }} 'cd nix-config; just hm-switch'
