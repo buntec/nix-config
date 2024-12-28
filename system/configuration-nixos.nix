@@ -57,11 +57,15 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # cannot change passwords
+  users.mutableUsers = false;
+
   users.users.buntec = {
     isNormalUser = true;
     description = "Christoph Bunte";
+    hashedPassword = "$y$j9T$vPUnEtURmG07hGZC8VKAD0$cXGnyTRcCpemAF.mAsL0xdVY1bSLXkvQOvTMYfgpdI5";
     extraGroups = [
+      "docker"
       "networkmanager"
       "wheel"
     ];
@@ -72,7 +76,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     curl
-    gcc
     git
     gnomeExtensions.just-perfection
     vim # Do not forget to add an editor to edit configuration.nix!
@@ -105,7 +108,11 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = true;
-  services.openssh.settings.PermitRootLogin = "no";
+  # services.openssh.settings.PermitRootLogin = "no";
+
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILp/zFH8Vb2GDOt4xSgjzRTYUULvPuJdb6MUnWvX7jbX christophbunte@gmail.com"
+  ];
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

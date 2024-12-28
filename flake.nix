@@ -22,6 +22,9 @@
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
     devenv.url = "github:cachix/devenv";
     devenv.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -56,6 +59,7 @@
     inputs@{
       self,
       darwin,
+      disko,
       nixpkgs,
       nixpkgs-nixos,
       nixpkgs-darwin,
@@ -196,6 +200,7 @@
             };
             modules = [
               { nixpkgs.pkgs = pkgsBySystem.${machine.system}; }
+              disko.nixosModules.disko
               ./system/configuration-nixos.nix
               ./system/configuration-${machine.name}.nix
             ];
