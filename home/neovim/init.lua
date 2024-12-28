@@ -147,7 +147,7 @@ map("n", "<localleader>s", fzf.lsp_document_symbols, { desc = "lsp document symb
 
 map("n", "<leader>ca", fzf.lsp_code_actions, { desc = "lsp code actions" })
 
-map({ "n", "v" }, "<localleader>f", function() conform.format({ async = true, lsp_format = "fallback" }) end, { desc = "format buffer" })
+map({ "n", "v" }, "<localleader>f", function() conform.format({ async = true }) end, { desc = "format buffer (async)" })
 -- map({ "n", "v" }, "<localleader>f", vim.lsp.buf.format, { desc = "lsp format" }) -- we prefer Conform
 
 -- stylua: ignore end
