@@ -28,9 +28,6 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
-  networking.networkmanager.enable = true;
-
   # Set your time zone.
   time.timeZone = "Europe/Zurich";
 
@@ -78,6 +75,7 @@
     curl
     git
     gnomeExtensions.just-perfection
+    just
     vim # Do not forget to add an editor to edit configuration.nix!
     wget
     wl-clipboard
@@ -108,7 +106,6 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = true;
-  # services.openssh.settings.PermitRootLogin = "no";
 
   users.users.root.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILp/zFH8Vb2GDOt4xSgjzRTYUULvPuJdb6MUnWvX7jbX christophbunte@gmail.com"

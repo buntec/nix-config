@@ -1,8 +1,9 @@
 { config, pkgs, ... }:
 
 {
-
   networking.hostName = "thinkpad-x1"; # Define your hostname.
+
+  networking.networkmanager.enable = true;
 
   users.users.buntec = {
 
