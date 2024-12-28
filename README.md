@@ -118,10 +118,10 @@ nix run .#hm-switch-macbook-pro-m1 # home-manager
 
 6. Note down the IP address of the guest using `ip addr`.
 
-7. On the host, execute `just remote-install-nixos <ip of guest>`. This installs NixOS onto the VM via SSH using `nixos-anywhere`.
+7. On the host, execute `just remote-install-nixos <ip of guest>`. (You will be prompted for the password we set in Step 5.)
+   This installs NixOS onto the VM via SSH using `nixos-anywhere`.
 
 8. After automatic rebooting into a fresh NixOS install, login with your user, clone this repo from Github and run `just hm-switch`.
-   This builds and activates the Home Manager configuration. (If there is a problem with the network, e.g., when fetching artifacts
-   from `https://git.sr.ht/~rycee/nmt`, switch the network adapter to "bridged" and try again after a brief moment.)
+   This builds and activates the Home Manager configuration.
 
 9. (Optional) On the host, execute `just copy-ssh-keys <ip of guest>` to copy over your ssh keys.
