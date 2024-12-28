@@ -25,7 +25,11 @@
       repeat = true;
     };
     "org/gnome/desktop/interface" = {
-      color-scheme = if (mode == "light") then "default" else "prefer-dark";
+      color-scheme =
+        if (mode == "light") then
+          "default" # or "prefer-light" ???
+        else
+          "prefer-dark";
     };
   };
 
