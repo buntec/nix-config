@@ -29,8 +29,8 @@ nix-darwin-switch:
 collect-garbage:
     nix-collect-garbage -d
 
-[macos]
 # install NixOS on fresh VM running inside a MacBook Pro host (see README.md)
+[macos]
 bootstrap-vm ip:
     nix run github:nix-community/nixos-anywhere -- \
     --flake '.#macbook-pro-m1-vm' \

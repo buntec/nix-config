@@ -29,6 +29,12 @@
         else
           "prefer-dark";
     };
+    "org/gnome/desktop/background" = {
+      primary-color = "#999999";
+      secondary-color = "#222222";
+      picture-uri = "";
+      picture-uri-dark = "";
+    };
     "org/gnome/shell" = {
       enabled-extensions = [
         "just-perfection-desktop@just-perfection"
