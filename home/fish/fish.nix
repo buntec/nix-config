@@ -19,6 +19,7 @@
       gs = "git status";
       gd = "git diff";
       gf = "git fetch";
+      gp = "git pull";
       gl = "git log";
 
       # vim
@@ -26,6 +27,7 @@
       vi = "nvim";
       vim = "nvim";
       vimdiff = "nvim -d";
+      ng = "nvim +Neogit";
 
       # tmux
       t = "tmux";
@@ -41,7 +43,6 @@
       # scala
       scala = "scala-cli";
       sc = "scala-cli";
-
     };
   };
 }
