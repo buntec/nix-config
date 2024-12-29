@@ -41,7 +41,9 @@
       ];
     };
     "org/gnome/shell/extensions/just-perfection" = {
-      panel = false; # this removes the top bar
+      panel = false; # remove top bar
+      dash = false; # hide dock
+      search = true;
     };
   };
 
