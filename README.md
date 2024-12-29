@@ -123,3 +123,12 @@ nix run .#hm-switch-macbook-pro-m1 # home-manager
    This installs NixOS onto the VM via SSH using `nixos-anywhere`; it also builds and activates the Home Manager config.
 
 8. The VM should now be ready to log into with your user and password (not the one in Step 5, of course).
+
+Final notes:
+
+- Do not regenerate `hardware-configuration.nix` using `nixos-generate-config` on the VM as the generated file
+  will have conflicting settings for the file system, which is managed by `disko`. (You can make it work by commenting out
+  the file system settings.) Instead, keep the file that was copied during the bootstrap (but don't commit it).
+- You may have to set the display scaling in Gnome manually.
+- If the `nix-config` repo copied during the bootstrap was set up to connect to the remote using http,
+  you have to change it to ssh before being able to push: `git remote set-url origin git@github.com:buntec/nix-config.git`
