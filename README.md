@@ -122,7 +122,8 @@ nix run .#hm-switch-macbook-pro-m1 # home-manager
 7. On the host, execute `just bootstrap-vm <ip of guest>`. You will be prompted for the password from Step 5.
    This installs NixOS onto the VM via SSH using `nixos-anywhere`; it also builds and activates the Home Manager config.
 
-8. The VM should now be ready to log into with your user and password (not the one in Step 5, of course).
+8. The VM should be ready to log into with your user and password (not the one in Step 5, of course).
+   From now on simply use `just nixos-switch` and `just hm-switch` etc. inside the VM to make configuration changes.
 
 Final notes:
 
