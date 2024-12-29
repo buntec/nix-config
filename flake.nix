@@ -98,7 +98,7 @@
           system = flake-utils.lib.system.x86_64-darwin;
         }
         {
-          name = "macbook-pro-m1-nixos";
+          name = "macbook-pro-m1-vm";
           user = "buntec";
           system = flake-utils.lib.system.aarch64-linux;
         }

@@ -1,6 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
 { config, pkgs, ... }:
 {
   nix.settings.experimental-features = [
@@ -37,25 +34,15 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-
     xkb = {
       layout = "us";
       options = "ctrl:nocaps";
       variant = "";
     };
-
-    # Enable the GNOME Desktop Environment.
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
   };
-
-  hardware.pulseaudio.enable = false;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-
-  # cannot change passwords
-  users.mutableUsers = false;
 
   users.users.buntec = {
     isNormalUser = true;
@@ -69,13 +56,9 @@
     packages = with pkgs; [ firefox ];
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     curl
     git
-    gnomeExtensions.just-perfection
-    gnomeExtensions.hide-top-bar
     just
     vim # Do not forget to add an editor to edit configuration.nix!
     wget

@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
-
 {
+  imports = [ ./gnome/gnome.nix ];
+
   networking.hostName = "thinkpad-x1"; # Define your hostname.
 
   networking.networkmanager.enable = true;
@@ -27,6 +28,7 @@
   services.printing.enable = true;
 
   # audio stuff
+  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;

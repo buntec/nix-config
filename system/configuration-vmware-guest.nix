@@ -1,8 +1,13 @@
 { config, pkgs, ... }:
 {
-  imports = [ ./disk-config.nix ];
+  imports = [ ./disko/disk-config.nix ];
 
   disko.devices.disk.disk1.device = "/dev/nvme0n1";
+
+  virtualisation.vmware.guest.enable = true;
+
+  # cannot change passwords
+  users.mutableUsers = false;
 
   boot.loader.grub = {
     # no need to set devices, disko will add all devices that have a EF02 partition to the list already
@@ -10,20 +15,6 @@
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
-
-  # We're using VMware Fusion
-  virtualisation.vmware.guest.enable = true;
-
-  networking.hostName = "macbook-pro-m1-nixos";
-  # networking.firewall.enable = false; # Is it safe to disable the firewall inside a VM?
-  # networking.interfaces.ens160.useDHCP = true;
-
-  # Quoting from https://github.com/mitchellh/nixos-config:
-  #
-  # VMware, Parallels both only support this being 0 otherwise you see
-  # "error switching console mode" on boot.
-  #
-  # boot.loader.systemd-boot.consoleMode = "0";
 
   # Don't require password for sudo
   security.sudo.wheelNeedsPassword = false;
