@@ -2,9 +2,11 @@
 {
   imports = [ ./gnome/gnome.nix ];
 
-  networking.hostName = "thinkpad-x1"; # Define your hostname.
+  networking.hostName = "thinkpad-x1";
 
   networking.networkmanager.enable = true;
+
+  services.openssh.settings.PasswordAuthentication = false;
 
   users.users.buntec = {
 

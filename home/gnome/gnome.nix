@@ -29,6 +29,11 @@
         else
           "prefer-dark";
     };
+    "org/gnome/shell" = {
+      enabled-extensions = [
+        "just-perfection-desktop@just-perfection"
+      ];
+    };
     "org/gnome/shell/extensions/just-perfection" = {
       panel = false; # this removes the top bar
     };
