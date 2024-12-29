@@ -24,17 +24,18 @@ hm-switch mode=light:
 nix-darwin-switch:
     nix run .#rebuild-{{ host }}
 
-# clean up by removing old generations etc.
+# clean up nix store by removing old generations etc.
 [unix]
 collect-garbage:
     nix-collect-garbage -d
 
-[unix]
-nixos-vm-bootstrap ip:
+[macos]
+# install NixOS on fresh VM running inside a MacBook Pro host (see README.md)
+bootstrap-vm ip:
     nix run github:nix-community/nixos-anywhere -- \
     --flake '.#macbook-pro-m1-vm' \
-    --ssh-option 'UserKnownHostsFile=/dev/null'
-    --ssh-option 'StrictHostKeyChecking=no'
+    --ssh-option 'UserKnownHostsFile=/dev/null' \
+    --ssh-option 'StrictHostKeyChecking=no' \
     --build-on-remote \
     --generate-hardware-config nixos-generate-config ./system/hardware-configuration.nix \
     --target-host nixos@{{ ip }}

@@ -95,9 +95,10 @@ nix run .#hm-switch-macbook-pro-m1 # home-manager
 
 (Inspired by https://github.com/mitchellh/nixos-config)
 
-1. Download the minimal NixOS ISO for either ARM or Intel:
-   https://channels.nixos.org/nixos-24.11/latest-nixos-minimal-x86_64-linux.iso
-   https://channels.nixos.org/nixos-24.11/latest-nixos-minimal-aarch64-linux.iso
+1. Download the latest minimal NixOS ISO for either ARM (recommended for modern Macs with Apple silicon) or Intel:
+
+   - https://channels.nixos.org/nixos-24.11/latest-nixos-minimal-aarch64-linux.iso
+   - https://channels.nixos.org/nixos-24.11/latest-nixos-minimal-x86_64-linux.iso
 
 2. Create a new VM in VMware Fusion using the image above. Select "Other Linux 6.x Kernel ..." (current at time of writing).
 
@@ -114,14 +115,11 @@ nix run .#hm-switch-macbook-pro-m1 # home-manager
 
 4. Start the VM, select the NixOS installer from the boot menu and wait to be dropped into a shell as user `nixos`.
 
-5. Set a simple password for the `nixos` user using `passwd` (I set it to `nixos`).
+5. Set a simple password for the `nixos` user using `passwd` (I set it to `nixos`). It will only be used during installation.
 
 6. Note down the IP address of the guest using `ip addr`.
 
-7. On the host, execute `just remote-install-nixos <ip of guest>`. You will be prompted for the password we set in Step 5.
-   This installs NixOS onto the VM via SSH using `nixos-anywhere`.
+7. On the host, execute `just bootstrap-vm <ip of guest>`. You will be prompted for the password from Step 5.
+   This installs NixOS onto the VM via SSH using `nixos-anywhere`; it also builds and activates the Home Manager config.
 
-8. After automatic rebooting into a fresh NixOS install, login with your user, clone this repo from GitHub and run `just hm-switch`.
-   This builds and activates the Home Manager configuration.
-
-9. (Optional) On the host, execute `just copy-ssh-keys <ip of guest>` to copy over your ssh keys.
+8. The VM should now be ready to log into with your user and password (not the one in Step 5, of course).
