@@ -15,6 +15,9 @@
     ./hardware-configuration.nix
   ];
 
+  # https://github.com/NixOS/nix/issues/2982
+  nix.channel.enable = false;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
