@@ -62,6 +62,7 @@
   environment.systemPackages = with pkgs; [
     curl
     git
+    gnumake
     just
     vim # Do not forget to add an editor to edit configuration.nix!
     wget
@@ -78,6 +79,7 @@
     nerd-fonts.fira-code
     nerd-fonts.jetbrains-mono
     nerd-fonts.droid-sans-mono
+    noto-fonts-color-emoji
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
