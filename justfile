@@ -18,6 +18,8 @@ nixos-switch:
 [unix]
 hm-switch mode=light:
     nix run .#hm-switch-{{ host }}-{{ mode }}
+    # reload tmux config
+    tmux source-file ~/.config/tmux/tmux.conf
 
 # rebuild nix-darwin config and switch
 [macos]

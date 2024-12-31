@@ -14,6 +14,11 @@
       any-nix-shell fish --info-right | source
     '';
 
+    shellAbbrs = {
+      fish-reload-config = "source ~/.config/fish/**/*.fish";
+      tmux-reload-config = "tmux source-file ~/.config/tmux/tmux.conf";
+    };
+
     shellAliases = {
       # git
       gs = "git status";
