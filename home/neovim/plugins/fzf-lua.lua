@@ -33,4 +33,9 @@ fzf.setup({
   fzf_opts = {
     ["--cycle"] = true,
   },
+  fzf_colors = {
+    true,
+    ["fg+"] = { "fg", "Normal", "underline" },
+    ["bg+"] = { "bg", { "CursorLine", "Normal" } },
+  },
 })
