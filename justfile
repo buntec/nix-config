@@ -20,6 +20,8 @@ hm-switch mode=light:
     nix run .#hm-switch-{{ host }}-{{ mode }}
     # reload tmux config
     tmux source-file ~/.config/tmux/tmux.conf
+    # reload fish config
+    fish -c 'reload_all_fish_instances'
 
 # rebuild nix-darwin config and switch
 [macos]
