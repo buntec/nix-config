@@ -77,6 +77,13 @@
           '';
         };
 
+        # https://github.com/neovim/nvim-lspconfig
+        lspconfig = {
+          plugin = vimPlugins.nvim-lspconfig;
+          type = "lua";
+          config = builtins.readFile ./plugins/lspconfig.lua;
+        };
+
         # https://github.com/nvim-lualine/lualine.nvim
         lualine = {
           plugin = vimPlugins.lualine-nvim;
@@ -90,11 +97,13 @@
           type = "lua";
         };
 
-        # https://github.com/neovim/nvim-lspconfig
-        lspconfig = {
-          plugin = vimPlugins.nvim-lspconfig;
+        # https://github.com/echasnovski/mini.icons
+        mini-icons = {
+          plugin = vimPlugins.mini-icons;
           type = "lua";
-          config = builtins.readFile ./plugins/lspconfig.lua;
+          config = ''
+            require('mini.icons').setup({})
+          '';
         };
 
         # https://github.com/NeogitOrg/neogit
@@ -103,15 +112,6 @@
           type = "lua";
           config = ''
             require('neogit').setup({})
-          '';
-        };
-
-        # https://github.com/echasnovski/mini.icons
-        mini-icons = {
-          plugin = vimPlugins.mini-icons;
-          type = "lua";
-          config = ''
-            require('mini.icons').setup({})
           '';
         };
 

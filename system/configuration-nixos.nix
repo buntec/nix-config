@@ -56,7 +56,10 @@
       "networkmanager"
       "wheel"
     ];
-    packages = with pkgs; [ firefox ];
+    packages = with pkgs; [
+      firefox
+      chromium
+    ];
   };
 
   environment.systemPackages = with pkgs; [

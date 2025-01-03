@@ -118,8 +118,6 @@ map("n", "<leader>lb", gitsigns.toggle_current_line_blame, { desc = "blame line"
 
 map("n", "<leader>ng", "<cmd>Neogit<cr>", { desc = "open Neogit" })
 
-map("n", "<leader>gg", function() Snacks.lazygit() end, { desc = "open Lazygit" })
-
 map("n", "<leader>dv", "<cmd>DiffviewOpen<cr>", { desc = "open Diffview" })
 
 -- LSP
