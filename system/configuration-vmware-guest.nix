@@ -6,6 +6,9 @@
 
   virtualisation.vmware.guest.enable = true;
 
+  # Make it easy to reach services running in guest from host.
+  networking.firewall.enable = false;
+
   # cannot change passwords
   users.mutableUsers = false;
 
