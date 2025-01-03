@@ -162,12 +162,11 @@ vim.api.nvim_create_autocmd("FileType", {
   group = spell_augroup,
 })
 
--- workaround since .typ is currently recognized as filetype sql
-vim.cmd([[
-  autocmd! BufRead,BufNewFile *.typ set filetype=typst
-]])
-
--- In many languages, the comment semantic highlight will overwrite useful treesitter highlights like @text.todo inside comments.
-vim.api.nvim_set_hl(0, "@lsp.type.comment", {})
--- Clangd only sends comment tokens for `#if 0` sections. It doesn't send comment tokens for regular comments, so it doesn't have the problem above.
-vim.api.nvim_set_hl(0, "@lsp.type.comment.cpp", { link = "@comment", default = true })
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function()
+    -- In many languages the comment semantic highlight will overwrite useful treesitter highlights like @text.todo inside comments.
+    vim.api.nvim_set_hl(0, "@lsp.type.comment", {})
+    -- Clangd only sends comment tokens for `#if 0` sections so it doesn't have the problem above.
+    vim.api.nvim_set_hl(0, "@lsp.type.comment.cpp", { link = "@comment", default = true })
+  end,
+})
