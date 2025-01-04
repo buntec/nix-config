@@ -150,9 +150,11 @@
       atool # archive tool - https://www.nongnu.org/atool/
       bat # better cat - https://github.com/sharkdp/bat
       broot # https://dystroy.org/broot/
+      conky # https://github.com/brndnmtthws/conky
       csvlens # https://github.com/YS-L/csvlens
       d2 # https://github.com/terrastruct/d2
       eza # better ls - https://github.com/eza-community/eza
+      fastfetch # like neofetch
       fd # better find - https://github.com/sharkdp/fd
       fzf # https://github.com/junegunn/fzf
       gdu # ncdu breaks often, use gdu instead for now
