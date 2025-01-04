@@ -62,22 +62,14 @@
       autoUpdate = true;
       cleanup = "zap";
     };
-    brews = [
-      "pixi"
-    ];
     casks = [
       "discord"
-      "docker"
       "firefox"
       "google-chrome"
       "keepassxc"
       "kitty"
-      "racket"
       "skim"
-      "slack"
       "spotify"
-      "vmware-fusion"
-      "whatsapp"
     ];
   };
 
@@ -85,6 +77,8 @@
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
+
+  services.tailscale.enable = true;
 
   nix.package = pkgs.nix; # this is the default
 
