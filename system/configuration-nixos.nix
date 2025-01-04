@@ -52,14 +52,22 @@
   # services.xserver.libinput.enable = true;
 
   users.users.buntec = {
-    isNormalUser = true;
     description = "Christoph Bunte";
+
+    isNormalUser = true;
+
     hashedPassword = "$y$j9T$vPUnEtURmG07hGZC8VKAD0$cXGnyTRcCpemAF.mAsL0xdVY1bSLXkvQOvTMYfgpdI5";
+
     extraGroups = [
       "docker"
       "networkmanager"
       "wheel"
     ];
+
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILp/zFH8Vb2GDOt4xSgjzRTYUULvPuJdb6MUnWvX7jbX christophbunte@gmail.com"
+    ];
+
     packages = with pkgs; [
       firefox
       chromium
