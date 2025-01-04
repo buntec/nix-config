@@ -6,9 +6,7 @@
 }:
 {
 
-  imports = [
-    ./gnome/gnome.nix
-  ];
+  imports = [ ./gnome/gnome.nix ];
 
   programs.git = {
     extraConfig = {
@@ -22,5 +20,8 @@
     '';
   };
 
-  home.packages = with pkgs; [ docker ];
+  home.packages = with pkgs; [
+    conky # https://github.com/brndnmtthws/conky
+    docker
+  ];
 }
