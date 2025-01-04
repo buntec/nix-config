@@ -106,6 +106,8 @@
 
       isDarwin = system: (builtins.match ".*darwin" system) != null;
 
+      isAppleSilicon = system: system == flake-utils.lib.system.aarch64-darwin;
+
       darwinMachines = builtins.filter (machine: (isDarwin machine.system)) machines;
 
       nixosMachines = builtins.filter (machine: !(isDarwin machine.system)) machines;
@@ -225,7 +227,7 @@
                 nix-homebrew = {
                   inherit (machine) user;
                   enable = true;
-                  enableRosetta = true;
+                  enableRosetta = isAppleSilicon machine.system;
                   taps = {
                     "homebrew/homebrew-core" = homebrew-core;
                     "homebrew/homebrew-cask" = homebrew-cask;
