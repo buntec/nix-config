@@ -1,6 +1,10 @@
 { pkgs, ... }:
 {
 
+  imports = [
+    ./tmux/tmux-darwin.nix
+  ];
+
   programs.ssh.extraConfig = ''
     UseKeychain yes
   '';

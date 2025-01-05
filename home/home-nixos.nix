@@ -6,7 +6,10 @@
 }:
 {
 
-  imports = [ ./gnome/gnome.nix ];
+  imports = [
+    ./gnome/gnome.nix
+    ./tmux/tmux-nixos.nix
+  ];
 
   programs.git = {
     extraConfig = {
