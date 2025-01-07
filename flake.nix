@@ -102,6 +102,11 @@
           user = "buntec";
           system = flake-utils.lib.system.aarch64-linux;
         }
+        {
+          name = "macbook-pro-utm";
+          user = "buntec";
+          system = flake-utils.lib.system.aarch64-linux;
+        }
       ];
 
       isDarwin = system: (builtins.match ".*darwin" system) != null;

@@ -33,11 +33,12 @@ nix-darwin-switch:
 collect-garbage:
     nix-collect-garbage -d
 
-# install NixOS on fresh VM running inside a MacBook Pro host (see README.md)
-[macos]
-bootstrap-vm ip:
+
+# install NixOS & HM on fresh VM (see README.md)
+[private]
+bootstrap-vm ip attr:
     nix run github:nix-community/nixos-anywhere -- \
-    --flake '.#macbook-pro-m1-vm' \
+    --flake '.#{{ attr }}' \
     --ssh-option 'UserKnownHostsFile=/dev/null' \
     --ssh-option 'StrictHostKeyChecking=no' \
     --build-on-remote \
@@ -49,3 +50,9 @@ bootstrap-vm ip:
     rsync -av -e 'ssh {{ SSH_OPTIONS }}' . {{ user }}@{{ ip }}:~/nix-config
     # build and activate Home Manager config
     ssh {{ SSH_OPTIONS }} -v {{ user }}@{{ ip }} 'cd nix-config; just hm-switch'
+
+[macos]
+bootstrap-vm-fusion ip: (bootstrap-vm ip 'macbook-pro-m1-vm')
+
+[macos]
+bootstrap-vm-utm ip: (bootstrap-vm ip 'macbook-pro-utm')

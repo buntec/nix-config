@@ -10,8 +10,9 @@
     ];
     casks = [
       "racket"
-      "vmware-fusion"
       "slack"
+      "utm"
+      "vmware-fusion"
       "whatsapp"
     ];
   };
