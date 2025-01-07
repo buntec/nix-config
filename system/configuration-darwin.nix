@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  machine,
+  ...
+}:
 {
   nix.extraOptions = ''
     experimental-features = nix-command flakes
@@ -45,8 +50,8 @@
 
   # `home-manager` currently has issues adding them to `~/Applications`
   # Issue: https://github.com/nix-community/home-manager/issues/1341
-  environment.systemPackages = with pkgs; [
-    # kitty
+  environment.systemPackages = [
+    # pkgs.kitty
   ];
 
   # Fonts
@@ -86,9 +91,8 @@
   programs.zsh.enable = true;
   programs.fish.enable = true;
 
-  users.users.christophbunte = {
-    name = "christophbunte";
-    home = "/Users/christophbunte";
+  users.users.${machine.user} = {
+    home = "/Users/${machine.user}";
     # shell = pkgs.fish;
   };
 }

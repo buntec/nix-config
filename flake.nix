@@ -31,9 +31,6 @@
     my-pkgs.url = "github:buntec/pkgs";
     my-pkgs.inputs.nixpkgs.follows = "nixpkgs";
 
-    git-summary.url = "github:buntec/git-summary-scala";
-    git-summary.inputs.nixpkgs.follows = "nixpkgs";
-
     flake-utils.url = "github:numtide/flake-utils";
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
@@ -69,7 +66,6 @@
       devenv,
       flake-utils,
       my-pkgs,
-      git-summary,
       treefmt-nix,
       kauz,
       nix-homebrew,
@@ -139,7 +135,6 @@
         # })
 
         # my-pkgs.overlays.default
-        git-summary.overlays.default
         kauz.overlays.default
       ];
 
@@ -203,7 +198,7 @@
           value = lib.nixosSystem {
             inherit (machine) system;
             specialArgs = {
-              inherit inputs;
+              inherit inputs machine;
             };
             modules = [
               { nixpkgs.pkgs = pkgsBySystem.${machine.system}; }
@@ -221,7 +216,7 @@
           value = darwin.lib.darwinSystem {
             inherit (machine) system;
             specialArgs = {
-              inherit inputs;
+              inherit inputs machine;
             };
             modules = [
               { nixpkgs.pkgs = pkgsBySystem.${machine.system}; }
@@ -254,7 +249,7 @@
               value = home-manager.lib.homeManagerConfiguration {
                 pkgs = pkgsBySystem.${machine.system};
                 extraSpecialArgs = {
-                  inherit inputs mode;
+                  inherit inputs machine mode;
                 };
                 modules = [
                   {

@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  machine,
+  ...
+}:
 {
   imports = [ ./gnome/gnome.nix ];
 
@@ -8,7 +13,7 @@
 
   services.openssh.settings.PasswordAuthentication = false;
 
-  users.users.buntec = {
+  users.users.${machine.user} = {
 
     packages = with pkgs; [
       keepassxc

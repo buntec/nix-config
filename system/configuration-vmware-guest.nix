@@ -30,8 +30,8 @@
   # Don't require password for sudo
   security.sudo.wheelNeedsPassword = false;
 
-  # Mount host file system under /host; see https://github.com/NixOS/nixpkgs/issues/46529
-  fileSystems."/host" = {
+  # Mount shared folder - see https://github.com/NixOS/nixpkgs/issues/46529
+  fileSystems."/mnt/host" = {
     device = ".host:/";
     fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
     options = [

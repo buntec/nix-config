@@ -6,7 +6,9 @@
 
   # Qemu
   services.spice-vdagentd.enable = true;
+  services.qemuGuest.enable = true;
 
+  # TODO: is this really needed?
   environment.variables.LIBGL_ALWAYS_SOFTWARE = "1";
 
   # Make it easy to reach services running in guest from host.
@@ -33,5 +35,15 @@
 
   # Don't require password for sudo
   security.sudo.wheelNeedsPassword = false;
+
+  # Mount shared folder
+  fileSystems."/mnt/host" = {
+    device = "share";
+    fsType = "virtiofs";
+    options = [
+      "rw"
+      "nofail"
+    ];
+  };
 
 }

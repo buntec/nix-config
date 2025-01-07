@@ -1,13 +1,11 @@
 {
   pkgs,
   lib,
-  mode,
   ...
 }:
 {
 
   imports = [
-    ./gnome/gnome.nix
     ./tmux/tmux-nixos.nix
   ];
 

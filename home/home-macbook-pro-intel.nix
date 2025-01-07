@@ -1,1 +1,8 @@
-{ pkgs, ... }: { }
+{ pkgs, ... }:
+{
+
+  imports = [
+    ./syncthing/syncthing.nix
+  ];
+
+}

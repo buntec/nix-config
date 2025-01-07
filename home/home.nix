@@ -21,11 +21,6 @@
     tmux.enable = true;
   };
 
-  services.syncthing = {
-    enable = true;
-    extraOptions = [ ];
-  };
-
   programs.bash.enable = true;
 
   programs.ssh.enable = true;

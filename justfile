@@ -1,7 +1,4 @@
 host := `hostname`
-user := 'buntec'
-dark := 'dark'
-light := 'light'
 
 SSH_OPTIONS := '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
@@ -14,9 +11,9 @@ default:
 nixos-switch:
     sudo nix run .#rebuild-{{ host }}
 
-# rebuild Home Manager config and switch
+# rebuild Home Manager config and switch; mode='light'|'dark'
 [unix]
-hm-switch mode=light:
+hm-switch mode='light':
     nix run .#hm-switch-{{ host }}-{{ mode }}
     # reload tmux config
     tmux source-file ~/.config/tmux/tmux.conf
@@ -36,7 +33,7 @@ collect-garbage:
 
 # install NixOS & HM on fresh VM (see README.md)
 [private]
-bootstrap-vm ip attr:
+bootstrap-vm ip attr user:
     nix run github:nix-community/nixos-anywhere -- \
     --flake '.#{{ attr }}' \
     --ssh-option 'UserKnownHostsFile=/dev/null' \
@@ -52,7 +49,7 @@ bootstrap-vm ip attr:
     ssh {{ SSH_OPTIONS }} -v {{ user }}@{{ ip }} 'cd nix-config; just hm-switch'
 
 [macos]
-bootstrap-vm-fusion ip: (bootstrap-vm ip 'macbook-pro-m1-vm')
+bootstrap-vm-fusion ip: (bootstrap-vm ip 'macbook-pro-m1-vm' 'buntec')
 
 [macos]
-bootstrap-vm-utm ip: (bootstrap-vm ip 'macbook-pro-utm')
+bootstrap-vm-utm ip: (bootstrap-vm ip 'macbook-pro-utm' 'buntec')

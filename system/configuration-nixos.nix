@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  machine,
+  ...
+}:
 {
   nix.settings.experimental-features = [
     "nix-command"
@@ -47,7 +52,7 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  users.users.buntec = {
+  users.users.${machine.user} = {
     description = "Christoph Bunte";
 
     isNormalUser = true;
