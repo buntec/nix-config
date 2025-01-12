@@ -70,7 +70,9 @@ map("n", "<leader>gf", fzf.git_files, { desc = "find files (git)" })
 
 map("n", "<leader>fh", fzf.oldfiles, { desc = "opened files history" })
 
-map("n", "<leader>lg", fzf.live_grep, { desc = "live grep" })
+map("n", "<leader>lg", function() fzf.live_grep({ }) end, { desc = "live grep" })
+
+map("n", "<leader>rg", function() fzf.live_grep({ resume = true }) end, { desc = "resume live grep" })
 
 map("n", "<leader>fs", fzf.grep_cword, { desc = "grep word under cursor" })
 
@@ -149,6 +151,9 @@ map({ "n", "v" }, "<localleader>f", function() conform.format({ async = true }) 
 -- map({ "n", "v" }, "<localleader>f", vim.lsp.buf.format, { desc = "lsp format" }) -- we prefer Conform
 
 -- stylua: ignore end
+
+-- highlight trailing whitespace
+vim.fn.matchadd("ErrorMsg", [[\s\+$]])
 
 -- enable spell checking for text files
 local spell_augroup = vim.api.nvim_create_augroup("spell", { clear = true })

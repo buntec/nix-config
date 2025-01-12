@@ -49,7 +49,7 @@ bootstrap-vm ip attr user:
     ssh {{ SSH_OPTIONS }} -v {{ user }}@{{ ip }} 'cd nix-config; just hm-switch'
 
 [macos]
-bootstrap-vm-fusion ip: (bootstrap-vm ip 'macbook-pro-m1-vm' 'buntec')
+bootstrap-mbp-vmw ip: (bootstrap-vm ip 'macbook-pro-m1-vmw' 'buntec')
 
 [macos]
-bootstrap-vm-utm ip: (bootstrap-vm ip 'macbook-pro-utm' 'buntec')
+bootstrap-mbp-utm ip: (bootstrap-vm ip 'macbook-pro-m1-utm' 'buntec')

@@ -6,5 +6,5 @@
     ./gnome/gnome.nix
   ];
 
-  networking.hostName = "macbook-pro-m1-vm";
+  networking.hostName = "macbook-pro-m1-vmw";
 }

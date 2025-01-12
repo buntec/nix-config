@@ -1,3 +1,4 @@
+# HM config common to all nix-darwin machines
 { pkgs, ... }:
 {
 

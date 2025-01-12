@@ -2,6 +2,7 @@
 {
 
   imports = [
+    ./git/git.nix
     ./kitty/kitty.nix
     ./fish/fish.nix
     ./tmux/tmux.nix
@@ -22,6 +23,7 @@
   };
 
   programs.bash.enable = true;
+  programs.zsh.enable = true;
 
   programs.ssh.enable = true;
 
@@ -164,29 +166,18 @@
       tree # https://oldmanprogrammer.net/source.php?dir=projects/tree
       watchexec # https://watchexec.github.io/
       yazi # https://github.com/sxyazi/yazi
-      zoxide # smart cd - https://github.com/ajeetdsouza/zoxide
     ]);
-
-  programs.git = {
-    enable = true;
-    userEmail = pkgs.lib.mkDefault "christophbunte@gmail.com"; # we might want to override this
-    userName = "Christoph Bunte";
-    diff-so-fancy.enable = true;
-    extraConfig = {
-      init.defaultBranch = "main";
-    };
-  };
 
   programs.java = {
     enable = true;
   };
 
-  programs.zsh = {
+  # https://github.com/htop-dev/htop
+  programs.htop = {
     enable = true;
+    settings.show_program_path = true;
   };
 
-  programs.htop.enable = true;
-  programs.htop.settings.show_program_path = true;
-
+  # smart cd - https://github.com/ajeetdsouza/zoxide
   programs.zoxide.enable = true;
 }

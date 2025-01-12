@@ -1,5 +1,5 @@
 {
-  description = "My Nix configs";
+  description = "NixOS/nix-darwin and HM ⚙️c for my 💻🖥️";
 
   inputs = {
     # default branch
@@ -28,15 +28,13 @@
     devenv.url = "github:cachix/devenv";
     devenv.inputs.nixpkgs.follows = "nixpkgs";
 
-    my-pkgs.url = "github:buntec/pkgs";
-    my-pkgs.inputs.nixpkgs.follows = "nixpkgs";
-
     flake-utils.url = "github:numtide/flake-utils";
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     kauz.url = "github:buntec/kauz";
+    kauz.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
@@ -65,7 +63,6 @@
       home-manager,
       devenv,
       flake-utils,
-      my-pkgs,
       treefmt-nix,
       kauz,
       nix-homebrew,
@@ -79,29 +76,34 @@
 
       machines = [
         {
+          # NixOS w/ HM running on ThinkPad X1 Carbon 7th
           name = "thinkpad-x1";
           user = "buntec";
           system = flake-utils.lib.system.x86_64-linux;
         }
         {
+          # nix-darwin w/ HM running on MacBook Pro M1 (2021)
           name = "macbook-pro-m1";
           user = "christophbunte";
           system = flake-utils.lib.system.aarch64-darwin;
         }
         {
+          # NixOS w/ HM running inside VMWare Fusion guest on MacBook Pro M1
+          name = "macbook-pro-m1-vmw";
+          user = "buntec";
+          system = flake-utils.lib.system.aarch64-linux;
+        }
+        {
+          # NixOS w/ HM running inside UTM guest on MacBook Pro M1
+          name = "macbook-pro-m1-utm";
+          user = "buntec";
+          system = flake-utils.lib.system.aarch64-linux;
+        }
+        {
+          # nix-darwin w/ HM running on MacBook Pro (Intel, Late 2013)
           name = "macbook-pro-intel";
           user = "christophbunte";
           system = flake-utils.lib.system.x86_64-darwin;
-        }
-        {
-          name = "macbook-pro-m1-vm";
-          user = "buntec";
-          system = flake-utils.lib.system.aarch64-linux;
-        }
-        {
-          name = "macbook-pro-utm";
-          user = "buntec";
-          system = flake-utils.lib.system.aarch64-linux;
         }
       ];
 
@@ -134,7 +136,6 @@
         # ncdu
         # })
 
-        # my-pkgs.overlays.default
         kauz.overlays.default
       ];
 
@@ -201,7 +202,14 @@
               inherit inputs machine;
             };
             modules = [
-              { nixpkgs.pkgs = pkgsBySystem.${machine.system}; }
+              {
+                nixpkgs = {
+                  inherit overlays;
+                  config = {
+                    allowUnfree = true;
+                  };
+                };
+              }
               disko.nixosModules.disko
               ./system/configuration-nixos.nix
               ./system/configuration-${machine.name}.nix
@@ -219,7 +227,14 @@
               inherit inputs machine;
             };
             modules = [
-              { nixpkgs.pkgs = pkgsBySystem.${machine.system}; }
+              {
+                nixpkgs = {
+                  inherit overlays;
+                  config = {
+                    allowUnfree = true;
+                  };
+                };
+              }
               ./system/configuration-darwin.nix
               ./system/configuration-${machine.name}.nix
               nix-homebrew.darwinModules.nix-homebrew
