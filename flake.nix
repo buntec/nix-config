@@ -1,5 +1,5 @@
 {
-  description = "NixOS/nix-darwin and HM ⚙️c for my 💻🖥️";
+  description = "NixOS/nix-darwin and HM configurations for my personal machines";
 
   inputs = {
     # default branch
