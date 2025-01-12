@@ -1,13 +1,16 @@
 # My personal Nix configuration flake
 
-Configures NixOS/nix-darwin and Home Manager on my personal machines.
+Configures [NixOS](https://nixos.org/)/[nix-darwin](https://github.com/LnL7/nix-darwin)
+and [Home Manager](https://github.com/nix-community/home-manager) on my personal machines.
 
-For Apple hardware I recommend running NixOS on either UTM or VMWare Fusion guests inside macOS (see instructions below).
+For Apple hardware I recommend running NixOS on either [UTM](https://mac.getutm.app/)
+or [VMWare Fusion](https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion) guests inside macOS (see instructions below).
 While nix-darwin and Home Manager on macOS work reasonably well most of the time,
-there are still some rough edges, e.g., macOS updates breaking your nix installation.
-Moreover, not all packages in nixpkgs support macOS.
-The best experience, in my opinion, is therefore an honest-to-God NixOS installation.
-UTM and VMWare Fusion both natively support Apple Silicon and their virtualization performance should be close to native.
+there are still some rough edges, e.g., macOS updates [breaking your nix installation](https://github.com/NixOS/nix/issues/3616).
+Moreover, not all packages in [nixpkgs](https://github.com/NixOS/nixpkgs) support macOS. (See also https://discourse.nixos.org/t/darwin-again/29331).
+The best experience, in my opinion, is therefore running an honest-to-God NixOS on a VM hosted inside macOS.
+With UTM and VMWare Fusion we can have the best of both worlds. Indeed, both natively support Apple Silicon and their
+virtualization performance should be close to native when running ARM NixOS. Fusion even supports full 3D acceleration, if that is important to you.
 
 ## Fresh NixOS install
 
@@ -162,7 +165,7 @@ nix run .#hm-switch-macbook-pro-m1 # home-manager
 8. The VM should be ready to log into with your user and password (not the one in Step 5, of course).
    From now on simply use `just nixos-switch` and `just hm-switch` etc. inside the VM to make configuration changes.
 
-Final notes:
+### Notes:
 
 - Do not regenerate `hardware-configuration.nix` using `nixos-generate-config` on the VM as the generated file
   will have conflicting settings for the file system, which is managed by `disko`. (You can make it work by commenting out
