@@ -46,6 +46,10 @@
     nix-direnv.enable = true;
   };
 
+  programs.vscode = {
+    enable = true;
+  };
+
   home.packages =
     let
       python-packages =

@@ -110,9 +110,7 @@
         neogit = {
           plugin = vimPlugins.neogit;
           type = "lua";
-          config = ''
-            require('neogit').setup({})
-          '';
+          config = builtins.readFile ./plugins/neogit.lua;
         };
 
         # https://github.com/scalameta/nvim-metals
