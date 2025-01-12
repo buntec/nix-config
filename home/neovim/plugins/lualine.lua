@@ -12,20 +12,15 @@ require("lualine").setup({
     always_divide_middle = true,
     globalstatus = false,
     refresh = {
-      statusline = 1000,
-      tabline = 1000,
-      winbar = 1000,
+      statusline = 100,
+      tabline = 100,
+      winbar = 100,
     },
   },
   sections = {
     lualine_a = { { "mode", upper = true } },
     lualine_b = { { "branch", icon = "" } },
-    lualine_c = {
-      { "filename", file_status = true },
-      function()
-        return require("lsp-progress").progress()
-      end,
-    },
+    lualine_c = { { "filename", file_status = true } },
     lualine_x = { "encoding", "fileformat", "filetype" },
     lualine_y = { "progress" },
     lualine_z = { "location" },
@@ -39,12 +34,4 @@ require("lualine").setup({
     lualine_z = {},
   },
   extensions = { "fzf" },
-})
-
--- listen lsp-progress event and refresh lualine
-vim.api.nvim_create_augroup("lualine_augroup", { clear = true })
-vim.api.nvim_create_autocmd("User", {
-  group = "lualine_augroup",
-  pattern = "LspProgressStatusUpdated",
-  callback = require("lualine").refresh,
 })
