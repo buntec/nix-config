@@ -6,8 +6,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     # stable branches
-    nixpkgs-nixos.url = "github:nixos/nixpkgs/nixos-23.11";
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
+    nixpkgs-nixos.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.11-darwin";
 
     # unstable branches
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
@@ -196,7 +196,7 @@
       nixosConfigurations = builtins.listToAttrs (
         builtins.map (machine: {
           inherit (machine) name;
-          value = lib.nixosSystem {
+          value = nixpkgs-nixos.lib.nixosSystem {
             inherit (machine) system;
             specialArgs = {
               inherit inputs machine;

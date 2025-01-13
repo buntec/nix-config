@@ -90,13 +90,45 @@
   programs.fish.enable = true;
 
   # Fonts
-  fonts.fontDir.enable = true;
-  fonts.packages = with pkgs; [
-    nerd-fonts.fira-code
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.droid-sans-mono
-    noto-fonts-color-emoji
-  ];
+  fonts = {
+    # fontDir.enable = true;
+
+    packages = with pkgs; [
+      (nerdfonts.override {
+        fonts = [
+          "JetBrainsMono"
+          "FiraCode"
+          "DroidSansMono"
+        ];
+      })
+      # soon will become...
+      # nerd-fonts.fira-code
+      # nerd-fonts.jetbrains-mono
+      # nerd-fonts.droid-sans-mono
+      noto-fonts-color-emoji
+    ];
+
+    # fontconfig = {
+    #   enable = true;
+
+    #   defaultFonts = {
+    #     serif = [
+    #       "DejaVu Serif"
+    #     ];
+    #     sansSerif = [
+    #       "DejaVu Sans"
+    #     ];
+    #     monospace = [
+    #       "JetBrainsMono Nerd Font"
+    #       "FiraCode Nerd Font"
+    #     ];
+    #     emoji = [
+    #       "Noto Color Emoji"
+    #     ];
+    #   };
+
+    # };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
