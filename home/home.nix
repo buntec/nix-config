@@ -108,7 +108,6 @@
         jdk
         nodejs
         python-with-packages
-        racket
         sbt
         scala-cli
         stack

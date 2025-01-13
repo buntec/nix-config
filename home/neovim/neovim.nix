@@ -144,17 +144,7 @@
 
         # https://github.com/folke/snacks.nvim
         snacks = {
-          plugin = vimUtils.buildVimPlugin {
-            pname = "snacks.nvim";
-            version = "2024-12-09";
-            src = fetchFromGitHub {
-              owner = "folke";
-              repo = "snacks.nvim";
-              rev = "98df370703b3c47a297988f3e55ce99628639590";
-              sha256 = "sha256-Gvd2QfAgrpRxJvZ41LAOPRrDGwVdeZUb8BGrzzcpcHU=";
-            };
-            meta.homepage = "https://github.com/folke/snacks.nvim/";
-          };
+          plugin = vimPlugins.snacks-nvim;
           type = "lua";
           config = builtins.readFile ./plugins/snacks.lua;
         };

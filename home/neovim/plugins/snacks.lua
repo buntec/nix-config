@@ -19,5 +19,5 @@ snacks.setup({
   },
   words = { enabled = true },
   toggle = { enabled = true },
-  statuscolumn = { enabled = true },
+  -- statuscolumn = { enabled = true },
 })
