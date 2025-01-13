@@ -89,45 +89,36 @@
   programs.zsh.enable = true;
   programs.fish.enable = true;
 
-  # Fonts
   fonts = {
-    # fontDir.enable = true;
-
     packages = with pkgs; [
-      (nerdfonts.override {
-        fonts = [
-          "JetBrainsMono"
-          "FiraCode"
-          "DroidSansMono"
-        ];
-      })
-      # soon will become...
-      # nerd-fonts.fira-code
-      # nerd-fonts.jetbrains-mono
-      # nerd-fonts.droid-sans-mono
+      dejavu_fonts
+      fira-code
+      jetbrains-mono
       noto-fonts-color-emoji
     ];
 
-    # fontconfig = {
-    #   enable = true;
+    # fontDir.enable = true;
 
-    #   defaultFonts = {
-    #     serif = [
-    #       "DejaVu Serif"
-    #     ];
-    #     sansSerif = [
-    #       "DejaVu Sans"
-    #     ];
-    #     monospace = [
-    #       "JetBrainsMono Nerd Font"
-    #       "FiraCode Nerd Font"
-    #     ];
-    #     emoji = [
-    #       "Noto Color Emoji"
-    #     ];
-    #   };
+    fontconfig = {
+      enable = true;
 
-    # };
+      defaultFonts = {
+        serif = [
+          "DejaVu Serif"
+        ];
+        sansSerif = [
+          "DejaVu Sans"
+        ];
+        monospace = [
+          "JetBrainsMono"
+          "FiraCode"
+          "DejaVu Sans Mono"
+        ];
+        emoji = [
+          "Noto Color Emoji"
+        ];
+      };
+    };
   };
 
   # Some programs need SUID wrappers, can be configured further or are

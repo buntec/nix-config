@@ -7,6 +7,12 @@ blink.setup({
   -- your own keymap.
   keymap = { preset = "enter" },
 
+  completion = {
+    list = {
+      selection = { preselect = false, auto_insert = true },
+    },
+  },
+
   appearance = {
     -- Sets the fallback highlight groups to nvim-cmp's highlight groups
     -- Useful for when your theme doesn't support blink.cmp
