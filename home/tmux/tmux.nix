@@ -35,4 +35,7 @@
       ${builtins.readFile ./extra.conf}
     '';
   };
+
+  home.packages = [ pkgs.tmux-sessionizer ];
+
 }

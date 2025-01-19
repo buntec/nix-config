@@ -161,6 +161,7 @@
       just # https://github.com/casey/just
       killall
       marp-cli # https://github.com/marp-team/marp-cli
+      neovide # Neovim GUI - https://neovide.dev/
       nodePackages.live-server
       pandoc # https://github.com/jgm/pandoc
       restic # backup - https://github.com/restic/restic
