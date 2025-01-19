@@ -70,8 +70,9 @@
     ];
 
     packages = with pkgs; [
-      firefox
       chromium
+      firefox
+      linuxPackages.perf
     ];
   };
 
