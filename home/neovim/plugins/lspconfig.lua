@@ -11,7 +11,10 @@ lsp_config.util.default_config =
 -- lsp_config.metals.setup {} -- NOTE: scala metals is managed by nvim-metals
 lsp_config.bashls.setup({})
 lsp_config.clangd.setup({})
-lsp_config.cmake.setup({})
+
+-- lsp_config.cmake.setup({})
+lsp_config.neocmake.setup({})
+
 lsp_config.gopls.setup({})
 lsp_config.hls.setup({})
 lsp_config.html.setup({})

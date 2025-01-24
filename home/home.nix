@@ -63,6 +63,7 @@
         ];
       python-with-packages = pkgs.python3.withPackages python-packages;
       linters = with pkgs; [
+        cmake-lint
         statix
         stylelint
         vale
@@ -81,6 +82,7 @@
       lsps = with pkgs; [
         ccls
         cmake-language-server
+        neocmakelsp
         gopls
         haskell-language-server
         lua-language-server
