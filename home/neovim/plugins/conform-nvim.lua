@@ -3,6 +3,7 @@ require("conform").setup({
     lsp_format = "fallback",
   },
   formatters_by_ft = {
+    cmake = { "gersemi" },
     cpp = { "clang_format" },
     css = { "prettierd", "stylelint" },
     html = { "prettierd" },

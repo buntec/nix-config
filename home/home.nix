@@ -69,7 +69,7 @@
         vale
       ];
       formatters = with pkgs; [
-        cmake-format
+        gersemi # for cmake
         mdformat
         nixfmt-rfc-style
         nodePackages.prettier # is this really needed on top of prettierd?
