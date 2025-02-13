@@ -30,14 +30,4 @@
   # Don't require password for sudo
   security.sudo.wheelNeedsPassword = false;
 
-  # Mount shared folder
-  fileSystems."/mnt/host" = {
-    device = "share";
-    fsType = "virtiofs";
-    options = [
-      "rw"
-      "nofail"
-    ];
-  };
-
 }
