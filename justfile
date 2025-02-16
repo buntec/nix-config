@@ -1,6 +1,6 @@
 host := `hostname`
 
-SSH_OPTIONS := '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=60'
+SSH_OPTIONS := '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=600'
 
 # list recipes
 default:
