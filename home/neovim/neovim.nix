@@ -91,12 +91,6 @@
           config = builtins.readFile ./plugins/lualine.lua;
         };
 
-        # https://github.com/rktjmp/lush.nvim
-        lush = {
-          plugin = vimPlugins.lush-nvim;
-          type = "lua";
-        };
-
         # https://github.com/echasnovski/mini.icons
         mini-icons = {
           plugin = vimPlugins.mini-icons;
@@ -208,7 +202,6 @@
         grug-far
         lspconfig
         lualine
-        lush
         mini-icons
         neogit
         nvim-lint

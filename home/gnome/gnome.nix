@@ -22,19 +22,6 @@
       repeat-interval = lib.hm.gvariant.mkUint32 25;
       repeat = true;
     };
-    "org/gnome/desktop/interface" = {
-      color-scheme =
-        if (mode == "light") then
-          "default" # or "prefer-light" ???
-        else
-          "prefer-dark";
-    };
-    "org/gnome/desktop/background" = {
-      primary-color = "#999999";
-      secondary-color = "#222222";
-      picture-uri = "";
-      picture-uri-dark = "";
-    };
     "org/gnome/shell" = {
       enabled-extensions = [
         "just-perfection-desktop@just-perfection"
