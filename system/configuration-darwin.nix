@@ -81,9 +81,6 @@
 
   # environment.shells = [ pkgs.fish ];
 
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
-
   services.tailscale.enable = true;
 
   nix.package = pkgs.nix; # this is the default
