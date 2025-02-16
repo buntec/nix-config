@@ -2,25 +2,18 @@
 {
 
   imports = [
+    ./fish/fish.nix
+    ./ghostty/ghostty.nix
     ./git/git.nix
     ./kitty/kitty.nix
-    ./fish/fish.nix
-    ./tmux/tmux.nix
     ./neovim/neovim.nix
+    ./tmux/tmux.nix
   ];
 
   home.stateVersion = "22.11";
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
-  # Kauz colorscheme
-  kauz = {
-    fish.enable = true;
-    kitty.enable = true;
-    neovim.enable = true;
-    tmux.enable = true;
-  };
 
   programs.bash.enable = true;
   programs.zsh.enable = true;

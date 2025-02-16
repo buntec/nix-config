@@ -70,6 +70,7 @@
     casks = [
       "discord"
       "firefox"
+      "ghostty"
       "google-chrome"
       "keepassxc"
       "kitty"

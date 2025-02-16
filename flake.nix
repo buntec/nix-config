@@ -33,8 +33,7 @@
     treefmt-nix.url = "github:numtide/treefmt-nix";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    kauz.url = "github:buntec/kauz";
-    kauz.inputs.nixpkgs.follows = "nixpkgs";
+    stylix.url = "github:danth/stylix";
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
@@ -63,8 +62,8 @@
       home-manager,
       devenv,
       flake-utils,
+      stylix,
       treefmt-nix,
-      kauz,
       nix-homebrew,
       homebrew-core,
       homebrew-cask,
@@ -136,7 +135,6 @@
         # ncdu
         # })
 
-        kauz.overlays.default
       ];
 
       # we select the branch according to recommendation in https://nix.dev/concepts/faq.html#rolling
@@ -160,6 +158,46 @@
         in
         treefmt-nix.lib.evalModule pkgs ./treefmt.nix
       );
+
+      stylixConfig =
+        mode:
+        { pkgs, ... }:
+        let
+          schemes = {
+            light = "${pkgs.base16-schemes}/share/themes/harmonic16-light.yaml";
+            dark = "${pkgs.base16-schemes}/share/themes/harmonic16-dark.yaml";
+          };
+        in
+        {
+          stylix = {
+            enable = true;
+            base16Scheme = schemes.${mode};
+            polarity = mode;
+            opacity.terminal = 0.98;
+            fonts = {
+              serif = {
+                package = pkgs.dejavu_fonts;
+                name = "DejaVu Serif";
+              };
+
+              sansSerif = {
+                package = pkgs.dejavu_fonts;
+                name = "DejaVu Sans";
+              };
+
+              monospace = {
+                package = pkgs.dejavu_fonts;
+                name = "DejaVu Sans Mono";
+              };
+
+              emoji = {
+                package = pkgs.noto-fonts-emoji;
+                name = "Noto Color Emoji";
+              };
+
+            };
+          };
+        };
 
     in
     {
@@ -202,15 +240,17 @@
               inherit inputs machine;
             };
             modules = [
-              {
+              (pkgs: {
                 nixpkgs = {
                   inherit overlays;
                   config = {
                     allowUnfree = true;
                   };
                 };
-              }
+              })
               disko.nixosModules.disko
+              stylix.nixosModules.stylix
+              (stylixConfig "light") # dark/light should have virtually no effect at OS level?
               ./system/configuration-nixos.nix
               ./system/configuration-${machine.name}.nix
             ];
@@ -227,14 +267,16 @@
               inherit inputs machine;
             };
             modules = [
-              {
+              (pkgs: {
                 nixpkgs = {
                   inherit overlays;
                   config = {
                     allowUnfree = true;
                   };
                 };
-              }
+              })
+              stylix.darwinModules.stylix
+              (stylixConfig "light") # dark/light should have virtually no effect at OS level?
               ./system/configuration-darwin.nix
               ./system/configuration-${machine.name}.nix
               nix-homebrew.darwinModules.nix-homebrew
@@ -267,13 +309,14 @@
                   inherit inputs machine mode;
                 };
                 modules = [
-                  {
-                    imports = [ kauz.homeModules.default ];
-                    kauz."light" = mode == "light";
+                  (pkgs: {
                     home.username = machine.user;
                     home.homeDirectory =
                       if (isDarwin machine.system) then "/Users/${machine.user}" else "/home/${machine.user}";
-                  }
+
+                  })
+                  stylix.homeManagerModules.stylix
+                  (stylixConfig mode)
                   ./home/home.nix
                   ./home/home-${if (isDarwin machine.system) then "darwin" else "nixos"}.nix
                   ./home/home-${machine.name}.nix
