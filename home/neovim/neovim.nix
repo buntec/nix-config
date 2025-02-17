@@ -100,6 +100,21 @@
           '';
         };
 
+        # https://github.com/echasnovski/mini.base16
+        mini-base16 = {
+          plugin = vimPlugins.mini-base16;
+          type = "lua";
+        };
+
+        # https://github.com/echasnovski/mini.colors
+        mini-colors = {
+          plugin = vimPlugins.mini-colors;
+          type = "lua";
+          config = ''
+            require('mini.colors').setup()
+          '';
+        };
+
         # https://github.com/NeogitOrg/neogit
         neogit = {
           plugin = vimPlugins.neogit;
@@ -202,6 +217,8 @@
         grug-far
         lspconfig
         lualine
+        mini-base16
+        mini-colors
         mini-icons
         neogit
         nvim-lint
