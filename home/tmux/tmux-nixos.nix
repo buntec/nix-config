@@ -8,7 +8,7 @@
     in
     {
       extraConfig = ''
-        set -g status-right "🦉#{user} - 💻#{host_short} - #(conky -c ${conky-config}) - %a %F %R %Z"
+        set -g status-right "🦉#{user} - 💻#{host_short}(🐧) - #(conky -c ${conky-config}) - %a %F %R %Z"
       '';
     };
 }
