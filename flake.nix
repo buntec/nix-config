@@ -164,8 +164,10 @@
         { pkgs, ... }:
         let
           schemes = {
-            light = "${pkgs.base16-schemes}/share/themes/harmonic16-light.yaml";
-            dark = "${pkgs.base16-schemes}/share/themes/harmonic16-dark.yaml";
+            light = ./extras/kauz-light.yml;
+            dark = ./extras/kauz-dark.yml;
+            # light = "${pkgs.base16-schemes}/share/themes/harmonic16-light.yaml";
+            # dark = "${pkgs.base16-schemes}/share/themes/harmonic16-dark.yaml";
           };
         in
         {
