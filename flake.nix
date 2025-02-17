@@ -166,8 +166,6 @@
           schemes = {
             light = ./extras/kauz-light.yml;
             dark = ./extras/kauz-dark.yml;
-            # light = "${pkgs.base16-schemes}/share/themes/harmonic16-light.yaml";
-            # dark = "${pkgs.base16-schemes}/share/themes/harmonic16-dark.yaml";
           };
         in
         {
@@ -175,7 +173,7 @@
             enable = true;
             base16Scheme = schemes.${mode};
             polarity = mode;
-            opacity.terminal = 0.98;
+            opacity.terminal = 1.0;
             image = pkgs.fetchurl {
               url = "https://images.unsplash.com/photo-1524889777220-eae0b973ec80";
               sha256 = "sha256-Njkv8yt4RMZIo0poTtc2Avz8q1WZjREa9zwqLdYwtgE=";

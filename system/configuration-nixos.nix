@@ -91,34 +91,38 @@
   programs.fish.enable = true;
 
   fonts = {
-    packages = with pkgs; [
-      dejavu_fonts
-      fira-code
-      jetbrains-mono
-      noto-fonts-color-emoji
-    ];
+
+    # NOTE: managed by stylix
+    # packages = with pkgs; [
+    #   dejavu_fonts
+    #   fira-code
+    #   jetbrains-mono
+    #   noto-fonts-color-emoji
+    # ];
 
     # fontDir.enable = true;
 
     fontconfig = {
       enable = true;
 
-      defaultFonts = {
-        serif = [
-          "DejaVu Serif"
-        ];
-        sansSerif = [
-          "DejaVu Sans"
-        ];
-        monospace = [
-          "JetBrainsMono"
-          "FiraCode"
-          "DejaVu Sans Mono"
-        ];
-        emoji = [
-          "Noto Color Emoji"
-        ];
-      };
+      # NOTE: managed by stylix
+      # defaultFonts = {
+      #   serif = [
+      #     "DejaVu Serif"
+      #   ];
+      #   sansSerif = [
+      #     "DejaVu Sans"
+      #   ];
+      #   monospace = [
+      #     "JetBrainsMono"
+      #     "FiraCode"
+      #     "DejaVu Sans Mono"
+      #   ];
+      #   emoji = [
+      #     "Noto Color Emoji"
+      #   ];
+      # };
+
     };
   };
 
