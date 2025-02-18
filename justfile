@@ -6,6 +6,10 @@ SSH_OPTIONS := '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o C
 default:
     just --list
 
+# Reformat all sources (nix & lua)
+format:
+  nix fmt
+
 # rebuild NixOS config and switch
 [linux]
 nixos-switch:

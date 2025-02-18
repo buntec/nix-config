@@ -11,6 +11,16 @@
     plugins =
       let
 
+        # https://github.com/romgrk/barbar.nvim/
+        barbar = {
+          plugin = vimPlugins.barbar-nvim;
+          type = "lua";
+          config = ''
+            vim.g.barbar_auto_setup = false
+            require('barbar').setup({})
+          '';
+        };
+
         # https://github.com/Saghen/blink.cmp
         blink-cmp = {
           plugin = vimPlugins.blink-cmp;
@@ -207,6 +217,7 @@
 
       in
       lib.lists.flatten [
+        barbar
         blink-cmp
         conform
         diffview
