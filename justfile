@@ -1,5 +1,4 @@
 host := `hostname`
-
 SSH_OPTIONS := '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=600'
 
 # list recipes
@@ -8,12 +7,17 @@ default:
 
 # Reformat all sources (nix & lua)
 format:
-  nix fmt
+    nix fmt
 
 # rebuild NixOS config and switch
 [linux]
 nixos-switch:
     sudo nix run .#rebuild-{{ host }}
+
+# rebuild nix-darwin config and switch
+[macos]
+nix-darwin-switch:
+    nix run .#rebuild-{{ host }}
 
 # rebuild Home Manager config and switch; mode='light'|'dark'
 [unix]
@@ -24,16 +28,10 @@ hm-switch mode='light':
     # reload fish config
     fish -c 'reload_all_fish_instances'
 
-# rebuild nix-darwin config and switch
-[macos]
-nix-darwin-switch:
-    nix run .#rebuild-{{ host }}
-
 # clean up nix store by removing old generations etc.
 [unix]
 collect-garbage:
     nix-collect-garbage -d
-
 
 # install NixOS & HM on fresh VM (see README.md)
 [private]
