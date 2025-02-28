@@ -156,6 +156,16 @@
           config = builtins.readFile ./plugins/oil.lua;
         };
 
+        precognition = {
+          plugin = vimPlugins.precognition-nvim;
+          type = "lua";
+          config = ''
+            require('precognition').setup({
+              startVisible = false
+            })
+          '';
+        };
+
         # https://github.com/nvim-lua/plenary.nvim
         plenary = {
           plugin = vimPlugins.plenary-nvim;
@@ -215,6 +225,11 @@
           config = builtins.readFile ./plugins/which-key.lua;
         };
 
+        yazi = {
+          plugin = vimPlugins.yazi-nvim;
+          type = "lua";
+        };
+
       in
       lib.lists.flatten [
         barbar
@@ -236,6 +251,7 @@
         nvim-metals
         oil
         plenary
+        precognition
         snacks
         stylelint
         surround
@@ -244,6 +260,7 @@
         vim-tmux-nav
         web-devicons
         which-key
+        yazi
       ];
 
     extraPackages = [ ];

@@ -55,6 +55,8 @@ local gitsigns = require("gitsigns")
 local fzf = require("fzf-lua")
 local conform = require("conform")
 local tscontext = require("treesitter-context")
+local yazi = require("yazi")
+local precog = require("precognition")
 
 -- stylua: ignore start
 
@@ -151,6 +153,14 @@ map("n", "<leader>ca", fzf.lsp_code_actions, { desc = "lsp code actions" })
 
 map({ "n", "v" }, "<localleader>f", function() conform.format({ async = true }) end, { desc = "format buffer (async)" })
 -- map({ "n", "v" }, "<localleader>f", vim.lsp.buf.format, { desc = "lsp format" }) -- we prefer Conform
+
+
+-- yazi
+map({ "n", "v" }, "<leader>ya", function() yazi.yazi() end, { desc = "open yazi" } )
+
+
+-- precognition
+map({ "n", "v" }, "<leader>pc", function() precog.toggle() end, { desc = "toggle precognition" } )
 
 
 -- barbar
