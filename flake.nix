@@ -342,7 +342,8 @@
               machine:
               let
                 pkgs = pkgsBySystem.${system};
-                rebuildScript = pkgs.writeShellScript "rebuild-${machine.name}" (
+
+                osRebuildScript = pkgs.writeShellScript "rebuild-${machine.name}" (
                   if (isDarwin machine.system) then
                     "${
                       self.darwinConfigurations.${machine.name}.system
@@ -350,33 +351,34 @@
                   else
                     "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${self}#${machine.name}"
                 );
-                hmSwitchScriptLight = pkgs.writeShellScript "hm-switch-${machine.name}-light" "${
-                  inputs.home-manager.packages.${system}.home-manager
-                }/bin/home-manager switch --flake ${self}#${machine.name}-light";
-                hmSwitchScriptDark = pkgs.writeShellScript "hm-switch-${machine.name}-dark" "${
-                  inputs.home-manager.packages.${system}.home-manager
-                }/bin/home-manager switch --flake ${self}#${machine.name}-dark";
+
+                hmSwitchScript =
+                  mode:
+                  pkgs.writeShellScript "hm-switch-${machine.name}-${mode}" "${
+                    inputs.home-manager.packages.${system}.home-manager
+                  }/bin/home-manager switch -b backup --flake ${self}#${machine.name}-${mode}";
+
               in
               [
                 {
                   name = "rebuild-${machine.name}";
                   value = {
                     type = "app";
-                    program = "${rebuildScript}";
+                    program = "${osRebuildScript}";
                   };
                 }
                 {
                   name = "hm-switch-${machine.name}-dark";
                   value = {
                     type = "app";
-                    program = "${hmSwitchScriptDark}";
+                    program = "${hmSwitchScript "dark"}";
                   };
                 }
                 {
                   name = "hm-switch-${machine.name}-light";
                   value = {
                     type = "app";
-                    program = "${hmSwitchScriptLight}";
+                    program = "${hmSwitchScript "light"}";
                   };
                 }
               ]
