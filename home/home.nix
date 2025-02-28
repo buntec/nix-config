@@ -141,7 +141,7 @@
     ++ network-tools
     ++ (with pkgs; [
       amber # search & replace - https://github.com/dalance/amber
-      ast-grep # https://github.com/ast-grep/ast-grep
+      # ast-grep # https://github.com/ast-grep/ast-grep
       atool # archive tool - https://www.nongnu.org/atool/
       bat # better cat - https://github.com/sharkdp/bat
       broot # https://dystroy.org/broot/
