@@ -7,7 +7,25 @@
     userName = "Christoph Bunte";
     diff-so-fancy.enable = true;
     extraConfig = {
-      init.defaultBranch = "main";
+      column = {
+        ui = "auto";
+      };
+
+      branch = {
+        sort = "-committerdate";
+      };
+
+      tag = {
+        sort = "-version:refname";
+      };
+
+      push = {
+        autoSetupRemote = true;
+      };
+
+      init = {
+        defaultBranch = "main";
+      };
     };
   };
 
