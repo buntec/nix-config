@@ -507,6 +507,22 @@
         "type": "github"
       }
     },
+    "kauz": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1740850644,
+        "narHash": "sha256-aQ7G/erbXP1poWdwzH0TH4IcD4kb1afeZDQxpZSRgx8=",
+        "owner": "buntec",
+        "repo": "kauz",
+        "rev": "a583a8128c3a9de00924fd83f73db5a466e24b36",
+        "type": "github"
+      },
+      "original": {
+        "owner": "buntec",
+        "repo": "kauz",
+        "type": "github"
+      }
+    },
     "libgit2": {
       "flake": false,
       "locked": {
@@ -783,6 +799,7 @@
         "home-manager": "home-manager",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
+        "kauz": "kauz",
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs_5",
         "nixpkgs-darwin": "nixpkgs-darwin",

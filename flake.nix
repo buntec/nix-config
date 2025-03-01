@@ -47,6 +47,11 @@
       flake = false;
     };
 
+    kauz = {
+      url = "github:buntec/kauz";
+      flake = false;
+    };
+
   };
 
   outputs =
@@ -67,6 +72,7 @@
       nix-homebrew,
       homebrew-core,
       homebrew-cask,
+      kauz,
       ...
     }:
     let
@@ -164,8 +170,8 @@
         { pkgs, ... }:
         let
           schemes = {
-            light = ./extras/kauz-light.yml;
-            dark = ./extras/kauz-dark.yml;
+            light = "${kauz}/base24/kauz-light.yml";
+            dark = "${kauz}/base24/kauz-dark.yml";
           };
         in
         {
