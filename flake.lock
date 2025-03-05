@@ -510,11 +510,11 @@
     "kauz": {
       "flake": false,
       "locked": {
-        "lastModified": 1740854470,
-        "narHash": "sha256-z2AbgFBUPQk6/UWlEw1DC1Qn/zEQ/XppHuEBRb0MLAY=",
+        "lastModified": 1741163922,
+        "narHash": "sha256-F80Ux+zElQpACul/m0BiEdQOFn3RwI35npy1DMKdre0=",
         "owner": "buntec",
         "repo": "kauz",
-        "rev": "530cc86a4feea15916f1e8471ea05209b0ff61db",
+        "rev": "051f0567df0de47d2576002624d8fe0194bf3aea",
         "type": "github"
       },
       "original": {

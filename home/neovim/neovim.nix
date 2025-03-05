@@ -28,6 +28,14 @@
           config = builtins.readFile ./plugins/blink-cmp.lua;
         };
 
+        colorizer = {
+          plugin = vimPlugins.nvim-colorizer-lua;
+          type = "lua";
+          config = ''
+            require("colorizer").setup()
+          '';
+        };
+
         # https://github.com/stevearc/conform.nvim
         conform = {
           plugin = vimPlugins.conform-nvim;
@@ -234,6 +242,7 @@
       lib.lists.flatten [
         barbar
         blink-cmp
+        colorizer
         conform
         diffview
         dressing
