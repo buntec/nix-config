@@ -10,8 +10,6 @@
     gnome-tour # remove annoying tour popup on first start
   ];
 
-  environment.systemPackages = with pkgs; [
-    gnomeExtensions.just-perfection
-  ];
+  # environment.systemPackages = with pkgs; [ gnomeExtensions.just-perfection ];
 
 }

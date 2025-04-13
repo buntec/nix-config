@@ -17,9 +17,6 @@
 
     packages = with pkgs; [
       keepassxc
-      spotify
-      discord
-      whatsapp-for-linux
     ];
 
   };
@@ -38,7 +35,7 @@
   services.printing.enable = true;
 
   # audio stuff
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -52,5 +49,9 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "buntec" ];
+  boot.kernelParams = [ "kvm.enable_virt_at_load=0" ];
 
 }

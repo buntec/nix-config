@@ -13,6 +13,8 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-nixos-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
     home-manager = {
       # url = "github:nix-community/home-manager/release-23.11"; # for nixpkgs-23.11
       url = "github:nix-community/home-manager"; # for nixpkgs-unstable
@@ -64,6 +66,7 @@
       nixpkgs-darwin,
       nixpkgs-unstable,
       nixpkgs-nixos-unstable,
+      nixos-hardware,
       home-manager,
       devenv,
       flake-utils,
@@ -242,69 +245,86 @@
       );
 
       nixosConfigurations = builtins.listToAttrs (
-        builtins.map (machine: {
-          inherit (machine) name;
-          value = nixpkgs-nixos.lib.nixosSystem {
-            inherit (machine) system;
-            specialArgs = {
-              inherit inputs machine;
-            };
-            modules = [
-              (pkgs: {
-                nixpkgs = {
-                  inherit overlays;
-                  config = {
-                    allowUnfree = true;
-                  };
+        builtins.concatMap
+          (
+            mode:
+            builtins.map (machine: {
+              name = "${machine.name}-${mode}";
+              value = nixpkgs-nixos-unstable.lib.nixosSystem {
+                inherit (machine) system;
+                specialArgs = {
+                  inherit inputs machine;
                 };
-              })
-              disko.nixosModules.disko
-              stylix.nixosModules.stylix
-              (stylixConfig "light") # dark/light should have virtually no effect at OS level?
-              ./system/configuration-nixos.nix
-              ./system/configuration-${machine.name}.nix
-            ];
-          };
-        }) nixosMachines
+                modules = [
+                  (pkgs: {
+                    nixpkgs = {
+                      inherit overlays;
+                      config = {
+                        allowUnfree = true;
+                      };
+                    };
+                  })
+                  disko.nixosModules.disko
+                  stylix.nixosModules.stylix
+                  nixos-hardware.nixosModules.lenovo-thinkpad-x1-7th-gen
+                  (stylixConfig mode)
+                  ./system/configuration-nixos.nix
+                  ./system/configuration-${machine.name}.nix
+                ];
+              };
+            }) nixosMachines
+          )
+          [
+            "light"
+            "dark"
+          ]
       );
 
       darwinConfigurations = builtins.listToAttrs (
-        builtins.map (machine: {
-          inherit (machine) name;
-          value = darwin.lib.darwinSystem {
-            inherit (machine) system;
-            specialArgs = {
-              inherit inputs machine;
-            };
-            modules = [
-              (pkgs: {
-                nixpkgs = {
-                  inherit overlays;
-                  config = {
-                    allowUnfree = true;
-                  };
+        builtins.concatMap
+          (
+            mode:
+            builtins.map (machine: {
+              name = "${machine.name}-${mode}";
+              value = darwin.lib.darwinSystem {
+                inherit (machine) system;
+                specialArgs = {
+                  inherit inputs machine;
                 };
-              })
-              stylix.darwinModules.stylix
-              (stylixConfig "light") # dark/light should have virtually no effect at OS level?
-              ./system/configuration-darwin.nix
-              ./system/configuration-${machine.name}.nix
-              nix-homebrew.darwinModules.nix-homebrew
-              {
-                nix-homebrew = {
-                  inherit (machine) user;
-                  enable = true;
-                  enableRosetta = isAppleSilicon machine.system;
-                  taps = {
-                    "homebrew/homebrew-core" = homebrew-core;
-                    "homebrew/homebrew-cask" = homebrew-cask;
-                  };
-                  autoMigrate = true; # Automatically migrate existing Homebrew installations
-                };
-              }
-            ];
-          };
-        }) darwinMachines
+                modules = [
+                  (pkgs: {
+                    nixpkgs = {
+                      inherit overlays;
+                      config = {
+                        allowUnfree = true;
+                      };
+                    };
+                  })
+                  stylix.darwinModules.stylix
+                  (stylixConfig mode)
+                  ./system/configuration-darwin.nix
+                  ./system/configuration-${machine.name}.nix
+                  nix-homebrew.darwinModules.nix-homebrew
+                  {
+                    nix-homebrew = {
+                      inherit (machine) user;
+                      enable = true;
+                      enableRosetta = isAppleSilicon machine.system;
+                      taps = {
+                        "homebrew/homebrew-core" = homebrew-core;
+                        "homebrew/homebrew-cask" = homebrew-cask;
+                      };
+                      autoMigrate = true; # Automatically migrate existing Homebrew installations
+                    };
+                  }
+                ];
+              };
+            }) darwinMachines
+          )
+          [
+            "light"
+            "dark"
+          ]
       );
 
       homeConfigurations = builtins.listToAttrs (
@@ -349,14 +369,16 @@
               let
                 pkgs = pkgsBySystem.${system};
 
-                osRebuildScript = pkgs.writeShellScript "rebuild-${machine.name}" (
-                  if (isDarwin machine.system) then
-                    "${
-                      self.darwinConfigurations.${machine.name}.system
-                    }/sw/bin/darwin-rebuild switch --flake ${self}#${machine.name}"
-                  else
-                    "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${self}#${machine.name}"
-                );
+                osRebuildScript =
+                  mode:
+                  pkgs.writeShellScript "rebuild-${machine.name}" (
+                    if (isDarwin machine.system) then
+                      "${
+                        self.darwinConfigurations.${machine.name}.system
+                      }/sw/bin/darwin-rebuild switch --flake ${self}#${machine.name}-${mode}"
+                    else
+                      "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${self}#${machine.name}-${mode}"
+                  );
 
                 hmSwitchScript =
                   mode:
@@ -367,10 +389,17 @@
               in
               [
                 {
-                  name = "rebuild-${machine.name}";
+                  name = "rebuild-${machine.name}-dark";
                   value = {
                     type = "app";
-                    program = "${osRebuildScript}";
+                    program = "${osRebuildScript "dark"}";
+                  };
+                }
+                {
+                  name = "rebuild-${machine.name}-light";
+                  value = {
+                    type = "app";
+                    program = "${osRebuildScript "light"}";
                   };
                 }
                 {
@@ -403,15 +432,15 @@
                 name = "toplevel-${machine.name}";
                 value =
                   if (isDarwin machine.system) then
-                    self.darwinConfigurations.${machine.name}.config.system.build.toplevel
+                    self.darwinConfigurations.${"${machine.name}-light"}.config.system.build.toplevel
                   else
-                    self.nixosConfigurations.${machine.name}.config.system.build.toplevel;
+                    self.nixosConfigurations.${"${machine.name}-light"}.config.system.build.toplevel;
               }
               {
                 name = "hm-${machine.name}";
                 value =
                   builtins.trace "system: ${machine.system}, name: ${machine.name}"
-                    self.homeConfigurations.${machine.name}.activationPackage;
+                    self.homeConfigurations.${"${machine.name}-light"}.activationPackage;
               }
             ]) machines
           )

@@ -23,8 +23,8 @@
   };
 
   home.packages = with pkgs; [
-    racket
+    # racket
     conky # https://github.com/brndnmtthws/conky
-    docker
+    # docker
   ];
 }

@@ -9,19 +9,19 @@ default:
 format:
     nix fmt
 
-# rebuild NixOS config and switch
+# rebuild NixOS config and switch; mode='light'|'dark'
 [linux]
-nixos-switch:
-    sudo nix run .#rebuild-{{ host }}
+nixos-switch mode='dark':
+    sudo nix run .#rebuild-{{ host }}-{{ mode }}
 
-# rebuild nix-darwin config and switch
+# rebuild nix-darwin config and switch; mode='light'|'dark'
 [macos]
-nix-darwin-switch:
-    nix run .#rebuild-{{ host }}
+nix-darwin-switch mode='dark':
+    nix run .#rebuild-{{ host }}-{{ mode }}
 
 # rebuild Home Manager config and switch; mode='light'|'dark'
 [unix]
-hm-switch mode='light':
+hm-switch mode='dark':
     nix run .#hm-switch-{{ host }}-{{ mode }}
     # reload tmux config
     tmux source-file ~/.config/tmux/tmux.conf
