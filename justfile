@@ -35,23 +35,27 @@ collect-garbage:
 
 # install NixOS & HM on fresh VM (see README.md)
 [private]
-bootstrap-vm ip attr user:
+bootstrap-vm ip port attr user:
     nix run github:nix-community/nixos-anywhere -- \
     --flake '.#{{ attr }}' \
     --ssh-option 'UserKnownHostsFile=/dev/null' \
     --ssh-option 'StrictHostKeyChecking=no' \
-    --build-on-remote \
+    --ssh-port {{ port }} \
+    --build-on remote \
+    --disko-mode disko \
     --generate-hardware-config nixos-generate-config ./system/hardware-configuration.nix \
     --target-host nixos@{{ ip }}
     # copy ssh keys
-    rsync -av -e 'ssh {{ SSH_OPTIONS }}' ~/.ssh/ {{ user }}@{{ ip }}:~/.ssh
+    rsync -av -e 'ssh -p {{ port }} {{ SSH_OPTIONS }}' ~/.ssh/ {{ user }}@{{ ip }}:~/.ssh
     # copy this repo - this conveniently gives us the generated hardware config
-    rsync -av -e 'ssh {{ SSH_OPTIONS }}' . {{ user }}@{{ ip }}:~/nix-config
+    rsync -av -e 'ssh -p {{ port }} {{ SSH_OPTIONS }}' . {{ user }}@{{ ip }}:~/nix-config
     # build and activate Home Manager config
     ssh {{ SSH_OPTIONS }} -v {{ user }}@{{ ip }} 'cd nix-config; just hm-switch'
 
 [macos]
-bootstrap-mbp-vmw ip: (bootstrap-vm ip 'macbook-pro-m1-vmw' 'buntec')
+bootstrap-mbp-vmw ip: (bootstrap-vm ip '22' 'macbook-pro-m1-vmw-dark' 'buntec')
 
 [macos]
-bootstrap-mbp-utm ip: (bootstrap-vm ip 'macbook-pro-m1-utm' 'buntec')
+bootstrap-mbp-utm ip: (bootstrap-vm ip '22' 'macbook-pro-m1-utm-dark' 'buntec')
+
+bootstrap-win11-vb ip port: (bootstrap-vm ip port 'win11-vb-dark' 'buntec')

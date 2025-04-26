@@ -113,6 +113,12 @@
           user = "christophbunte";
           system = flake-utils.lib.system.x86_64-darwin;
         }
+        {
+          # NixOS w/ HM running inside VirtualBox guest on Windows 11 desktop
+          name = "win11-vb";
+          user = "buntec";
+          system = flake-utils.lib.system.x86_64-linux;
+        }
       ];
 
       isDarwin = system: (builtins.match ".*darwin" system) != null;
@@ -215,27 +221,6 @@
     in
     {
 
-      devShells = eachSystem (
-        system:
-        let
-          pkgs = pkgsBySystem.${system};
-        in
-        {
-          default = devenv.lib.mkShell {
-            inherit inputs pkgs;
-            modules = [
-              (
-                { pkgs, config, ... }:
-                {
-                  languages.lua.enable = true;
-                  languages.nix.enable = true;
-                }
-              )
-            ];
-          };
-        }
-      );
-
       formatter = eachSystem (
         system:
         let
@@ -266,7 +251,6 @@
                   })
                   disko.nixosModules.disko
                   stylix.nixosModules.stylix
-                  nixos-hardware.nixosModules.lenovo-thinkpad-x1-7th-gen
                   (stylixConfig mode)
                   ./system/configuration-nixos.nix
                   ./system/configuration-${machine.name}.nix

@@ -1,11 +1,15 @@
 {
   config,
   pkgs,
+  inputs,
   machine,
   ...
 }:
 {
-  imports = [ ./gnome/gnome.nix ];
+  imports = [
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-7th-gen
+    ./gnome/gnome.nix
+  ];
 
   networking.hostName = "thinkpad-x1";
 
