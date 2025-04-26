@@ -358,7 +358,7 @@
                   pkgs.writeShellScript "rebuild-${machine.name}" (
                     if (isDarwin machine.system) then
                       "${
-                        self.darwinConfigurations.${machine.name}.system
+                        self.darwinConfigurations.${"${machine.name}-${mode}"}.system
                       }/sw/bin/darwin-rebuild switch --flake ${self}#${machine.name}-${mode}"
                     else
                       "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${self}#${machine.name}-${mode}"

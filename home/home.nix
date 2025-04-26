@@ -84,7 +84,6 @@
         nodePackages.bash-language-server
         nodePackages.typescript-language-server
         pyright
-        ruff-lsp
         vscode-langservers-extracted
       ];
       nix-tools = with pkgs; [
