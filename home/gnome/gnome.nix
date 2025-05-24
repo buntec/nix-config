@@ -24,7 +24,8 @@
     };
     "org/gnome/shell" = {
       enabled-extensions = [
-        "just-perfection-desktop@just-perfection"
+        # "just-perfection-desktop@just-perfection" # clashes with stylix
+        "hidetopbar@mathieu.bidon.ca"
       ];
     };
     "org/gnome/shell/extensions/just-perfection" = {
