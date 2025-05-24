@@ -72,6 +72,7 @@
     packages = with pkgs; [
       chromium
       firefox
+      keepassxc
       linuxPackages.perf
     ];
   };

@@ -113,6 +113,7 @@
       git-tools = with pkgs; [
         gh
         git-gone
+        gitu
         gitui
         lazygit
         tig
