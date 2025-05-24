@@ -329,7 +329,7 @@
                       if (isDarwin machine.system) then "/Users/${machine.user}" else "/home/${machine.user}";
 
                   })
-                  stylix.homeManagerModules.stylix
+                  stylix.homeModules.stylix
                   (stylixConfig mode)
                   ./home/home.nix
                   ./home/home-${if (isDarwin machine.system) then "darwin" else "nixos"}.nix
