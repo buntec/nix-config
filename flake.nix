@@ -210,14 +210,6 @@
                 package = pkgs.noto-fonts-emoji;
                 name = "Noto Color Emoji";
               };
-
-            };
-            targets.neovim = {
-              transparentBackground = {
-                main = true;
-                numberLine = true;
-                signColumn = true;
-              };
             };
           };
         };
