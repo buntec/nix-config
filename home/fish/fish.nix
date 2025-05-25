@@ -71,6 +71,7 @@
       gf = "git fetch";
       gp = "git pull";
       gl = "git log";
+      gu = "gitu";
 
       # vim
       v = "nvim";

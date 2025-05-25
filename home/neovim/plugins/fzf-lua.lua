@@ -7,8 +7,8 @@ fzf.setup({
     height = 0.95,
     width = 0.95,
     preview = {
-      layout = "vertical",
-      wrap = "wrap",
+      layout = "flex",
+      wrap = true,
     },
   },
   keymap = {
@@ -32,6 +32,8 @@ fzf.setup({
   },
   fzf_opts = {
     ["--cycle"] = true,
+    ["--keep-right"] = true,
+    ["--gap"] = true,
   },
   fzf_colors = {
     true,

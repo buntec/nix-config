@@ -188,11 +188,8 @@
             enable = true;
             base16Scheme = schemes.${mode};
             polarity = mode;
-            opacity.terminal = 1.0;
-            image = pkgs.fetchurl {
-              url = "https://images.unsplash.com/photo-1524889777220-eae0b973ec80";
-              sha256 = "sha256-Njkv8yt4RMZIo0poTtc2Avz8q1WZjREa9zwqLdYwtgE=";
-            };
+            opacity.terminal = 0.9;
+            image = ./wallpapers/lex-sirikiat-hmcyWDzjWHo-unsplash.jpg;
             fonts = {
               serif = {
                 package = pkgs.dejavu_fonts;
@@ -214,6 +211,13 @@
                 name = "Noto Color Emoji";
               };
 
+            };
+            targets.neovim = {
+              transparentBackground = {
+                main = true;
+                numberLine = true;
+                signColumn = true;
+              };
             };
           };
         };
