@@ -34,6 +34,7 @@ fzf.setup({
     ["--cycle"] = true,
     ["--keep-right"] = true,
     ["--gap"] = true,
+    ["--wrap"] = true,
   },
   fzf_colors = {
     true,
