@@ -32,5 +32,5 @@ blink.setup({
   },
 
   -- experimental signature help support
-  -- signature = { enabled = true }
+  signature = { enabled = true },
 })

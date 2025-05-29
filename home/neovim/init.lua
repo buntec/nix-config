@@ -15,7 +15,7 @@ global_opt.completeopt = { "menu", "menuone", "noselect" } -- Completion options
 global_opt.hidden = true -- Enable modified buffers in background
 global_opt.ignorecase = true -- Ignore case
 global_opt.joinspaces = false -- No double spaces with join after a dot
-global_opt.scrolloff = 4 -- Lines of context
+global_opt.scrolloff = 8 -- Lines of context
 global_opt.shiftround = true -- Round indent
 global_opt.sidescrolloff = 8 -- Columns of context
 global_opt.smartcase = true -- Don't ignore case with capitals
@@ -37,9 +37,19 @@ opt.tabstop = indent -- Number of spaces tabs count for
 opt.list = true -- Show some invisible characters (tabs...)
 opt.number = true -- Print line number
 opt.relativenumber = true -- Relative line numbers
-opt.wrap = false -- Disable line wrap
+opt.wrap = true
+opt.showbreak = "↪" -- character to show when line is broken
 opt.swapfile = false
 opt.cursorline = true
+
+vim.diagnostic.config({
+  virtual_text = false,
+  virtual_lines = true,
+  signs = true,
+  update_in_insert = false,
+  underline = true,
+  severity_sort = true,
+})
 
 map("n", "<C-j>", "<C-W><C-J>")
 map("n", "<C-k>", "<C-W><C-K>")
