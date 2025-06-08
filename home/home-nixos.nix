@@ -1,7 +1,6 @@
 # HM config common to all NixOS machines
 {
   pkgs,
-  lib,
   ...
 }:
 {
