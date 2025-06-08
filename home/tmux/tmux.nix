@@ -21,8 +21,6 @@
     extraConfig = ''
       set -g default-command "exec ${pkgs.fish}/bin/fish"
 
-      set -g window-status-separator ""
-
       # status bar
       set -g status on
       set -g status-position top
@@ -35,7 +33,5 @@
       ${builtins.readFile ./extra.conf}
     '';
   };
-
-  home.packages = [ pkgs.tmux-sessionizer ];
 
 }
