@@ -22,6 +22,10 @@
   environment.systemPackages = with pkgs; [
     # gnomeExtensions.just-perfection # clashes with stylix
     gnomeExtensions.hide-top-bar
+    gnome-tweaks
+    dconf-editor
+    gnomeExtensions.vitals
+    gnomeExtensions.forge
   ];
 
 }

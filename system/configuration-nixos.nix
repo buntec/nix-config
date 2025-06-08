@@ -91,42 +91,6 @@
   programs.zsh.enable = true;
   programs.fish.enable = true;
 
-  fonts = {
-
-    # NOTE: managed by stylix
-    # packages = with pkgs; [
-    #   dejavu_fonts
-    #   fira-code
-    #   jetbrains-mono
-    #   noto-fonts-color-emoji
-    # ];
-
-    # fontDir.enable = true;
-
-    fontconfig = {
-      enable = true;
-
-      # NOTE: managed by stylix
-      # defaultFonts = {
-      #   serif = [
-      #     "DejaVu Serif"
-      #   ];
-      #   sansSerif = [
-      #     "DejaVu Sans"
-      #   ];
-      #   monospace = [
-      #     "JetBrainsMono"
-      #     "FiraCode"
-      #     "DejaVu Sans Mono"
-      #   ];
-      #   emoji = [
-      #     "Noto Color Emoji"
-      #   ];
-      # };
-
-    };
-  };
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

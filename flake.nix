@@ -188,8 +188,16 @@
             enable = true;
             base16Scheme = schemes.${mode};
             polarity = mode;
-            opacity.terminal = 0.9;
+
+            opacity = {
+              applications = 0.9;
+              desktop = 0.9;
+              popups = 0.9;
+              terminal = 0.9;
+            };
+
             image = ./wallpapers/lex-sirikiat-hmcyWDzjWHo-unsplash.jpg;
+
             fonts = {
               serif = {
                 package = pkgs.dejavu_fonts;
@@ -209,6 +217,13 @@
               emoji = {
                 package = pkgs.noto-fonts-emoji;
                 name = "Noto Color Emoji";
+              };
+
+              sizes = {
+                applications = 8;
+                desktop = 8;
+                terminal = 10;
+                popups = 10;
               };
             };
           };
