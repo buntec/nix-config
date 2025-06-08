@@ -44,8 +44,8 @@
     enable = true;
     xkb = {
       layout = "us";
-      options = "ctrl:nocaps";
-      variant = "";
+      options = "ctrl:nocaps,compose:ralt";
+      variant = "intl";
     };
   };
 

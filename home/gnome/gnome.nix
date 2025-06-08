@@ -7,6 +7,12 @@
 {
 
   dconf.settings = {
+    "org/gnome/desktop/input-sources" = {
+      xkb-options = [
+        "ctrl:nocaps"
+        "compose:ralt"
+      ];
+    };
     "org/gnome/desktop/peripherals/touchpad" = {
       natural-scroll = false;
       speed = 0.0;
@@ -29,13 +35,37 @@
       enabled-extensions = [
         # "just-perfection-desktop@just-perfection" # clashes with stylix
         "hidetopbar@mathieu.bidon.ca"
+        "Vitals@CoreCoding.com"
+        "dash-to-panel@jderose9.github.com"
+        "space-bar@luchrioh"
       ];
     };
+
+    "org/gnome/shell/extensions/dash-to-panel" = {
+      show-favorites = false;
+      intellihide = false;
+    };
+
     "org/gnome/shell/extensions/just-perfection" = {
       panel = false; # remove top bar
       dash = false; # hide dock
       search = true;
     };
   };
+
+  home.packages = with pkgs.gnomeExtensions; [
+    # arcmenu
+    # date-menu-formatter
+    # forge
+    # just-perfection # clashes with stylix
+    # appindicator
+    # caffeine
+    dash-to-panel
+    hide-top-bar
+    space-bar
+    # tray-icons-reloaded
+    # user-themes
+    vitals
+  ];
 
 }
