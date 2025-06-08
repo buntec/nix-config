@@ -7,6 +7,12 @@
 {
 
   dconf.settings = {
+    "org/gnome/desktop/wm/keybindings" = {
+      close = [ "<Super>q" ];
+    };
+    "org/gnome/desktop/wm/keybindings" = {
+      toggle-fullscreen = [ "<Super>f" ];
+    };
     "org/gnome/desktop/input-sources" = {
       xkb-options = [
         "ctrl:nocaps"
