@@ -127,9 +127,8 @@
       network-tools = with pkgs; [
         curl
         hey
-        # httpie # xh is faster alternative in rust
         wget
-        xh
+        xh # faster httpie in rust
       ];
     in
     linters
@@ -141,8 +140,8 @@
     ++ json-tools
     ++ network-tools
     ++ (with pkgs; [
-      amber # search & replace - https://github.com/dalance/amber
       # ast-grep # https://github.com/ast-grep/ast-grep
+      amber # search & replace - https://github.com/dalance/amber
       atool # archive tool - https://www.nongnu.org/atool/
       bat # better cat - https://github.com/sharkdp/bat
       broot # https://dystroy.org/broot/
@@ -164,6 +163,7 @@
       ripgrep # better grep - https://github.com/BurntSushi/ripgrep
       tldr # https://github.com/tldr-pages/tldr
       tree # https://oldmanprogrammer.net/source.php?dir=projects/tree
+      typos # source code spell checker - https://github.com/crate-ci/typos
       watchexec # https://watchexec.github.io/
       yazi # https://github.com/sxyazi/yazi
     ]);
@@ -172,7 +172,12 @@
     enable = true;
   };
 
-  # https://github.com/htop-dev/htop
+  # better top - https://github.com/aristocratos/btop
+  programs.btop = {
+    enable = true;
+  };
+
+  # better top - https://github.com/htop-dev/htop
   programs.htop = {
     enable = true;
     settings.show_program_path = true;

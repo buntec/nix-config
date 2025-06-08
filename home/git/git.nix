@@ -29,4 +29,5 @@
     };
   };
 
+  home.file.".tigrc".source = ./.tigrc;
 }
