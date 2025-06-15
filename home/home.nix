@@ -144,7 +144,6 @@
       amber # search & replace - https://github.com/dalance/amber
       atool # archive tool - https://www.nongnu.org/atool/
       bat # better cat - https://github.com/sharkdp/bat
-      broot # https://dystroy.org/broot/
       csvlens # https://github.com/YS-L/csvlens
       d2 # https://github.com/terrastruct/d2
       eza # better ls - https://github.com/eza-community/eza
@@ -156,7 +155,6 @@
       just # https://github.com/casey/just
       killall
       marp-cli # https://github.com/marp-team/marp-cli
-      neovide # Neovim GUI - https://neovide.dev/
       nodePackages.live-server
       pandoc # https://github.com/jgm/pandoc
       restic # backup - https://github.com/restic/restic
@@ -185,4 +183,17 @@
 
   # smart cd - https://github.com/ajeetdsouza/zoxide
   programs.zoxide.enable = true;
+
+  # file browser - https://dystroy.org/broot/
+  programs.broot = {
+    enable = true;
+    enableFishIntegration = true;
+    settings = { };
+  };
+
+  # Neovim GUI - https://neovide.dev/
+  programs.neovide = {
+    enable = true;
+    settings = { };
+  };
 }
