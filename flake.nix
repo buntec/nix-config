@@ -209,9 +209,19 @@
                 name = "DejaVu Sans";
               };
 
+              # monospace = {
+              #   package = pkgs.dejavu_fonts;
+              #   name = "DejaVu Sans Mono";
+              # };
+
+              # monospace = {
+              #   package = pkgs.nerd-fonts.iosevka;
+              #   name = "Iosevka Nerd Font";
+              # };
+
               monospace = {
-                package = pkgs.dejavu_fonts;
-                name = "DejaVu Sans Mono";
+                package = pkgs.nerd-fonts.jetbrains-mono;
+                name = "JetBrains Mono Nerd Font";
               };
 
               emoji = {

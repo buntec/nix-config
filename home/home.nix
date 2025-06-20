@@ -188,7 +188,18 @@
   programs.broot = {
     enable = true;
     enableFishIntegration = true;
-    settings = { };
+    settings = {
+      modal = true;
+      verbs = [
+        {
+          key = "enter";
+          external = "$EDITOR +{line} {file}";
+          apply_to = "text_file";
+          leave_broot = false;
+          set_working_dir = false;
+        }
+      ];
+    };
   };
 
   # Neovim GUI - https://neovide.dev/
