@@ -7,25 +7,13 @@
     userName = "Christoph Bunte";
     diff-so-fancy.enable = true;
     extraConfig = {
-      column = {
-        ui = "auto";
-      };
-
-      branch = {
-        sort = "-committerdate";
-      };
-
-      tag = {
-        sort = "-version:refname";
-      };
-
-      push = {
-        autoSetupRemote = true;
-      };
-
-      init = {
-        defaultBranch = "main";
-      };
+      branch.sort = "-committerdate";
+      column.ui = "auto";
+      commit.verbose = true;
+      init.defaultBranch = "main";
+      pull.rebase = true;
+      push.autoSetupRemote = true;
+      tag.sort = "-version:refname";
     };
   };
 
