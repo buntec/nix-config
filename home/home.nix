@@ -157,6 +157,7 @@
       marp-cli # https://github.com/marp-team/marp-cli
       nodePackages.live-server
       pandoc # https://github.com/jgm/pandoc
+      pixi
       restic # backup - https://github.com/restic/restic
       ripgrep # better grep - https://github.com/BurntSushi/ripgrep
       tldr # https://github.com/tldr-pages/tldr

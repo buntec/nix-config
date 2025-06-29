@@ -87,6 +87,8 @@
     wl-clipboard
   ];
 
+  programs.nix-ld.enable = true;
+
   # Shells
   programs.zsh.enable = true;
   programs.fish.enable = true;
