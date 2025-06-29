@@ -11,7 +11,7 @@ require("conform").setup({
     json = { "jq" },
     lua = { "stylua" },
     markdown = { "prettierd" },
-    python = { "ruff_format", "ruff_fix" },
+    python = { "ruff_format", "ruff_organize_imports" },
     typescript = { "prettierd" },
     yaml = { "yamlfmt" },
   },

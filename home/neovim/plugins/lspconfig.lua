@@ -1,39 +1,26 @@
-local lsp_config = require("lspconfig")
-
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
--- capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
-lsp_config.util.default_config =
-  vim.tbl_extend("force", lsp_config.util.default_config, { capabilities = capabilities })
-
--- lsp_config.metals.setup {} -- NOTE: scala metals is managed by nvim-metals
-lsp_config.bashls.setup({})
-lsp_config.clangd.setup({})
-
--- lsp_config.cmake.setup({})
-lsp_config.neocmake.setup({})
-
-lsp_config.gopls.setup({})
-lsp_config.hls.setup({})
-lsp_config.html.setup({})
-lsp_config.pyright.setup({})
-lsp_config.smithy_ls.setup({})
-lsp_config.taplo.setup({})
-lsp_config.ts_ls.setup({})
-
-lsp_config.nil_ls.setup({
-  settings = {
-    ["nil"] = {
-      formatting = {
-        command = { "nixfmt" },
-      },
-    },
-  },
+vim.lsp.config("*", {
+  capabilities = capabilities,
 })
 
-lsp_config.lua_ls.setup({
+vim.lsp.enable("bashls")
+vim.lsp.enable("clangd")
+vim.lsp.enable("gopls")
+vim.lsp.enable("hls")
+vim.lsp.enable("html")
+vim.lsp.enable("lua_ls")
+vim.lsp.enable("neocmake")
+vim.lsp.enable("nil_ls")
+vim.lsp.enable("pyright")
+vim.lsp.enable("ruff")
+vim.lsp.enable("taplo")
+vim.lsp.enable("texlab")
+vim.lsp.enable("ts_ls")
+
+vim.lsp.config("lua_ls", {
   settings = {
     Lua = {
       format = {
@@ -59,7 +46,7 @@ lsp_config.lua_ls.setup({
   },
 })
 
-lsp_config.texlab.setup({
+vim.lsp.config("texlab", {
   settings = {
     texlab = {
       auxDirectory = ".",
