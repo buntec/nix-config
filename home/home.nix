@@ -93,6 +93,7 @@
         nix-output-monitor
       ];
       lang-tools = with pkgs; [
+        bun
         cargo
         clang-tools
         cmake
@@ -102,12 +103,14 @@
         haskellPackages.hoogle
         jdk
         nodejs
+        pixi
         python-with-packages
         sbt
         scala-cli
         stack
         taplo
         texlab
+        uv
         visualvm
         yarn
       ];
@@ -130,6 +133,33 @@
         wget
         xh # faster httpie in rust
       ];
+      misc-tools = with pkgs; [
+        # ast-grep # https://github.com/ast-grep/ast-grep
+        amber # search & replace - https://github.com/dalance/amber
+        atool # archive tool - https://www.nongnu.org/atool/
+        bat # better cat - https://github.com/sharkdp/bat
+        csvlens # https://github.com/YS-L/csvlens
+        d2 # https://github.com/terrastruct/d2
+        eza # better ls - https://github.com/eza-community/eza
+        fastfetch # like neofetch
+        fd # better find - https://github.com/sharkdp/fd
+        fzf # https://github.com/junegunn/fzf
+        gdu # ncdu breaks often, use gdu instead for now
+        hyperfine # https://github.com/sharkdp/hyperfine
+        just # https://github.com/casey/just
+        killall
+        marp-cli # https://github.com/marp-team/marp-cli
+        nodePackages.live-server
+        pandoc # https://github.com/jgm/pandoc
+        procs # better ps
+        restic # backup - https://github.com/restic/restic
+        ripgrep # better grep - https://github.com/BurntSushi/ripgrep
+        tldr # https://github.com/tldr-pages/tldr
+        tree # https://oldmanprogrammer.net/source.php?dir=projects/tree
+        typos # source code spell checker - https://github.com/crate-ci/typos
+        watchexec # https://watchexec.github.io/
+        yazi # https://github.com/sxyazi/yazi
+      ];
     in
     linters
     ++ formatters
@@ -139,33 +169,7 @@
     ++ git-tools
     ++ json-tools
     ++ network-tools
-    ++ (with pkgs; [
-      # ast-grep # https://github.com/ast-grep/ast-grep
-      amber # search & replace - https://github.com/dalance/amber
-      atool # archive tool - https://www.nongnu.org/atool/
-      bat # better cat - https://github.com/sharkdp/bat
-      csvlens # https://github.com/YS-L/csvlens
-      d2 # https://github.com/terrastruct/d2
-      eza # better ls - https://github.com/eza-community/eza
-      fastfetch # like neofetch
-      fd # better find - https://github.com/sharkdp/fd
-      fzf # https://github.com/junegunn/fzf
-      gdu # ncdu breaks often, use gdu instead for now
-      hyperfine # https://github.com/sharkdp/hyperfine
-      just # https://github.com/casey/just
-      killall
-      marp-cli # https://github.com/marp-team/marp-cli
-      nodePackages.live-server
-      pandoc # https://github.com/jgm/pandoc
-      pixi
-      restic # backup - https://github.com/restic/restic
-      ripgrep # better grep - https://github.com/BurntSushi/ripgrep
-      tldr # https://github.com/tldr-pages/tldr
-      tree # https://oldmanprogrammer.net/source.php?dir=projects/tree
-      typos # source code spell checker - https://github.com/crate-ci/typos
-      watchexec # https://watchexec.github.io/
-      yazi # https://github.com/sxyazi/yazi
-    ]);
+    ++ misc-tools;
 
   programs.java = {
     enable = true;

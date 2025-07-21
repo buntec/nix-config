@@ -23,6 +23,9 @@
   # https://github.com/NixOS/nix/issues/2982
   nix.channel.enable = false;
 
+  # allow attaching to processes for e.g., heaptrack
+  boot.kernel.sysctl."kernel.yama.ptrace_scope" = 0;
+
   services.tailscale = {
     enable = true;
   };
