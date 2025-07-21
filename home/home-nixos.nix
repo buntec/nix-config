@@ -24,6 +24,7 @@
   home.packages = with pkgs; [
     # racket
     conky # https://github.com/brndnmtthws/conky
+    gcc
     gdb
     heaptrack
     # docker
