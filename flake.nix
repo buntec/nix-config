@@ -92,7 +92,7 @@
         {
           # nix-darwin w/ HM running on MacBook Pro M1 (2021)
           name = "macbook-pro-m1";
-          user = "christophbunte";
+          user = "christoph";
           system = flake-utils.lib.system.aarch64-darwin;
         }
         {
