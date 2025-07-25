@@ -157,6 +157,7 @@
         tldr # https://github.com/tldr-pages/tldr
         tree # https://oldmanprogrammer.net/source.php?dir=projects/tree
         typos # source code spell checker - https://github.com/crate-ci/typos
+        unzip
         watchexec # https://watchexec.github.io/
         yazi # https://github.com/sxyazi/yazi
       ];
