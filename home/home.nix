@@ -75,7 +75,7 @@
       ];
       lsps = with pkgs; [
         ccls
-        cmake-language-server
+        # cmake-language-server
         neocmakelsp
         gopls
         haskell-language-server
@@ -118,7 +118,7 @@
         gh
         git-gone
         gitu
-        gitui
+        # gitui
         lazygit
         tig
       ];
