@@ -45,6 +45,8 @@ bootstrap-vm ip port attr user:
     --disko-mode disko \
     --generate-hardware-config nixos-generate-config ./system/hardware-configuration.nix \
     --target-host nixos@{{ ip }}
+    # wait for VM to reboot
+    sleep 30
     # copy ssh keys
     rsync -av -e 'ssh -p {{ port }} {{ SSH_OPTIONS }}' ~/.ssh/ {{ user }}@{{ ip }}:~/.ssh
     # copy this repo - this conveniently gives us the generated hardware config
