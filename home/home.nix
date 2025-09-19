@@ -19,7 +19,11 @@
   programs.bash.enable = true;
   programs.zsh.enable = true;
 
-  programs.ssh.enable = true;
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    matchBlocks."*" = { };
+  };
 
   programs.readline = {
     enable = true;
@@ -84,6 +88,7 @@
         nil
         nodePackages.bash-language-server
         nodePackages.typescript-language-server
+        protols
         pyright
         vscode-langservers-extracted
       ];
@@ -104,6 +109,8 @@
         jdk
         nodejs
         pixi
+        protobuf
+        protoc-gen-doc
         python-with-packages
         sbt
         scala-cli

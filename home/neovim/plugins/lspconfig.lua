@@ -19,6 +19,7 @@ vim.lsp.enable("ruff")
 vim.lsp.enable("taplo")
 vim.lsp.enable("texlab")
 vim.lsp.enable("ts_ls")
+vim.lsp.enable("protols")
 
 vim.lsp.config("lua_ls", {
   settings = {

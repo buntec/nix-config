@@ -304,6 +304,7 @@
                         allowUnfree = true;
                       };
                     };
+                    system.primaryUser = machine.user;
                   })
                   stylix.darwinModules.stylix
                   (stylixConfig mode)

@@ -236,6 +236,11 @@
           type = "lua";
         };
 
+        text-case = {
+          plugin = vimPlugins.text-case-nvim;
+          type = "lua";
+        };
+
       in
       lib.lists.flatten [
         barbar
@@ -262,6 +267,7 @@
         snacks
         stylelint
         surround
+        text-case
         treesitter
         ts-context
         vim-tmux-nav
