@@ -15,6 +15,8 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+
     home-manager = {
       # url = "github:nix-community/home-manager/release-23.11"; # for nixpkgs-23.11
       url = "github:nix-community/home-manager"; # for nixpkgs-unstable
@@ -66,6 +68,7 @@
       nixpkgs-darwin,
       nixpkgs-unstable,
       nixpkgs-nixos-unstable,
+      nixos-wsl,
       nixos-hardware,
       home-manager,
       devenv,
@@ -116,6 +119,12 @@
         {
           # NixOS w/ HM running inside VirtualBox guest on Windows 11 desktop
           name = "win11-vb";
+          user = "buntec";
+          system = flake-utils.lib.system.x86_64-linux;
+        }
+        {
+          # NixOS w/ HM inside WSL running on Windows 11 desktop
+          name = "wsl";
           user = "buntec";
           system = flake-utils.lib.system.x86_64-linux;
         }
@@ -271,6 +280,7 @@
                     };
                   })
                   disko.nixosModules.disko
+                  nixos-wsl.nixosModules.default
                   stylix.nixosModules.stylix
                   (stylixConfig mode)
                   ./system/configuration-nixos.nix
