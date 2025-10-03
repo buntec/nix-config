@@ -6,6 +6,8 @@
 }:
 {
   wsl.enable = true;
-  wsl.defaultUser = machine.user;
+  # changing the default username is too cumbersome:
+  # https://nix-community.github.io/NixOS-WSL/how-to/change-username.html
+  # wsl.defaultUser = machine.user;
   networking.hostName = "wsl";
 }
