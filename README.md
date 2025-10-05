@@ -102,12 +102,10 @@ nix run .#hm-switch-macbook-pro-m1 # home-manager
 ## Bootstrapping a NixOS VM inside macOS using UTM
 
 1. Download the latest minimal NixOS ISO for either ARM (recommended for modern Macs with Apple silicon) or Intel:
-
    - https://channels.nixos.org/nixos-24.11/latest-nixos-minimal-aarch64-linux.iso
    - https://channels.nixos.org/nixos-24.11/latest-nixos-minimal-x86_64-linux.iso
 
 2. Create a new VM in UTM as follows:
-
    1. select "Virtualize";
    2. select "Linux";
    3. check "Use Apple Virtualization";
@@ -136,14 +134,12 @@ nix run .#hm-switch-macbook-pro-m1 # home-manager
 (Inspired by https://github.com/mitchellh/nixos-config)
 
 1. Download the latest minimal NixOS ISO for either ARM (recommended for modern Macs with Apple silicon) or Intel:
-
    - https://channels.nixos.org/nixos-24.11/latest-nixos-minimal-aarch64-linux.iso
    - https://channels.nixos.org/nixos-24.11/latest-nixos-minimal-x86_64-linux.iso
 
 2. Create a new VM in VMware Fusion using the image above. Select "Other Linux 6.x Kernel ..." (current at time of writing).
 
 3. Customize the VM settings as follows:
-
    1. Enable shared folders and add folders as desired (e.g., I like to share `~/Downloads` from host to guest).
    2. Disable default applications.
    3. Create a keyboard & mouse profile where (almost) all key mappings and shortcuts are disabled.
@@ -173,3 +169,17 @@ nix run .#hm-switch-macbook-pro-m1 # home-manager
 - You may have to set the display scaling in Gnome manually.
 - If the `nix-config` repo copied during the bootstrap was set up to connect to the remote using http,
   you have to change it to ssh before being able to push: `git remote set-url origin git@github.com:buntec/nix-config.git`
+
+## WSL
+
+Download the latest release from https://github.com/nix-community/NixOS-WSL/releases.
+Double-click the `nixos.wsl` file to install.
+Launch the distro from a Powershell with `wsl -d NixOS`.
+Follow the instructions to update channels and rebuild/switch.
+Create a nix shell with the required tools: `nix-shell -p git vim just`.
+Clone this repo and do `nixos-generate-config` to generate `/etc/nixos/hardware-configuration.nix`.
+Overwrite `system/hardware-configuration` with the generated config but remove all file system mounts.
+Run `sudo nix run .#rebuild-wsl-dark --experimental-features 'nix-command flakes'`.
+In Windows Terminal change the command line for the NixOS profile to `C:\WINDOWS\system32\wsl.exe -d NixOS --user buntec`.
+Open a new NixOS tab (now correctly logged in as `buntec` instead of `nixos`).
+Clone once more this repo and do `just hm-switch` to build and activate HM.
