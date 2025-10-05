@@ -1,5 +1,15 @@
 { pkgs, lib, ... }:
 {
+  # is this still needed?
+  services.xserver = {
+    enable = true;
+    xkb = {
+      layout = "us";
+      options = "ctrl:nocaps,compose:ralt";
+      variant = "intl";
+    };
+  };
+
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 

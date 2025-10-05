@@ -42,19 +42,6 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-    xkb = {
-      layout = "us";
-      options = "ctrl:nocaps,compose:ralt";
-      variant = "intl";
-    };
-  };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
   users.users.${machine.user} = {
     description = "Christoph Bunte";
 

@@ -22,7 +22,9 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks."*" = { };
+    matchBlocks."*" = {
+      addKeysToAgent = "yes";
+    };
   };
 
   programs.readline = {
@@ -145,11 +147,13 @@
         amber # search & replace - https://github.com/dalance/amber
         atool # archive tool - https://www.nongnu.org/atool/
         bat # better cat - https://github.com/sharkdp/bat
+        cargo-flamegraph # https://github.com/flamegraph-rs/flamegraph
         csvlens # https://github.com/YS-L/csvlens
         d2 # https://github.com/terrastruct/d2
         eza # better ls - https://github.com/eza-community/eza
         fastfetch # like neofetch
         fd # better find - https://github.com/sharkdp/fd
+        fdupes # find duplicate files
         fzf # https://github.com/junegunn/fzf
         gdu # ncdu breaks often, use gdu instead for now
         hyperfine # https://github.com/sharkdp/hyperfine

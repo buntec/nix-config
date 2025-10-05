@@ -15,11 +15,7 @@
     };
   };
 
-  programs.kitty = {
-    extraConfig = ''
-      hide_window_decorations yes
-    '';
-  };
+  services.ssh-agent.enable = true;
 
   home.packages = with pkgs; [
     # racket
