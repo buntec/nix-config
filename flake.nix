@@ -128,6 +128,12 @@
           user = "buntec";
           system = flake-utils.lib.system.x86_64-linux;
         }
+        {
+          # HM inside multipass guest (Ubuntu) on Apple Silicon
+          name = "multipass-guest";
+          user = "christoph";
+          system = flake-utils.lib.system.aarch64-linux;
+        }
       ];
 
       isDarwin = system: (builtins.match ".*darwin" system) != null;

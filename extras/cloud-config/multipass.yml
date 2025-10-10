@@ -1,0 +1,16 @@
+#cloud-config
+hostname: multipass-guest
+users:
+  - name: christoph
+    lock_passwd: false
+    passwd: $y$j9T$vPUnEtURmG07hGZC8VKAD0$cXGnyTRcCpemAF.mAsL0xdVY1bSLXkvQOvTMYfgpdI5
+    sudo: "ALL=(ALL) NOPASSWD:ALL"
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILp/zFH8Vb2GDOt4xSgjzRTYUULvPuJdb6MUnWvX7jbX christophbunte@gmail.com
+packages:
+  - dconf-cli
+  - dconf-editor
+  - just
+runcmd:
+  - curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --determinate --no-confirm

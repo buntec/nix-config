@@ -61,3 +61,12 @@ bootstrap-mbp-vmw ip: (bootstrap-vm ip '22' 'macbook-pro-m1-vmw-dark' 'buntec')
 bootstrap-mbp-utm ip: (bootstrap-vm ip '22' 'macbook-pro-m1-utm-dark' 'buntec')
 
 bootstrap-win11-vb ip port: (bootstrap-vm ip port 'win11-vb-dark' 'buntec')
+
+multipass-create-instance:
+    multipass launch --name nix -c 8 -m 12G -d 128G --mount ~:/home/christoph/host --cloud-init extras/cloud-config/multipass.yml
+
+terminfo-export:
+    infocmp -x xterm-ghostty > extras/ghostty.terminfo
+
+terminfo-import:
+    tic -x extras/ghostty.terminfo
