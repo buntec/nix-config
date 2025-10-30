@@ -65,6 +65,10 @@
     };
 
     shellAliases = {
+      # ls
+      la = "eza -la --color=never --git --icons";
+      l = "eza -l --color=never --git --icons";
+
       # git
       gs = "git status";
       gd = "git diff";
@@ -72,6 +76,7 @@
       gp = "git pull";
       gl = "git log";
       gu = "gitu";
+      lg = "lazygit";
 
       # vim
       v = "nvim";
@@ -80,20 +85,9 @@
       vimdiff = "nvim -d";
       ng = "nvim +Neogit";
 
-      # tmux
-      t = "tmux";
-      ta = "t a -t";
-      tls = "t ls";
-      tn = "t new -t";
-      tkill = "t kill-session -t";
-
-      # ls
-      la = "eza -la --color=never --git --icons";
-      l = "eza -l --color=never --git --icons";
-
-      # scala
-      scala = "scala-cli";
-      sc = "scala-cli";
+      # yazi
+      y = "yazi";
+      ya = "yazi";
     };
   };
 }

@@ -14,5 +14,6 @@ require("conform").setup({
     python = { "ruff_format", "ruff_organize_imports" },
     typescript = { "prettierd" },
     yaml = { "yamlfmt" },
+    xml = { "xmllint" },
   },
 })

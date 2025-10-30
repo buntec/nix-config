@@ -156,9 +156,11 @@
         fdupes # find duplicate files
         fzf # https://github.com/junegunn/fzf
         gdu # ncdu breaks often, use gdu instead for now
+        gnupg
         hyperfine # https://github.com/sharkdp/hyperfine
         just # https://github.com/casey/just
         killall
+        libxml2 # provides xml formatter xmllint
         marp-cli # https://github.com/marp-team/marp-cli
         nodePackages.live-server
         pandoc # https://github.com/jgm/pandoc
