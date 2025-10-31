@@ -10,17 +10,6 @@
 
     plugins =
       let
-
-        # https://github.com/romgrk/barbar.nvim/
-        barbar = {
-          plugin = vimPlugins.barbar-nvim;
-          type = "lua";
-          config = ''
-            vim.g.barbar_auto_setup = false
-            require('barbar').setup({})
-          '';
-        };
-
         # https://github.com/Saghen/blink.cmp
         blink-cmp = {
           plugin = vimPlugins.blink-cmp;
@@ -49,15 +38,6 @@
           type = "lua";
           config = ''
             require("diffview").setup({})
-          '';
-        };
-
-        # https://github.com/stevearc/dressing.nvim
-        dressing = {
-          plugin = vimPlugins.dressing-nvim;
-          type = "lua";
-          config = ''
-            require("dressing").setup({})
           '';
         };
 
@@ -155,13 +135,6 @@
           config = builtins.readFile ./plugins/nvim-lint.lua;
         };
 
-        # https://github.com/stevearc/oil.nvim
-        oil = {
-          plugin = vimPlugins.oil-nvim;
-          type = "lua";
-          config = builtins.readFile ./plugins/oil.lua;
-        };
-
         precognition = {
           plugin = vimPlugins.precognition-nvim;
           type = "lua";
@@ -234,6 +207,7 @@
         yazi = {
           plugin = vimPlugins.yazi-nvim;
           type = "lua";
+          config = builtins.readFile ./plugins/yazi-nvim.lua;
         };
 
         text-case = {
@@ -243,12 +217,10 @@
 
       in
       lib.lists.flatten [
-        barbar
         blink-cmp
         colorizer
         conform
         diffview
-        dressing
         fidget
         fzf-lua
         gitsigns
@@ -261,7 +233,6 @@
         neogit
         nvim-lint
         nvim-metals
-        oil
         plenary
         precognition
         snacks

@@ -172,7 +172,6 @@
         typos # source code spell checker - https://github.com/crate-ci/typos
         unzip
         watchexec # https://watchexec.github.io/
-        yazi # https://github.com/sxyazi/yazi
       ];
     in
     linters
@@ -184,6 +183,41 @@
     ++ json-tools
     ++ network-tools
     ++ misc-tools;
+
+  # https://github.com/sxyazi/yazi
+  programs.yazi = {
+    enable = true;
+
+    keymap = {
+      mgr = {
+        prepend_keymap = [
+          {
+            run = "leave";
+            on = "-";
+          }
+          {
+            run = "seek 20";
+            on = "<C-d>";
+          }
+          {
+            run = "seek -20";
+            on = "<C-u>";
+          }
+        ];
+      };
+    };
+
+    settings = {
+      mgr = {
+        linemode = "size";
+        ratio = [
+          0
+          4
+          4
+        ];
+      };
+    };
+  };
 
   programs.java = {
     enable = true;

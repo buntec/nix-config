@@ -60,7 +60,6 @@ map("i", "jk", "<Esc>")
 map("i", "kj", "<Esc>")
 map("i", "jj", "<Esc>")
 
-local oil = require("oil")
 local gitsigns = require("gitsigns")
 local fzf = require("fzf-lua")
 local conform = require("conform")
@@ -68,11 +67,15 @@ local tscontext = require("treesitter-context")
 local yazi = require("yazi")
 local precog = require("precognition")
 
+-- mark netrw as loaded so it's not loaded at all.
+-- More details: https://github.com/mikavilpas/yazi.nvim/issues/802
+vim.g.loaded_netrwPlugin = 1
+
 -- stylua: ignore start
 
 map("n", "<leader>cf", "<cmd>edit $MYVIMRC<CR>", { desc = "open init.lua" })
 
-map("n", "<leader>-", oil.open, { desc = "browse parent directory" })
+map("n", "<leader>-", yazi.yazi, { desc = "open yazi" })
 
 map("n", "<leader>ctx", tscontext.toggle, { desc = "toggle treesitter context" })
 
@@ -164,67 +167,11 @@ map("n", "<leader>ca", fzf.lsp_code_actions, { desc = "lsp code actions" })
 map({ "n", "v" }, "<localleader>f", function() conform.format({ async = true }) end, { desc = "format buffer (async)" })
 -- map({ "n", "v" }, "<localleader>f", vim.lsp.buf.format, { desc = "lsp format" }) -- we prefer Conform
 
-
 -- yazi
 map({ "n", "v" }, "<leader>ya", function() yazi.yazi() end, { desc = "open yazi" } )
 
-
 -- precognition
 map({ "n", "v" }, "<leader>pc", function() precog.toggle() end, { desc = "toggle precognition" } )
-
-
--- barbar
-
--- Move to previous/next
-map('n', '<A-,>', '<Cmd>BufferPrevious<CR>')
-map('n', '<A-.>', '<Cmd>BufferNext<CR>')
-
--- Re-order to previous/next
-map('n', '<A-<>', '<Cmd>BufferMovePrevious<CR>')
-map('n', '<A->>', '<Cmd>BufferMoveNext<CR>')
-
--- Goto buffer in position...
-map('n', '<A-1>', '<Cmd>BufferGoto 1<CR>')
-map('n', '<A-2>', '<Cmd>BufferGoto 2<CR>')
-map('n', '<A-3>', '<Cmd>BufferGoto 3<CR>')
-map('n', '<A-4>', '<Cmd>BufferGoto 4<CR>')
-map('n', '<A-5>', '<Cmd>BufferGoto 5<CR>')
-map('n', '<A-6>', '<Cmd>BufferGoto 6<CR>')
-map('n', '<A-7>', '<Cmd>BufferGoto 7<CR>')
-map('n', '<A-8>', '<Cmd>BufferGoto 8<CR>')
-map('n', '<A-9>', '<Cmd>BufferGoto 9<CR>')
-map('n', '<A-0>', '<Cmd>BufferLast<CR>')
-
--- Pin/unpin buffer
-map('n', '<A-p>', '<Cmd>BufferPin<CR>')
-
--- Goto pinned/unpinned buffer
---                 :BufferGotoPinned
---                 :BufferGotoUnpinned
-
--- Close buffer
-map('n', '<A-c>', '<Cmd>BufferClose<CR>')
-
--- Wipeout buffer
---                 :BufferWipeout
-
--- Close commands
-
---                 :BufferCloseAllButPinned
---                 :BufferCloseAllButCurrentOrPinned
---                 :BufferCloseBuffersLeft
---                 :BufferCloseBuffersRight
-
--- Magic buffer-picking mode
---map('n', '<C-p>',   '<Cmd>BufferPick<CR>')
---map('n', '<C-s-p>', '<Cmd>BufferPickDelete<CR>')
-
----- Sort automatically by...
---map('n', '<Space>bb', '<Cmd>BufferOrderByBufferNumber<CR>')
---map('n', '<Space>bn', '<Cmd>BufferOrderByName<CR>')
---map('n', '<Space>bd', '<Cmd>BufferOrderByDirectory<CR>')
---map('n', '<Space>bl', '<Cmd>BufferOrderByLanguage<CR>')
---map('n', '<Space>bw', '<Cmd>BufferOrderByWindowNumber<CR>')
 
 -- stylua: ignore end
 
