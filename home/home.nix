@@ -81,12 +81,11 @@
       ];
       lsps = with pkgs; [
         ccls
-        # cmake-language-server
-        neocmakelsp
         gopls
         haskell-language-server
         lua-language-server
         metals
+        neocmakelsp
         nil
         nodePackages.bash-language-server
         nodePackages.typescript-language-server
@@ -158,6 +157,7 @@
         gdu # ncdu breaks often, use gdu instead for now
         gnupg
         hyperfine # https://github.com/sharkdp/hyperfine
+        jd-diff-patch # json diff
         just # https://github.com/casey/just
         killall
         libxml2 # provides xml formatter xmllint

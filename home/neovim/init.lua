@@ -77,7 +77,7 @@ map("n", "<leader>cf", "<cmd>edit $MYVIMRC<CR>", { desc = "open init.lua" })
 
 map("n", "<leader>-", yazi.yazi, { desc = "open yazi" })
 
-map("n", "<leader>ctx", tscontext.toggle, { desc = "toggle treesitter context" })
+map("n", "<leader>cx", tscontext.toggle, { desc = "toggle treesitter context" })
 
 map("n", "<leader>ff", fzf.files, { desc = "find files" })
 

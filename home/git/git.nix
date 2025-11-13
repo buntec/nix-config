@@ -1,12 +1,15 @@
 { pkgs, ... }:
 {
 
+  programs.diff-so-fancy = {
+    enableGitIntegration = true;
+  };
+
   programs.git = {
     enable = true;
-    userEmail = pkgs.lib.mkDefault "christophbunte@gmail.com"; # we might want to override this
-    userName = "Christoph Bunte";
-    diff-so-fancy.enable = true;
-    extraConfig = {
+    settings = {
+      user.name = "Christoph Bunte";
+      user.email = pkgs.lib.mkDefault "christophbunte@gmail.com"; # we might want to override this
       branch.sort = "-committerdate";
       column.ui = "auto";
       commit.verbose = true;
