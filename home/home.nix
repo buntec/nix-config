@@ -108,6 +108,7 @@
         go
         haskellPackages.hoogle
         jdk
+        ninja
         nodejs
         pixi
         protobuf
