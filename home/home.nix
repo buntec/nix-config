@@ -19,6 +19,10 @@
   programs.bash.enable = true;
   programs.zsh.enable = true;
 
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ];
+
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
@@ -172,6 +176,7 @@
         tree # https://oldmanprogrammer.net/source.php?dir=projects/tree
         typos # source code spell checker - https://github.com/crate-ci/typos
         unzip
+        vhs # https://github.com/charmbracelet/vhs
         watchexec # https://watchexec.github.io/
       ];
     in
