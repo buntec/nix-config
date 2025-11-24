@@ -1,18 +1,18 @@
 # My personal Nix configuration flake
 
-Configures [NixOS](https://nixos.org/)/[nix-darwin](https://github.com/LnL7/nix-darwin)
-and [Home Manager](https://github.com/nix-community/home-manager) on my personal machines.
+Provides configurations for [NixOS](https://nixos.org/), [nix-darwin](https://github.com/LnL7/nix-darwin) and [Home Manager](https://github.com/nix-community/home-manager).
 
-For Apple hardware I recommend running NixOS on either [UTM](https://mac.getutm.app/)
-or [VMWare Fusion](https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion) guests inside macOS (see instructions below).
-While nix-darwin and Home Manager on macOS work reasonably well most of the time,
-there are still some rough edges, e.g., macOS updates [breaking your nix installation](https://github.com/NixOS/nix/issues/3616).
-Moreover, not all packages in [nixpkgs](https://github.com/NixOS/nixpkgs) support macOS. (See also https://discourse.nixos.org/t/darwin-again/29331).
-The best experience, in my opinion, is therefore running an honest-to-God NixOS on a VM hosted inside macOS.
-With UTM and VMWare Fusion we can have the best of both worlds. Indeed, both natively support Apple Silicon and their
-virtualization performance should be close to native when running ARM NixOS. Fusion even supports full 3D acceleration, if that is important to you.
+Every configuration comes in a `-dark` and `-light` version (see `nix flake show`), corresponding to dark and light variants of the stylix-based color scheme.
 
-## Fresh NixOS install
+I mostly use modern Apple hardware (>= M1) but this flake also works on my old x86 Apple and Lenovo laptops.
+For full-blown NixOS I recommend either [UTM](https://mac.getutm.app/) or [VMWare Fusion](https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion).
+Both approaches are described in detail below.
+I currently prefer to use the Nix package manager (w/ Home Manager) directly on macOS and inside [multipass](https://canonical.com/multipass) guests.
+This gives me the best of both worlds of macOS and Linux with the escape hatch of being able to install apps outside the Nix ecosystem.
+I've also mostly moved away from nix-darwin. Having to set up macOS from scratch is rare for me so the benefits of a fully declarative approach are minor.
+I couldn't live without Home Manager, however.
+
+## Fresh NixOS install on bare metal
 
 After installing NixOS from a USB drive, follow these steps:
 
@@ -23,21 +23,18 @@ After installing NixOS from a USB drive, follow these steps:
 3. Build and activate NixOS config:
 
 ```bash
-sudo nixos-rebuild switch --flake .#thinkpad-x1 # the fragment can be dropped if it matches your current host name
-
-# alternatively, using the `apps` provided by the flake:
-sudo nix run .#rebuild-thinkpad-x1
+sudo nix run .#rebuild-thinkpad-x1-dark
 ```
 
-4. Activate home-manager:
+4. Build and activate Home Manager config:
 
 ```bash
-nix run .#hm-switch-thinkpad-x1
+nix run .#hm-switch-thinkpad-x1-dark
 ```
 
 ### Notes:
 
-On a ThinkPad X1 you might have to remove the line
+On a 7th-gen ThinkPad X1 carbon you might have to remove the line
 
 ```
 hardware.video.hidpi.enable = lib.mkDefault true;
@@ -81,8 +78,8 @@ sudo mv /etc/nix/nix.conf /etc/nix/.nix-darwin.bkp.nix.conf
 5. Clone this repo, `cd` into it, then build and activate:
 
 ```bash
-nix run .#rebuild-macbook-pro-m1 # nix-darwin
-nix run .#hm-switch-macbook-pro-m1 # home-manager
+nix run .#rebuild-macbook-pro-m1-dark # nix-darwin
+nix run .#hm-switch-macbook-pro-m1-dark # home-manager
 ```
 
 ## Migrating an existing macOS install to Nix
@@ -101,7 +98,7 @@ nix run .#hm-switch-macbook-pro-m1 # home-manager
 
 ## Bootstrapping a NixOS VM inside macOS using UTM
 
-1. Download the latest minimal NixOS ISO for either ARM (recommended for modern Macs with Apple silicon) or Intel:
+1. Download the latest minimal NixOS ISO for either ARM (Apple silicon) or Intel:
    - https://channels.nixos.org/nixos-24.11/latest-nixos-minimal-aarch64-linux.iso
    - https://channels.nixos.org/nixos-24.11/latest-nixos-minimal-x86_64-linux.iso
 
