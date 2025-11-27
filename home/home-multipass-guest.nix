@@ -1,7 +1,9 @@
 { pkgs, lib, ... }:
 {
-  programs.git.extraConfig = {
-    safe.directory = "*";
+  programs.git = {
+    settings = {
+      safe.directory = "*";
+    };
   };
 
 }

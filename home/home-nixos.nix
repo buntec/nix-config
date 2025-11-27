@@ -10,7 +10,7 @@
   ];
 
   programs.git = {
-    extraConfig = {
+    settings = {
       credential.helper = "store";
     };
   };
