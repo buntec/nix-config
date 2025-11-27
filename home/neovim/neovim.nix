@@ -10,6 +10,11 @@
 
     plugins =
       let
+        aerial = {
+          plugin = vimPlugins.aerial-nvim;
+          type = "lua";
+          config = builtins.readFile ./plugins/aerial.lua;
+        };
         # https://github.com/Saghen/blink.cmp
         blink-cmp = {
           plugin = vimPlugins.blink-cmp;
@@ -217,6 +222,7 @@
 
       in
       lib.lists.flatten [
+        aerial
         blink-cmp
         colorizer
         conform

@@ -139,6 +139,8 @@ map("n", "<leader>dv", "<cmd>DiffviewOpen<cr>", { desc = "open Diffview" })
 
 map("n", "<leader>cdv", "<cmd>DiffviewClose<cr>", { desc = "close Diffview" })
 
+map("n", "<leader>a", "<cmd>AerialToggle!<cr>", { desc = "toggle Aerial" })
+
 -- LSP
 
 map("n", "<localleader>a", vim.lsp.buf.code_action, { desc = "lsp code action" })
