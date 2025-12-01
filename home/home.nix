@@ -9,6 +9,7 @@
     ./neovim/neovim.nix
     ./tmux/tmux.nix
     ./stylix/stylix.nix
+    ./yazi/yazi.nix
   ];
 
   home.stateVersion = "22.11";
@@ -189,41 +190,6 @@
     ++ network-tools
     ++ misc-tools;
 
-  # https://github.com/sxyazi/yazi
-  programs.yazi = {
-    enable = true;
-
-    keymap = {
-      mgr = {
-        prepend_keymap = [
-          {
-            run = "leave";
-            on = "-";
-          }
-          {
-            run = "seek 20";
-            on = "<C-d>";
-          }
-          {
-            run = "seek -20";
-            on = "<C-u>";
-          }
-        ];
-      };
-    };
-
-    settings = {
-      mgr = {
-        linemode = "size";
-        ratio = [
-          0
-          4
-          4
-        ];
-      };
-    };
-  };
-
   programs.java = {
     enable = true;
   };
@@ -260,9 +226,4 @@
     };
   };
 
-  # Neovim GUI - https://neovide.dev/
-  programs.neovide = {
-    enable = true;
-    settings = { };
-  };
 }
