@@ -167,7 +167,6 @@
         killall
         libxml2 # provides xml formatter xmllint
         marp-cli # https://github.com/marp-team/marp-cli
-        nodePackages.live-server
         pandoc # https://github.com/jgm/pandoc
         procs # better ps
         restic # backup - https://github.com/restic/restic

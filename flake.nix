@@ -37,7 +37,10 @@
     treefmt-nix.url = "github:numtide/treefmt-nix";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    stylix.url = "github:danth/stylix";
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
@@ -201,6 +204,7 @@
         {
           stylix = {
             enable = true;
+            enableReleaseChecks = false;
             base16Scheme = schemes.${mode};
             polarity = mode;
 
