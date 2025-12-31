@@ -13,6 +13,7 @@ require("conform").setup({
     markdown = { "prettierd" },
     python = { "ruff_format", "ruff_organize_imports" },
     typescript = { "prettierd" },
+    typescriptreact = { "prettierd" },
     yaml = { "yamlfmt" },
     xml = { "xmllint" },
   },

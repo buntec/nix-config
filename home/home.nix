@@ -124,6 +124,7 @@
         stack
         taplo
         texlab
+        typescript
         uv
         visualvm
         yarn
