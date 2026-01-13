@@ -76,7 +76,7 @@
       formatters = with pkgs; [
         gersemi # for cmake
         mdformat
-        nixfmt-rfc-style
+        nixfmt
         nodePackages.prettier # is this really needed on top of prettierd?
         prettierd
         ruff
@@ -169,10 +169,12 @@
         killall
         libxml2 # provides xml formatter xmllint
         marp-cli # https://github.com/marp-team/marp-cli
+        opencode
         pandoc # https://github.com/jgm/pandoc
         procs # better ps
         restic # backup - https://github.com/restic/restic
         ripgrep # better grep - https://github.com/BurntSushi/ripgrep
+        sqlite
         tldr # https://github.com/tldr-pages/tldr
         tree # https://oldmanprogrammer.net/source.php?dir=projects/tree
         typos # source code spell checker - https://github.com/crate-ci/typos

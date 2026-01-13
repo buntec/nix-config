@@ -17,6 +17,7 @@
       pull.rebase = true;
       push.autoSetupRemote = true;
       tag.sort = "-version:refname";
+      diff.sqlite3.textconv = "sh -c 'sqlite3 \$0 .dump'";
     };
   };
 
