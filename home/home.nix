@@ -22,6 +22,7 @@
 
   home.sessionPath = [
     "$HOME/.local/bin"
+    "$HOME/.cargo/bin"
   ];
 
   programs.ssh = {
@@ -97,6 +98,7 @@
         protols
         pyright
         vscode-langservers-extracted
+        zls
       ];
       nix-tools = with pkgs; [
         any-nix-shell
@@ -104,8 +106,8 @@
         nix-output-monitor
       ];
       lang-tools = with pkgs; [
+        buf # protobuf tools
         bun
-        cargo
         clang-tools
         cmake
         coursier
@@ -119,6 +121,7 @@
         protobuf
         protoc-gen-doc
         python-with-packages
+        rustup
         sbt
         scala-cli
         stack
@@ -128,6 +131,7 @@
         uv
         visualvm
         yarn
+        zig
       ];
       git-tools = with pkgs; [
         gh

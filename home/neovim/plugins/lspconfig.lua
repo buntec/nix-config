@@ -6,24 +6,27 @@ vim.lsp.config("*", {
   capabilities = capabilities,
 })
 
+-- vim.lsp.enable("pyright")
+-- vim.lsp.enable("ty")
 vim.lsp.enable("bashls")
+vim.lsp.enable("buf-lsp")
 vim.lsp.enable("clangd")
+vim.lsp.enable("cssls")
+vim.lsp.enable("eslint")
 vim.lsp.enable("gopls")
 vim.lsp.enable("hls")
 vim.lsp.enable("html")
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("neocmake")
 vim.lsp.enable("nil_ls")
--- vim.lsp.enable("pyright")
+vim.lsp.enable("protols")
 vim.lsp.enable("pyrefly")
--- vim.lsp.enable("ty")
 vim.lsp.enable("ruff")
+vim.lsp.enable("rust_analyzer")
 vim.lsp.enable("taplo")
 vim.lsp.enable("texlab")
 vim.lsp.enable("ts_ls")
-vim.lsp.enable("protols")
-vim.lsp.enable("eslint")
-vim.lsp.enable("cssls")
+vim.lsp.enable("zls")
 
 vim.lsp.config("lua_ls", {
   settings = {
@@ -77,4 +80,10 @@ vim.lsp.config("texlab", {
       },
     },
   },
+})
+
+vim.lsp.config("buf-lsp", {
+  cmd = { "buf", "lsp", "serve" },
+  filetypes = { "proto" },
+  root_markers = { "buf.yaml", ".git" },
 })
