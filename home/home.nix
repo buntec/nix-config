@@ -178,6 +178,7 @@
         procs # better ps
         restic # backup - https://github.com/restic/restic
         ripgrep # better grep - https://github.com/BurntSushi/ripgrep
+        samply # sampling profiler - https://github.com/mstange/samply
         sqlite
         tldr # https://github.com/tldr-pages/tldr
         tree # https://oldmanprogrammer.net/source.php?dir=projects/tree
