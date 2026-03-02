@@ -85,10 +85,6 @@
       vimdiff = "nvim -d";
       ng = "nvim +Neogit";
 
-      # yazi
-      y = "yazi";
-      ya = "yazi";
-
       cl = "/usr/bin/clear";
     };
   };
