@@ -102,6 +102,12 @@
           system = flake-utils.lib.system.aarch64-darwin;
         }
         {
+          # nix-darwin w/ HM running on MacBook Neo (2026)
+          name = "macbook-neo";
+          user = "christoph";
+          system = flake-utils.lib.system.aarch64-darwin;
+        }
+        {
           # NixOS w/ HM running inside VMWare Fusion guest on MacBook Pro M1
           name = "macbook-pro-m1-vmw";
           user = "buntec";
