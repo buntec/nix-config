@@ -1,5 +1,8 @@
 # HM config common to all nix-darwin machines
-{ pkgs, ... }:
+{ pkgs, machine, ... }:
+let
+  isAppleSilicon = machine.system == "aarch64-darwin";
+in
 {
 
   imports = [
@@ -10,9 +13,16 @@
     UseKeychain yes
   '';
 
-  home.sessionPath = [
-    "/opt/homebrew/bin"
-    "/opt/homebrew/sbin"
-  ];
+  home.sessionPath =
+    if isAppleSilicon then
+      [
+        "/opt/homebrew/bin"
+        "/opt/homebrew/sbin"
+      ]
+    else
+      [
+        "/usr/local/bin"
+        "/usr/local/sbin"
+      ];
 
 }

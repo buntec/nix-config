@@ -2,15 +2,10 @@
   description = "NixOS/nix-darwin and HM configurations for my personal machines";
 
   inputs = {
-    # default branch
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
-    # stable branches
-    nixpkgs-nixos.url = "github:nixos/nixpkgs/nixos-24.11";
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.11-darwin";
+    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
 
-    # unstable branches
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-nixos-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -18,7 +13,6 @@
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
 
     home-manager = {
-      # url = "github:nix-community/home-manager/release-23.11"; # for nixpkgs-23.11
       url = "github:nix-community/home-manager"; # for nixpkgs-unstable
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -28,11 +22,6 @@
 
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-
-    devenv.url = "github:cachix/devenv";
-    devenv.inputs.nixpkgs.follows = "nixpkgs";
-
-    flake-utils.url = "github:numtide/flake-utils";
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
@@ -67,15 +56,11 @@
       darwin,
       disko,
       nixpkgs,
-      nixpkgs-nixos,
-      nixpkgs-darwin,
-      nixpkgs-unstable,
+      nixpkgs-master,
       nixpkgs-nixos-unstable,
       nixos-wsl,
       nixos-hardware,
       home-manager,
-      devenv,
-      flake-utils,
       stylix,
       treefmt-nix,
       nix-homebrew,
@@ -93,61 +78,61 @@
           # NixOS w/ HM running on ThinkPad X1 Carbon 7th
           name = "thinkpad-x1";
           user = "buntec";
-          system = flake-utils.lib.system.x86_64-linux;
+          system = "x86_64-linux";
         }
         {
           # nix-darwin w/ HM running on MacBook Pro M1 (2021)
           name = "macbook-pro-m1";
           user = "christoph";
-          system = flake-utils.lib.system.aarch64-darwin;
+          system = "aarch64-darwin";
         }
         {
           # nix-darwin w/ HM running on MacBook Neo (2026)
           name = "macbook-neo";
           user = "christoph";
-          system = flake-utils.lib.system.aarch64-darwin;
+          system = "aarch64-darwin";
         }
         {
           # NixOS w/ HM running inside VMWare Fusion guest on MacBook Pro M1
           name = "macbook-pro-m1-vmw";
           user = "buntec";
-          system = flake-utils.lib.system.aarch64-linux;
+          system = "aarch64-linux";
         }
         {
           # NixOS w/ HM running inside UTM guest on MacBook Pro M1
           name = "macbook-pro-m1-utm";
           user = "buntec";
-          system = flake-utils.lib.system.aarch64-linux;
+          system = "aarch64-linux";
         }
         {
           # nix-darwin w/ HM running on MacBook Pro (Intel, Late 2013)
           name = "macbook-pro-intel";
           user = "christophbunte";
-          system = flake-utils.lib.system.x86_64-darwin;
+          system = "x86_64-darwin";
         }
         {
           # NixOS w/ HM running inside VirtualBox guest on Windows 11 desktop
           name = "win11-vb";
           user = "buntec";
-          system = flake-utils.lib.system.x86_64-linux;
+          system = "x86_64-linux";
         }
         {
           # NixOS w/ HM inside WSL running on Windows 11 desktop
           name = "wsl";
           user = "buntec";
-          system = flake-utils.lib.system.x86_64-linux;
+          system = "x86_64-linux";
         }
         {
           # HM inside multipass guest (Ubuntu) on Apple Silicon
           name = "multipass-guest";
           user = "christoph";
-          system = flake-utils.lib.system.aarch64-linux;
+          system = "aarch64-linux";
         }
       ];
 
       isDarwin = system: (builtins.match ".*darwin" system) != null;
 
-      isAppleSilicon = system: system == flake-utils.lib.system.aarch64-darwin;
+      isAppleSilicon = system: system == "aarch64-darwin";
 
       darwinMachines = builtins.filter (machine: (isDarwin machine.system)) machines;
 
@@ -160,27 +145,17 @@
       eachSystem = genAttrs systems;
 
       overlays = [
-        # overlay idea taken from https://github.com/Misterio77/nix-starter-configs/blob/main/standard/overlays/default.nix
         (final: prev: {
-          nixpkgs-stable = import (if (isDarwin final.system) then nixpkgs-darwin else nixpkgs-nixos) {
-            inherit (final) system;
-            config.allowUnfree = true;
-          };
+          # direnv for Darwin is currently broken in nixpkgs-unstable
+          inherit (nixpkgs-master.legacyPackages.${prev.stdenv.hostPlatform.system}) direnv;
         })
-
-        # pick some packages from stable
-        # (final: prev: {
-        # inherit (final.nixpkgs-stable)
-        # ncdu
-        # })
-
       ];
 
       # we select the branch according to recommendation in https://nix.dev/concepts/faq.html#rolling
       pkgsBySystem = builtins.listToAttrs (
         builtins.map (system: {
           name = system;
-          value = import (if (isDarwin system) then nixpkgs-unstable else nixpkgs-nixos-unstable) {
+          value = import (if (isDarwin system) then nixpkgs else nixpkgs-nixos-unstable) {
             inherit system;
             inherit overlays;
             config = {

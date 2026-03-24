@@ -133,6 +133,10 @@
         yarn
         zig
       ];
+      ai-tools = with pkgs; [
+        claude-code
+        gemini-cli
+      ];
       git-tools = with pkgs; [
         gh
         git-gone
@@ -191,6 +195,7 @@
     linters
     ++ formatters
     ++ lsps
+    ++ ai-tools
     ++ nix-tools
     ++ lang-tools
     ++ git-tools
