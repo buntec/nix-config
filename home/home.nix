@@ -58,16 +58,6 @@
 
   home.packages =
     let
-      python-packages =
-        ps: with ps; [
-          jupyter
-          matplotlib
-          numpy
-          pandas
-          requests
-          scipy
-        ];
-      python-with-packages = pkgs.python3.withPackages python-packages;
       linters = with pkgs; [
         cmake-lint
         statix
@@ -86,7 +76,6 @@
         yamlfmt
       ];
       lsps = with pkgs; [
-        ccls
         gopls
         haskell-language-server
         lua-language-server
@@ -120,7 +109,6 @@
         pixi
         protobuf
         protoc-gen-doc
-        python-with-packages
         rustup
         sbt
         scala-cli
@@ -136,6 +124,7 @@
       ai-tools = with pkgs; [
         claude-code
         gemini-cli
+        opencode
       ];
       git-tools = with pkgs; [
         gh
@@ -177,7 +166,6 @@
         killall
         libxml2 # provides xml formatter xmllint
         marp-cli # https://github.com/marp-team/marp-cli
-        opencode
         pandoc # https://github.com/jgm/pandoc
         procs # better ps
         restic # backup - https://github.com/restic/restic
