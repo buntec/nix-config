@@ -1,10 +1,7 @@
+{ inputs, machine, ... }:
 {
-  config,
-  pkgs,
-  machine,
-  ...
-}:
-{
+  imports = [ inputs.nixos-wsl.nixosModules.default ];
+
   wsl.enable = true;
   wsl.useWindowsDriver = true; # OpenGL support - crucial for GUI apps!
 

@@ -14,6 +14,8 @@
 
   home.stateVersion = "22.11";
 
+  gtk.gtk4.theme = null;
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
@@ -50,10 +52,6 @@
       };
     };
     nix-direnv.enable = true;
-  };
-
-  programs.vscode = {
-    enable = false;
   };
 
   home.packages =
