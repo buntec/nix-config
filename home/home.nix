@@ -68,7 +68,6 @@
         gersemi # for cmake
         mdformat
         nixfmt
-        nodePackages.prettier # is this really needed on top of prettierd?
         prettierd
         ruff
         stylua
@@ -82,8 +81,8 @@
         metals
         neocmakelsp
         nil
-        nodePackages.bash-language-server
-        nodePackages.typescript-language-server
+        bash-language-server
+        typescript-language-server
         protols
         pyright
         vscode-langservers-extracted
