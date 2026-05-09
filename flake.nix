@@ -4,8 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
-    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
-
     nixpkgs-nixos-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -56,7 +54,6 @@
       darwin,
       disko,
       nixpkgs,
-      nixpkgs-master,
       nixpkgs-nixos-unstable,
       nixos-wsl,
       nixos-hardware,
@@ -144,12 +141,7 @@
 
       eachSystem = genAttrs systems;
 
-      overlays = [
-        (final: prev: {
-          # direnv for Darwin is currently broken in nixpkgs-unstable
-          inherit (nixpkgs-master.legacyPackages.${prev.stdenv.hostPlatform.system}) direnv;
-        })
-      ];
+      overlays = [ ];
 
       # we select the branch according to recommendation in https://nix.dev/concepts/faq.html#rolling
       pkgsBySystem = builtins.listToAttrs (
