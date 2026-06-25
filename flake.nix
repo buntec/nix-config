@@ -72,13 +72,18 @@
       forEachMode =
         machines: f:
         builtins.listToAttrs (
-          builtins.concatMap (
-            mode:
-            builtins.map (machine: {
-              name = "${machine.name}-${mode}";
-              value = f mode machine;
-            }) machines
-          ) [ "light" "dark" ]
+          builtins.concatMap
+            (
+              mode:
+              builtins.map (machine: {
+                name = "${machine.name}-${mode}";
+                value = f mode machine;
+              }) machines
+            )
+            [
+              "light"
+              "dark"
+            ]
         );
 
       machines = [
@@ -253,77 +258,86 @@
         treefmtEval.${pkgs.system}.config.build.wrapper
       );
 
-      nixosConfigurations = forEachMode nixosMachines (mode: machine: nixpkgs-nixos-unstable.lib.nixosSystem {
-        inherit (machine) system;
-        specialArgs = {
-          inherit inputs machine;
-        };
-        modules = [
-          (_: {
-            nixpkgs = {
-              inherit overlays;
-              config.allowUnfree = true;
-            };
-          })
-          disko.nixosModules.disko
-          stylix.nixosModules.stylix
-          (stylixConfig mode)
-          ./system/configuration-nixos.nix
-          ./system/configuration-${machine.name}.nix
-        ];
-      });
-
-      darwinConfigurations = forEachMode darwinMachines (mode: machine: darwin.lib.darwinSystem {
-        inherit (machine) system;
-        specialArgs = {
-          inherit inputs machine;
-        };
-        modules = [
-          (_: {
-            nixpkgs = {
-              inherit overlays;
-              config.allowUnfree = true;
-            };
-            system.primaryUser = machine.user;
-          })
-          stylix.darwinModules.stylix
-          (stylixConfig mode)
-          ./system/configuration-darwin.nix
-          ./system/configuration-${machine.name}.nix
-          nix-homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              inherit (machine) user;
-              enable = true;
-              enableRosetta = isAppleSilicon machine.system;
-              taps = {
-                "homebrew/homebrew-core" = homebrew-core;
-                "homebrew/homebrew-cask" = homebrew-cask;
+      nixosConfigurations = forEachMode nixosMachines (
+        mode: machine:
+        nixpkgs-nixos-unstable.lib.nixosSystem {
+          inherit (machine) system;
+          specialArgs = {
+            inherit inputs machine;
+          };
+          modules = [
+            (_: {
+              nixpkgs = {
+                inherit overlays;
+                config.allowUnfree = true;
               };
-              autoMigrate = true;
-            };
-          }
-        ];
-      });
+            })
+            disko.nixosModules.disko
+            stylix.nixosModules.stylix
+            (stylixConfig mode)
+            ./system/configuration-nixos.nix
+            ./system/configuration-${machine.name}.nix
+          ];
+        }
+      );
 
-      homeConfigurations = forEachMode machines (mode: machine: home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsBySystem.${machine.system};
-        extraSpecialArgs = {
-          inherit inputs machine mode;
-        };
-        modules = [
-          (_: {
-            home.username = machine.user;
-            home.homeDirectory =
-              if (isDarwin machine.system) then "/Users/${machine.user}" else "/home/${machine.user}";
-          })
-          stylix.homeModules.stylix
-          (stylixConfig mode)
-          ./home/home.nix
-          ./home/home-${if (isDarwin machine.system) then "darwin" else "nixos"}.nix
-          ./home/home-${machine.name}.nix
-        ];
-      });
+      darwinConfigurations = forEachMode darwinMachines (
+        mode: machine:
+        darwin.lib.darwinSystem {
+          inherit (machine) system;
+          specialArgs = {
+            inherit inputs machine;
+          };
+          modules = [
+            (_: {
+              nixpkgs = {
+                inherit overlays;
+                config.allowUnfree = true;
+              };
+              system.primaryUser = machine.user;
+            })
+            stylix.darwinModules.stylix
+            (stylixConfig mode)
+            ./system/configuration-darwin.nix
+            ./system/configuration-${machine.name}.nix
+            nix-homebrew.darwinModules.nix-homebrew
+            {
+              nix-homebrew = {
+                inherit (machine) user;
+                enable = true;
+                enableRosetta = isAppleSilicon machine.system;
+                taps = {
+                  "homebrew/homebrew-core" = homebrew-core;
+                  "homebrew/homebrew-cask" = homebrew-cask;
+                };
+                autoMigrate = true;
+              };
+            }
+          ];
+        }
+      );
+
+      homeConfigurations = forEachMode machines (
+        mode: machine:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = pkgsBySystem.${machine.system};
+          extraSpecialArgs = {
+            inherit inputs machine mode;
+          };
+          modules = [
+            (_: {
+              home.username = machine.user;
+              home.homeDirectory =
+                if (isDarwin machine.system) then "/Users/${machine.user}" else "/home/${machine.user}";
+            })
+            stylix.homeModules.stylix
+            (stylixConfig mode)
+            ./home/home.nix
+            ./home/home-${if (isDarwin machine.system) then "darwin" else "nixos"}.nix
+            ./home/home-${machine.name}.nix
+          ];
+        }
+      );
 
       apps = builtins.mapAttrs (
         system: machines:
