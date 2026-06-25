@@ -25,6 +25,7 @@
   home.sessionPath = [
     "$HOME/.local/bin"
     "$HOME/.cargo/bin"
+    "$HOME/.bun/bin"
   ];
 
   programs.ssh = {
