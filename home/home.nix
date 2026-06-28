@@ -142,8 +142,8 @@
         xh # faster httpie in rust
       ];
       misc-tools = with pkgs; [
-        # ast-grep # https://github.com/ast-grep/ast-grep
         amber # search & replace - https://github.com/dalance/amber
+        ast-grep # https://github.com/ast-grep/ast-grep
         atool # archive tool - https://www.nongnu.org/atool/
         bat # better cat - https://github.com/sharkdp/bat
         cargo-flamegraph # https://github.com/flamegraph-rs/flamegraph
@@ -168,9 +168,11 @@
         ripgrep # better grep - https://github.com/BurntSushi/ripgrep
         samply # sampling profiler - https://github.com/mstange/samply
         sqlite
+        tinymist # typst lsp
         tldr # https://github.com/tldr-pages/tldr
         tree # https://oldmanprogrammer.net/source.php?dir=projects/tree
         typos # source code spell checker - https://github.com/crate-ci/typos
+        typst
         unzip
         vhs # https://github.com/charmbracelet/vhs
         watchexec # https://watchexec.github.io/
