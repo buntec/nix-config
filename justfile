@@ -22,9 +22,9 @@ nix-darwin-switch mode='dark':
 # rebuild Home Manager config and switch; mode='light'|'dark'
 [unix]
 hm-switch mode='dark':
-    nix run .#hm-switch-{{ host }}-{{ mode }}
+    nix run -v .#hm-switch-{{ host }}-{{ mode }}
     # reload tmux config
-    tmux source-file ~/.config/tmux/tmux.conf
+    # tmux source-file ~/.config/tmux/tmux.conf
     # reload fish config
     fish -c 'reload_all_fish_instances'
 

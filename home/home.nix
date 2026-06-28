@@ -16,8 +16,6 @@
 
   home.stateVersion = "22.11";
 
-  gtk.gtk4.theme = null;
-
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
@@ -35,8 +33,8 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks."*" = {
-      addKeysToAgent = "yes";
+    settings."*" = {
+      AddKeysToAgent = "yes";
     };
   };
 
