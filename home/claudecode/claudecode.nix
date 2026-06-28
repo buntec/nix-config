@@ -4,7 +4,6 @@ let
 
   claudeSettings = {
     theme = mode;
-    model = "opus";
     env = {
       CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1";
     };
@@ -15,6 +14,7 @@ let
       deny = [ ];
     };
 
+    # model = "opus";
     # effortLevel = "xhigh";
     # preferredNotifChannel = "terminal_bell";
 
