@@ -2,13 +2,15 @@
 {
 
   imports = [
+    ./claudecode/claudecode.nix
     ./fish/fish.nix
     ./ghostty/ghostty.nix
     ./git/git.nix
+    ./imperativePackages.nix
     ./kitty/kitty.nix
     ./neovim/neovim.nix
-    ./tmux/tmux.nix
     ./stylix/stylix.nix
+    ./tmux/tmux.nix
     ./yazi/yazi.nix
   ];
 
@@ -26,6 +28,8 @@
     "$HOME/.local/bin"
     "$HOME/.cargo/bin"
     "$HOME/.bun/bin"
+    "$HOME/.pixi/bin"
+    "$HOME/.dotnet/tools"
   ];
 
   programs.ssh = {
@@ -104,7 +108,6 @@
         jdk
         ninja
         nodejs
-        pixi
         protobuf
         protoc-gen-doc
         rustup

@@ -27,6 +27,14 @@ vim.lsp.enable("taplo")
 vim.lsp.enable("texlab")
 vim.lsp.enable("ts_ls")
 vim.lsp.enable("zls")
+vim.lsp.enable("jdtls")
+vim.lsp.enable("csharp_ls")
+vim.lsp.enable("tinymist")
+
+vim.lsp.config("clangd", {
+  filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+  cmd = { os.getenv("CLANGD_BIN") or "clangd" },
+})
 
 vim.lsp.config("lua_ls", {
   settings = {
@@ -86,4 +94,15 @@ vim.lsp.config("buf-lsp", {
   cmd = { "buf", "lsp", "serve" },
   filetypes = { "proto" },
   root_markers = { "buf.yaml", ".git" },
+})
+
+vim.lsp.config("tinymist", {
+  cmd = { "tinymist" },
+  filetypes = { "typst" },
+  settings = {
+    formatterMode = "typstyle", -- or "typstfmt"
+    -- formatterProseWrap = true, -- wrap lines in content mode
+    -- formatterPrintWidth = 80, -- limit line length to 80 if possible
+    -- formatterIndentSize = 4, -- indentation width
+  },
 })
