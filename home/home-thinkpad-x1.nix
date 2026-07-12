@@ -3,7 +3,6 @@
 
   imports = [
     ./gnome/gnome.nix
-    # ./syncthing/syncthing.nix
   ];
 
   home.packages = [
