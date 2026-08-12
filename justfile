@@ -9,6 +9,12 @@ default:
 format:
     nix fmt
 
+# Run formatting, lint, and flake checks
+check:
+    nix fmt -- --fail-on-change
+    statix check .
+    nix flake check --impure
+
 # rebuild NixOS config and switch; mode='light'|'dark'
 [linux]
 nixos-switch mode='dark':
@@ -47,8 +53,6 @@ bootstrap-vm ip port attr user:
     --target-host nixos@{{ ip }}
     # wait for VM to reboot
     sleep 30
-    # copy ssh keys
-    rsync -av -e 'ssh -p {{ port }} {{ SSH_OPTIONS }}' ~/.ssh/ {{ user }}@{{ ip }}:~/.ssh
     # copy this repo - this conveniently gives us the generated hardware config
     rsync -av -e 'ssh -p {{ port }} {{ SSH_OPTIONS }}' . {{ user }}@{{ ip }}:~/nix-config
     # build and activate Home Manager config

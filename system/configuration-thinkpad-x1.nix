@@ -8,6 +8,7 @@
 {
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-7th-gen
+    ./hardware-configuration.nix
     ./gnome/gnome.nix
   ];
 

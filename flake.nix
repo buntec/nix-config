@@ -92,64 +92,67 @@
           name = "thinkpad-x1";
           user = "buntec";
           system = "x86_64-linux";
+          kind = "nixos";
+          checkSystem = false;
         }
         {
           # nix-darwin w/ HM running on MacBook Pro M1 (2021)
           name = "macbook-pro-m1";
           user = "christoph";
           system = "aarch64-darwin";
+          kind = "darwin";
         }
         {
           # nix-darwin w/ HM running on MacBook Neo (2026)
           name = "macbook-neo";
           user = "christoph";
           system = "aarch64-darwin";
+          kind = "darwin";
         }
         {
           # NixOS w/ HM running inside VMWare Fusion guest on MacBook Pro M1
           name = "macbook-pro-m1-vmw";
           user = "buntec";
           system = "aarch64-linux";
+          kind = "nixos";
         }
         {
           # NixOS w/ HM running inside UTM guest on MacBook Pro M1
           name = "macbook-pro-m1-utm";
           user = "buntec";
           system = "aarch64-linux";
-        }
-        {
-          # nix-darwin w/ HM running on MacBook Pro (Intel, Late 2013)
-          name = "macbook-pro-intel";
-          user = "christophbunte";
-          system = "x86_64-darwin";
+          kind = "nixos";
         }
         {
           # NixOS w/ HM running inside VirtualBox guest on Windows 11 desktop
           name = "win11-vb";
           user = "buntec";
           system = "x86_64-linux";
+          kind = "nixos";
         }
         {
           # NixOS w/ HM inside WSL running on Windows 11 desktop
           name = "wsl";
           user = "buntec";
           system = "x86_64-linux";
+          kind = "nixos";
         }
         {
           # HM inside multipass guest (Ubuntu) on Apple Silicon
           name = "multipass-guest";
           user = "christoph";
           system = "aarch64-linux";
+          kind = "home";
         }
       ];
 
-      isDarwin = system: (builtins.match ".*darwin" system) != null;
+      isDarwinSystem = system: (builtins.match ".*darwin" system) != null;
 
       isAppleSilicon = system: system == "aarch64-darwin";
 
-      darwinMachines = builtins.filter (machine: (isDarwin machine.system)) machines;
+      darwinMachines = builtins.filter (machine: machine.kind == "darwin") machines;
 
-      nixosMachines = builtins.filter (machine: !(isDarwin machine.system)) machines;
+      nixosMachines = builtins.filter (machine: machine.kind == "nixos") machines;
 
       machinesBySystem = builtins.groupBy (machine: machine.system) machines;
 
@@ -163,7 +166,7 @@
       pkgsBySystem = builtins.listToAttrs (
         builtins.map (system: {
           name = system;
-          value = import (if (isDarwin system) then nixpkgs else nixpkgs-nixos-unstable) {
+          value = import (if (isDarwinSystem system) then nixpkgs else nixpkgs-nixos-unstable) {
             inherit system;
             inherit overlays;
             config = {
@@ -250,13 +253,7 @@
     in
     {
 
-      formatter = eachSystem (
-        system:
-        let
-          pkgs = pkgsBySystem.${system};
-        in
-        treefmtEval.${pkgs.system}.config.build.wrapper
-      );
+      formatter = eachSystem (system: treefmtEval.${system}.config.build.wrapper);
 
       nixosConfigurations = forEachMode nixosMachines (
         mode: machine:
@@ -268,8 +265,7 @@
           modules = [
             (_: {
               nixpkgs = {
-                inherit overlays;
-                config.allowUnfree = true;
+                pkgs = pkgsBySystem.${machine.system};
               };
             })
             disko.nixosModules.disko
@@ -291,8 +287,7 @@
           modules = [
             (_: {
               nixpkgs = {
-                inherit overlays;
-                config.allowUnfree = true;
+                pkgs = pkgsBySystem.${machine.system};
               };
               system.primaryUser = machine.user;
             })
@@ -328,12 +323,12 @@
             (_: {
               home.username = machine.user;
               home.homeDirectory =
-                if (isDarwin machine.system) then "/Users/${machine.user}" else "/home/${machine.user}";
+                if (isDarwinSystem machine.system) then "/Users/${machine.user}" else "/home/${machine.user}";
             })
             stylix.homeModules.stylix
             (stylixConfig mode)
             ./home/home.nix
-            ./home/home-${if (isDarwin machine.system) then "darwin" else "nixos"}.nix
+            ./home/home-${if (isDarwinSystem machine.system) then "darwin" else "nixos"}.nix
             ./home/home-${machine.name}.nix
           ];
         }
@@ -348,16 +343,23 @@
               let
                 pkgs = pkgsBySystem.${system};
 
-                osRebuildScript =
+                rebuildApps =
                   mode:
-                  pkgs.writeShellScript "rebuild-${machine.name}" (
-                    if (isDarwin machine.system) then
-                      "${
-                        self.darwinConfigurations.${"${machine.name}-${mode}"}.system
-                      }/sw/bin/darwin-rebuild switch --flake ${self}#${machine.name}-${mode}"
-                    else
-                      "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${self}#${machine.name}-${mode}"
-                  );
+                  lib.optional (machine.kind != "home") {
+                    name = "rebuild-${machine.name}-${mode}";
+                    value = {
+                      type = "app";
+                      meta.description = "Activate ${machine.name} in ${mode} mode";
+                      program = "${pkgs.writeShellScript "rebuild-${machine.name}" (
+                        if (machine.kind == "darwin") then
+                          "${
+                            self.darwinConfigurations.${"${machine.name}-${mode}"}.system
+                          }/sw/bin/darwin-rebuild switch --flake ${self}#${machine.name}-${mode}"
+                        else
+                          "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${self}#${machine.name}-${mode}"
+                      )}";
+                    };
+                  };
 
                 hmSwitchScript =
                   mode:
@@ -366,25 +368,14 @@
                   }/bin/home-manager switch -b backup --flake ${self}#${machine.name}-${mode}";
 
               in
-              [
-                {
-                  name = "rebuild-${machine.name}-dark";
-                  value = {
-                    type = "app";
-                    program = "${osRebuildScript "dark"}";
-                  };
-                }
-                {
-                  name = "rebuild-${machine.name}-light";
-                  value = {
-                    type = "app";
-                    program = "${osRebuildScript "light"}";
-                  };
-                }
+              (rebuildApps "dark")
+              ++ (rebuildApps "light")
+              ++ [
                 {
                   name = "hm-switch-${machine.name}-dark";
                   value = {
                     type = "app";
+                    meta.description = "Activate Home Manager for ${machine.name} in dark mode";
                     program = "${hmSwitchScript "dark"}";
                   };
                 }
@@ -392,6 +383,7 @@
                   name = "hm-switch-${machine.name}-light";
                   value = {
                     type = "app";
+                    meta.description = "Activate Home Manager for ${machine.name} in light mode";
                     program = "${hmSwitchScript "light"}";
                   };
                 }
@@ -406,22 +398,31 @@
         system: machines:
         builtins.listToAttrs (
           lib.flatten (
-            builtins.map (machine: [
-              {
-                name = "toplevel-${machine.name}";
-                value =
-                  if (isDarwin machine.system) then
-                    self.darwinConfigurations.${"${machine.name}-light"}.config.system.build.toplevel
-                  else
-                    self.nixosConfigurations.${"${machine.name}-light"}.config.system.build.toplevel;
-              }
-              {
-                name = "hm-${machine.name}";
-                value =
-                  builtins.trace "system: ${machine.system}, name: ${machine.name}"
-                    self.homeConfigurations.${"${machine.name}-light"}.activationPackage;
-              }
-            ]) machines
+            builtins.concatMap (
+              machine:
+              builtins.concatMap
+                (
+                  mode:
+                  (lib.optional (machine.kind != "home" && machine.checkSystem or true) {
+                    name = "toplevel-${machine.name}-${mode}";
+                    value =
+                      if (machine.kind == "darwin") then
+                        self.darwinConfigurations.${"${machine.name}-${mode}"}.config.system.build.toplevel
+                      else
+                        self.nixosConfigurations.${"${machine.name}-${mode}"}.config.system.build.toplevel;
+                  })
+                  ++ [
+                    {
+                      name = "hm-${machine.name}-${mode}";
+                      value = self.homeConfigurations.${"${machine.name}-${mode}"}.activationPackage;
+                    }
+                  ]
+                )
+                [
+                  "light"
+                  "dark"
+                ]
+            ) machines
           )
         )
         // {

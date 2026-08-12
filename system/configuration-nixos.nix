@@ -15,11 +15,6 @@
     extra-substituters = https://nix-community.cachix.org https://devenv.cachix.org
   '';
 
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-  ];
-
   # https://github.com/NixOS/nix/issues/2982
   nix.channel.enable = false;
 
@@ -47,7 +42,7 @@
 
     isNormalUser = true;
 
-    hashedPassword = "$y$j9T$vPUnEtURmG07hGZC8VKAD0$cXGnyTRcCpemAF.mAsL0xdVY1bSLXkvQOvTMYfgpdI5";
+    hashedPassword = "!";
 
     extraGroups = [
       "docker"
@@ -63,7 +58,7 @@
       chromium
       firefox
       keepassxc
-      linuxPackages.perf
+      perf
     ];
   };
 
@@ -95,6 +90,11 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.openssh.settings.PasswordAuthentication = false;
+
+  # Accounts are authenticated with SSH keys, so sudo must not require a
+  # password that does not exist.
+  security.sudo.wheelNeedsPassword = false;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

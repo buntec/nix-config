@@ -42,7 +42,7 @@ Every configuration exists in two variants (`-light` / `-dark`) driven by [styli
 ### Flake Outputs
 
 - `nixosConfigurations` — NixOS system configs (ThinkPad X1, VM guests)
-- `darwinConfigurations` — macOS configs via nix-darwin (MacBook Pro M1/Neo/Intel)
+- `darwinConfigurations` — macOS configs via nix-darwin (MacBook Pro M1/Neo)
 - `homeConfigurations` — Home Manager configs for all machines (including multipass Ubuntu guest)
 - `apps.rebuild-{machine}-{mode}` / `apps.hm-switch-{machine}-{mode}` — shell scripts wrapping `nixos-rebuild`/`darwin-rebuild`/`home-manager switch`
 - `checks` — CI validation for all machines
@@ -54,7 +54,6 @@ Every configuration exists in two variants (`-light` / `-dark`) driven by [styli
 |------|--------|------|
 | macbook-pro-m1 | aarch64-darwin | christoph |
 | macbook-neo | aarch64-darwin | christoph |
-| macbook-pro-intel | x86_64-darwin | christophbunte |
 | thinkpad-x1 | x86_64-linux | buntec |
 | macbook-pro-m1-vmw | aarch64-linux | buntec |
 | macbook-pro-m1-utm | aarch64-linux | buntec |
