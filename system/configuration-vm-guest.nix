@@ -17,8 +17,6 @@
     ];
   };
 
-  services.openssh.settings.PasswordAuthentication = true;
-
   boot.loader.grub = {
     enable = true;
     # no need to set devices, disko will add all devices that have a EF02 partition to the list already
@@ -26,8 +24,5 @@
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
-
-  # Don't require password for sudo
-  security.sudo.wheelNeedsPassword = false;
 
 }

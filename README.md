@@ -4,7 +4,7 @@ Provides configurations for [NixOS](https://nixos.org/), [nix-darwin](https://gi
 
 Every configuration comes in a `-dark` and `-light` version (see `nix flake show`), corresponding to dark and light variants of the stylix-based color scheme.
 
-I mostly use modern Apple hardware (>= M1) but this flake also works on my old x86 Apple and Lenovo laptops.
+I mostly use modern Apple hardware (>= M1), and this flake also supports my Lenovo laptop.
 For full-blown NixOS I recommend either [UTM](https://mac.getutm.app/) or [VMWare Fusion](https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion).
 Both approaches are described in detail below.
 I currently prefer to use the Nix package manager (w/ Home Manager) directly on macOS and inside [multipass](https://canonical.com/multipass) guests.
