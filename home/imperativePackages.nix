@@ -49,7 +49,7 @@
         install_bun_global "@playwright/cli@latest"
 
         # cargo packages
-        install_cargo_package "cargo-edit" "cargo-add"
+        # install_cargo_package "cargo-edit" "cargo-add"
 
         # uv tools
         install_uv_tool "ruff"
