@@ -90,6 +90,11 @@ vim.lsp.config("texlab", {
   },
 })
 
+vim.lsp.config("neocmake", {
+  -- neocmakelsp can spend a long time scanning a project before handling shutdown.
+  exit_timeout = 1000,
+})
+
 vim.lsp.config("buf-lsp", {
   cmd = { "buf", "lsp", "serve" },
   filetypes = { "proto" },
