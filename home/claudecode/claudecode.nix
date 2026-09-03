@@ -80,7 +80,7 @@ in
 {
 
   programs.claude-code = {
-    enable = true;
+    enable = false;
     package = null;
     settings = claudeSettings;
   };
