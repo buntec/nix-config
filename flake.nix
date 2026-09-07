@@ -29,18 +29,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
-
     kauz = {
       url = "github:buntec/kauz";
       flake = false;
@@ -59,9 +47,6 @@
       home-manager,
       stylix,
       treefmt-nix,
-      nix-homebrew,
-      homebrew-core,
-      homebrew-cask,
       kauz,
       ...
     }:
@@ -295,19 +280,6 @@
             (stylixConfig mode)
             ./system/configuration-darwin.nix
             ./system/configuration-${machine.name}.nix
-            nix-homebrew.darwinModules.nix-homebrew
-            {
-              nix-homebrew = {
-                inherit (machine) user;
-                enable = true;
-                enableRosetta = isAppleSilicon machine.system;
-                taps = {
-                  "homebrew/homebrew-core" = homebrew-core;
-                  "homebrew/homebrew-cask" = homebrew-cask;
-                };
-                autoMigrate = true;
-              };
-            }
           ];
         }
       );

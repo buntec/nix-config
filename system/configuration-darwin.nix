@@ -61,24 +61,6 @@
   #   nerd-fonts.droid-sans-mono
   # ];
 
-  homebrew = {
-    enable = true;
-    onActivation = {
-      autoUpdate = true;
-      cleanup = "zap";
-    };
-    casks = [
-      "discord"
-      "firefox"
-      "ghostty"
-      "google-chrome"
-      "keepassxc"
-      "kitty"
-      "skim"
-      "spotify"
-    ];
-  };
-
   # environment.shells = [ pkgs.fish ];
 
   services.tailscale.enable = true;
