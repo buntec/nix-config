@@ -8,6 +8,11 @@ let
   brew =
     if pkgs.stdenv.hostPlatform.isAarch64 then "/opt/homebrew/bin/brew" else "/usr/local/bin/brew";
   brewfile = "${config.xdg.configHome}/homebrew/Brewfile";
+  bundlePath = lib.makeBinPath [
+    pkgs.nodejs
+    pkgs.rustup
+    pkgs.uv
+  ];
 in
 {
   xdg.configFile."homebrew/Brewfile".text = ''
@@ -39,12 +44,19 @@ in
     fi
   '';
 
-  home.activation.homebrewBundle = lib.hm.dag.entryAfter [ "writeBoundary" "rustupInstallStable" ] ''
-    if [ -x "${brew}" ]; then
-      verboseEcho "Applying Homebrew bundle from ${brewfile}"
-      run env -u RUSTC "${brew}" bundle --file="${brewfile}"
-    else
-      echo "Homebrew not found at ${brew}; skipping Brewfile activation" >&2
-    fi
-  '';
+  home.activation.homebrewBundle =
+    lib.hm.dag.entryAfter
+      [
+        "installPackages"
+        "linkGeneration"
+        "rustupInstallStable"
+      ]
+      ''
+        if [ -x "${brew}" ]; then
+          verboseEcho "Applying Homebrew bundle from ${brewfile}"
+          run env -u RUSTC PATH="${bundlePath}:$PATH" "${brew}" bundle --file="${brewfile}"
+        else
+          echo "Homebrew not found at ${brew}; skipping Brewfile activation" >&2
+        fi
+      '';
 }
