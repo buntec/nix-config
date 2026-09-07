@@ -8,6 +8,7 @@ let
   brew =
     if pkgs.stdenv.hostPlatform.isAarch64 then "/opt/homebrew/bin/brew" else "/usr/local/bin/brew";
   brewfile = "${config.xdg.configHome}/homebrew/Brewfile";
+  npmPrefix = "${config.home.homeDirectory}/.local";
   bundlePath = lib.makeBinPath [
     pkgs.nodejs
     pkgs.rustup
@@ -15,6 +16,8 @@ let
   ];
 in
 {
+  home.sessionVariables.NPM_CONFIG_PREFIX = npmPrefix;
+
   xdg.configFile."homebrew/Brewfile".text = ''
     cask "firefox"
     cask "google-chrome"
@@ -54,7 +57,11 @@ in
       ''
         if [ -x "${brew}" ]; then
           verboseEcho "Applying Homebrew bundle from ${brewfile}"
-          run env -u RUSTC PATH="${bundlePath}:$PATH" "${brew}" bundle --file="${brewfile}"
+          run env \
+            -u RUSTC \
+            NPM_CONFIG_PREFIX="${npmPrefix}" \
+            PATH="${bundlePath}:$PATH" \
+            "${brew}" bundle --file="${brewfile}"
         else
           echo "Homebrew not found at ${brew}; skipping Brewfile activation" >&2
         fi
