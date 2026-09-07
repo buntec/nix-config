@@ -16,7 +16,9 @@ let
   ];
 in
 {
-  home.sessionVariables.NPM_CONFIG_PREFIX = npmPrefix;
+  home.file.".npmrc".text = ''
+    prefix=${npmPrefix}
+  '';
 
   xdg.configFile."homebrew/Brewfile".text = ''
     cask "firefox"
@@ -59,7 +61,6 @@ in
           verboseEcho "Applying Homebrew bundle from ${brewfile}"
           run env \
             -u RUSTC \
-            NPM_CONFIG_PREFIX="${npmPrefix}" \
             PATH="${bundlePath}:$PATH" \
             "${brew}" bundle --file="${brewfile}"
         else
