@@ -2,7 +2,7 @@
 {
 
   programs.ghostty = {
-    enable = true;
+    enable = false;
     settings = {
       gtk-titlebar-hide-when-maximized = true;
       macos-option-as-alt = true;

@@ -16,6 +16,12 @@
 
   home.stateVersion = "22.11";
 
+  # Avoid upstream store-context warnings from the option documentation.
+  manual.manpages.enable = false;
+
+  # suppress warnings
+  wayland.windowManager.hyprland.configType = "lua";
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
