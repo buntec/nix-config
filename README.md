@@ -78,8 +78,8 @@ sudo mv /etc/nix/nix.conf /etc/nix/.nix-darwin.bkp.nix.conf
 5. Clone this repo, `cd` into it, then build and activate:
 
 ```bash
-nix run .#rebuild-macbook-pro-m1-dark # nix-darwin
-nix run .#hm-switch-macbook-pro-m1-dark # home-manager
+nix run .#rebuild-macbook-pro-dark # nix-darwin
+nix run .#hm-switch-macbook-pro-dark # home-manager
 ```
 
 ## Migrating an existing macOS install to Nix

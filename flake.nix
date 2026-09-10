@@ -75,8 +75,8 @@
           checkSystem = false;
         }
         {
-          # nix-darwin w/ HM running on MacBook Pro M1 (2021)
-          name = "macbook-pro-m1";
+          # nix-darwin w/ HM running on MacBook Pro
+          name = "macbook-pro";
           user = "christoph";
           system = "aarch64-darwin";
           kind = "darwin";
@@ -89,15 +89,15 @@
           kind = "darwin";
         }
         {
-          # NixOS w/ HM running inside VMWare Fusion guest on MacBook Pro M1
-          name = "macbook-pro-m1-vmw";
+          # NixOS w/ HM running inside VMWare Fusion guest on MacBook Pro
+          name = "macbook-pro-vmw";
           user = "buntec";
           system = "aarch64-linux";
           kind = "nixos";
         }
         {
-          # NixOS w/ HM running inside UTM guest on MacBook Pro M1
-          name = "macbook-pro-m1-utm";
+          # NixOS w/ HM running inside UTM guest on MacBook Pro
+          name = "macbook-pro-utm";
           user = "buntec";
           system = "aarch64-linux";
           kind = "nixos";

@@ -59,10 +59,10 @@ bootstrap-vm ip port attr user:
     ssh {{ SSH_OPTIONS }} -v {{ user }}@{{ ip }} 'cd nix-config; just hm-switch'
 
 [macos]
-bootstrap-mbp-vmw ip: (bootstrap-vm ip '22' 'macbook-pro-m1-vmw-dark' 'buntec')
+bootstrap-mbp-vmw ip: (bootstrap-vm ip '22' 'macbook-pro-vmw-dark' 'buntec')
 
 [macos]
-bootstrap-mbp-utm ip: (bootstrap-vm ip '22' 'macbook-pro-m1-utm-dark' 'buntec')
+bootstrap-mbp-utm ip: (bootstrap-vm ip '22' 'macbook-pro-utm-dark' 'buntec')
 
 bootstrap-win11-vb ip port: (bootstrap-vm ip port 'win11-vb-dark' 'buntec')
 
