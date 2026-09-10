@@ -6,6 +6,28 @@ sRGB gamut mapping use [Color.js](https://colorjs.io/).
 
 ## Usage
 
+From Nix, pass a 24-character Color Hunt slug to the utility:
+
+```nix
+let
+  themes = pkgs.callPackage ./extras/colorhunt-theme { } "007dccffb900d10056b2054c";
+in
+{
+  stylix.base16Scheme = themes.base16.dark;
+}
+```
+
+The derivation generates both Base16 and Base24 variants and an HTML preview in the Nix store.
+Use `themes.base16.light`, `themes.base24.dark`, `themes.base24.light`, or `themes.preview`
+to select other outputs. Dependencies are pinned, and generation requires no network access.
+Change the slug in `flake.nix` to select a new palette; no generated files need to be committed.
+Stylix reads the generated YAML during evaluation, so evaluation can build this derivation
+(import from derivation). The flake uses the evaluator's platform with `--impure`, allowing
+checks to evaluate other hosts. Pure evaluation falls back to the configuration's build
+platform and requires a matching builder.
+
+The generator can also be run directly from this directory:
+
 ```console
 npm ci
 ./cli.js ffbe91ffddb0fffce1cfebff --name "Spring Glass"

@@ -29,11 +29,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    kauz = {
-      url = "github:buntec/kauz";
-      flake = false;
-    };
-
   };
 
   outputs =
@@ -47,7 +42,6 @@
       home-manager,
       stylix,
       treefmt-nix,
-      kauz,
       ...
     }:
     let
@@ -173,16 +167,18 @@
         mode:
         { pkgs, ... }:
         let
-          schemes = {
-            light = "${kauz}/base24/kauz-light.yml";
-            dark = "${kauz}/base24/kauz-dark.yml";
+          # Stylix reads the YAML during evaluation. Use the evaluator's platform
+          # when available so impure checks can also evaluate other hosts.
+          themePkgs = import nixpkgs {
+            system = builtins.currentSystem or pkgs.stdenv.buildPlatform.system;
           };
+          schemes = themePkgs.callPackage ./extras/colorhunt-theme { } "007dccffb900d10056b2054c";
         in
         {
           stylix = {
             enable = true;
             enableReleaseChecks = false;
-            base16Scheme = schemes.${mode};
+            base16Scheme = schemes.base16.${mode};
             polarity = mode;
 
             opacity = {

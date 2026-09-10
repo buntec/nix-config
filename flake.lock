@@ -216,22 +216,6 @@
         "type": "github"
       }
     },
-    "kauz": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1764786772,
-        "narHash": "sha256-+NymgKLgqja1y0OJaFv4OqQqSOSP4sSS2IuhvwGmfmg=",
-        "owner": "buntec",
-        "repo": "kauz",
-        "rev": "92d628b90d34ad31759470b7a0b2e4642774a6f8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "buntec",
-        "repo": "kauz",
-        "type": "github"
-      }
-    },
     "nixos-hardware": {
       "inputs": {
         "nixpkgs": "nixpkgs"
@@ -362,7 +346,6 @@
         "darwin": "darwin",
         "disko": "disko",
         "home-manager": "home-manager",
-        "kauz": "kauz",
         "nixos-hardware": "nixos-hardware",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_3",

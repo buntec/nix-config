@@ -26,8 +26,6 @@ in
     cask "keepassxc"
     cask "localsend"
     cask "multipass"
-    cask "openscad"
-    cask "steam"
     cask "syncthing-app"
     cask "tailscale-app"
     cask "utm"
@@ -36,7 +34,6 @@ in
 
     npm "@playwright/cli"
 
-    uv "ninja-so-fancy", source: "git+http://github.com/buntec/ninja-so-fancy"
     uv "pyrefly"
     uv "ruff"
     uv "ty"

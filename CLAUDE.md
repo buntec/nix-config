@@ -37,7 +37,7 @@ This is a personal Nix flake managing NixOS, nix-darwin (macOS), and Home Manage
 
 ### Light/Dark Theming
 
-Every configuration exists in two variants (`-light` / `-dark`) driven by [stylix](https://github.com/danth/stylix) with the kauz color scheme. The `mode` variable flows from `flake.nix` → `specialArgs`/`extraSpecialArgs` → individual modules. Stylix applies consistent theming across terminal emulators, Neovim, GNOME, and other apps.
+Every configuration exists in two variants (`-light` / `-dark`) driven by [stylix](https://github.com/danth/stylix) with color schemes generated from a Color Hunt slug by `extras/colorhunt-theme/default.nix`. The `mode` variable flows from `flake.nix` → `specialArgs`/`extraSpecialArgs` → individual modules. Stylix applies consistent theming across terminal emulators, Neovim, GNOME, and other apps.
 
 ### Flake Outputs
 
