@@ -172,7 +172,7 @@
           themePkgs = import nixpkgs {
             system = builtins.currentSystem or pkgs.stdenv.buildPlatform.system;
           };
-          schemes = themePkgs.callPackage ./extras/colorhunt-theme { } "007dccffb900d10056b2054c";
+          schemes = themePkgs.callPackage ./extras/colorhunt-theme { } "f599c6ffea887dccad4d6787";
         in
         {
           stylix = {
