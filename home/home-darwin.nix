@@ -7,7 +7,6 @@ in
 
   imports = [
     ./homebrew/homebrew.nix
-    ./tmux/tmux-darwin.nix
   ];
 
   programs.ssh.extraConfig = ''

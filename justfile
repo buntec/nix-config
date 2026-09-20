@@ -29,8 +29,6 @@ nix-darwin-switch mode='dark':
 [unix]
 hm-switch mode='dark':
     nix run -v .#hm-switch-{{ host }}-{{ mode }}
-    # reload tmux config
-    # tmux source-file ~/.config/tmux/tmux.conf
     # reload fish config
     fish -c 'reload_all_fish_instances'
 

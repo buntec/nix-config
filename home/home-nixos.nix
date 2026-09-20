@@ -5,10 +5,6 @@
 }:
 {
 
-  imports = [
-    ./tmux/tmux-nixos.nix
-  ];
-
   programs.git = {
     settings = {
       credential.helper = "store";

@@ -64,18 +64,11 @@ local gitsigns = require("gitsigns")
 local fzf = require("fzf-lua")
 local conform = require("conform")
 local tscontext = require("treesitter-context")
-local yazi = require("yazi")
 local precog = require("precognition")
-
--- mark netrw as loaded so it's not loaded at all.
--- More details: https://github.com/mikavilpas/yazi.nvim/issues/802
-vim.g.loaded_netrwPlugin = 1
 
 -- stylua: ignore start
 
 map("n", "<leader>cf", "<cmd>edit $MYVIMRC<CR>", { desc = "open init.lua" })
-
-map("n", "<leader>-", yazi.yazi, { desc = "open yazi" })
 
 map("n", "<leader>cx", tscontext.toggle, { desc = "toggle treesitter context" })
 
@@ -166,9 +159,6 @@ map("n", "<leader>ca", fzf.lsp_code_actions, { desc = "lsp code actions" })
 
 map({ "n", "v" }, "<localleader>f", function() conform.format({ async = true }) end, { desc = "format buffer (async)" })
 -- map({ "n", "v" }, "<localleader>f", vim.lsp.buf.format, { desc = "lsp format" }) -- we prefer Conform
-
--- yazi
-map({ "n", "v" }, "<leader>ya", function() yazi.yazi() end, { desc = "open yazi" } )
 
 -- precognition
 map({ "n", "v" }, "<leader>pc", function() precog.toggle() end, { desc = "toggle precognition" } )

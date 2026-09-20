@@ -185,11 +185,6 @@
           '';
         };
 
-        # https://github.com/christoomey/vim-tmux-navigator
-        vim-tmux-nav = {
-          plugin = vimPlugins.vim-tmux-navigator;
-        };
-
         # https://github.com/nvim-tree/nvim-web-devicons
         web-devicons = {
           plugin = vimPlugins.nvim-web-devicons;
@@ -204,12 +199,6 @@
           plugin = vimPlugins.which-key-nvim;
           type = "lua";
           config = builtins.readFile ./plugins/which-key.lua;
-        };
-
-        yazi = {
-          plugin = vimPlugins.yazi-nvim;
-          type = "lua";
-          config = builtins.readFile ./plugins/yazi-nvim.lua;
         };
 
         text-case = {
@@ -243,10 +232,8 @@
         text-case
         treesitter
         ts-context
-        vim-tmux-nav
         web-devicons
         which-key
-        yazi
       ];
 
     extraPackages = [ ];

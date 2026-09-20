@@ -10,8 +10,6 @@
     ./kitty/kitty.nix
     ./neovim/neovim.nix
     ./stylix/stylix.nix
-    ./tmux/tmux.nix
-    ./yazi/yazi.nix
   ];
 
   home.stateVersion = "22.11";

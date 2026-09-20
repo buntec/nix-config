@@ -60,7 +60,6 @@
     shellAbbrs = {
 
       fish-reload-config = "source ~/.config/fish/**/*.fish";
-      tmux-reload-config = "tmux source-file ~/.config/tmux/tmux.conf";
 
     };
 
