@@ -75,15 +75,12 @@
       gf = "git fetch";
       gp = "git pull";
       gl = "git log";
-      gu = "gitu";
-      lg = "lazygit";
 
       # vim
       v = "nvim";
       vi = "nvim";
       vim = "nvim";
       vimdiff = "nvim -d";
-      ng = "nvim +Neogit";
 
       cl = "/usr/bin/clear";
     };

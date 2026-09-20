@@ -129,9 +129,7 @@
       git-tools = with pkgs; [
         gh
         git-gone
-        gitu
         # gitui
-        lazygit
         tig
       ];
       json-tools = with pkgs; [

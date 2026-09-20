@@ -120,13 +120,6 @@
           '';
         };
 
-        # https://github.com/NeogitOrg/neogit
-        neogit = {
-          plugin = vimPlugins.neogit;
-          type = "lua";
-          config = builtins.readFile ./plugins/neogit.lua;
-        };
-
         # https://github.com/scalameta/nvim-metals
         nvim-metals = {
           plugin = vimPlugins.nvim-metals;
@@ -240,7 +233,6 @@
         mini-base16
         mini-colors
         mini-icons
-        neogit
         nvim-lint
         nvim-metals
         plenary

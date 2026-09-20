@@ -133,8 +133,6 @@ map("n", "<leader>brx", gitsigns.reset_buffer, { desc = "reset buffer" })
 
 map("n", "<leader>lb", gitsigns.toggle_current_line_blame, { desc = "blame line" })
 
-map("n", "<leader>ng", "<cmd>Neogit<cr>", { desc = "open Neogit" })
-
 map("n", "<leader>dv", "<cmd>DiffviewOpen<cr>", { desc = "open Diffview" })
 
 map("n", "<leader>cdv", "<cmd>DiffviewClose<cr>", { desc = "close Diffview" })
