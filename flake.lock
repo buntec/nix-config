@@ -68,6 +68,22 @@
         "type": "github"
       }
     },
+    "btmux": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790093344,
+        "narHash": "sha256-sKZkjxarlt5PTGEHSpdu/JsgdLR11talmzKByi9HfEc=",
+        "owner": "buntec",
+        "repo": "btmux",
+        "rev": "ff9638311ff9436cae95db0c164885f3eeaa035e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "buntec",
+        "repo": "btmux",
+        "type": "github"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -343,6 +359,7 @@
     },
     "root": {
       "inputs": {
+        "btmux": "btmux",
         "darwin": "darwin",
         "disko": "disko",
         "home-manager": "home-manager",

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
 
   programs.neovim = with pkgs; {
@@ -22,6 +22,15 @@
           plugin = vimPlugins.blink-cmp;
           type = "lua";
           config = builtins.readFile ./plugins/blink-cmp.lua;
+        };
+
+        # https://github.com/buntec/btmux/tree/main/extras/neovim/btmux.nvim
+        btmux = {
+          plugin = vimUtils.buildVimPlugin {
+            pname = "btmux.nvim";
+            version = inputs.btmux.shortRev or "unstable";
+            src = "${inputs.btmux}/extras/neovim/btmux.nvim";
+          };
         };
 
         colorizer = {
@@ -210,6 +219,7 @@
       lib.lists.flatten [
         aerial
         blink-cmp
+        btmux
         colorizer
         conform
         diffview

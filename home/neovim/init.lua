@@ -65,6 +65,7 @@ local fzf = require("fzf-lua")
 local conform = require("conform")
 local tscontext = require("treesitter-context")
 local precog = require("precognition")
+local btmux = require("btmux")
 
 -- stylua: ignore start
 
@@ -131,6 +132,14 @@ map("n", "<leader>dv", "<cmd>DiffviewOpen<cr>", { desc = "open Diffview" })
 map("n", "<leader>cdv", "<cmd>DiffviewClose<cr>", { desc = "close Diffview" })
 
 map("n", "<leader>a", "<cmd>AerialToggle!<cr>", { desc = "toggle Aerial" })
+
+-- btmux
+
+map("n", "<leader>-", function() btmux.open_file_browser() end, { desc = "btmux: open file browser here" })
+
+map("n", "<leader>f-", function() btmux.open_file_browser() end, { desc = "btmux: open file browser here" })
+
+map("n", "<leader>g-", function() btmux.open_file_browser(nil, "git") end, { desc = "btmux: open git view here" })
 
 -- LSP
 
