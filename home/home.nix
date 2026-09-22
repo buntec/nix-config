@@ -153,6 +153,7 @@
         fastfetch # like neofetch
         fd # better find - https://github.com/sharkdp/fd
         fdupes # find duplicate files
+        ffmpeg
         fzf # https://github.com/junegunn/fzf
         gdu # ncdu breaks often, use gdu instead for now
         gnupg
