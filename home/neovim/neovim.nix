@@ -24,28 +24,11 @@
           config = builtins.readFile ./plugins/blink-cmp.lua;
         };
 
-        colorizer = {
-          plugin = vimPlugins.nvim-colorizer-lua;
-          type = "lua";
-          config = ''
-            require("colorizer").setup()
-          '';
-        };
-
         # https://github.com/stevearc/conform.nvim
         conform = {
           plugin = vimPlugins.conform-nvim;
           type = "lua";
           config = builtins.readFile ./plugins/conform-nvim.lua;
-        };
-
-        # https://github.com/sindrets/diffview.nvim
-        diffview = {
-          plugin = vimPlugins.diffview-nvim;
-          type = "lua";
-          config = ''
-            require("diffview").setup({})
-          '';
         };
 
         # https://github.com/j-hui/fidget.nvim
@@ -137,6 +120,7 @@
           config = builtins.readFile ./plugins/nvim-lint.lua;
         };
 
+        # https://github.com/tris203/precognition.nvim
         precognition = {
           plugin = vimPlugins.precognition-nvim;
           type = "lua";
@@ -210,9 +194,7 @@
       lib.lists.flatten [
         aerial
         blink-cmp
-        colorizer
         conform
-        diffview
         fidget
         fzf-lua
         gitsigns
@@ -227,7 +209,6 @@
         plenary
         precognition
         snacks
-        stylelint
         surround
         text-case
         treesitter
