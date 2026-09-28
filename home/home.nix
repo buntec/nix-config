@@ -3,7 +3,6 @@
 
   imports = [
     ./btmux/btmux.nix
-    ./claudecode/claudecode.nix
     ./fish/fish.nix
     ./ghostty/ghostty.nix
     ./git/git.nix
