@@ -29,11 +29,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    btmux = {
-      url = "github:buntec/btmux";
-      flake = false;
-    };
-
   };
 
   outputs =
