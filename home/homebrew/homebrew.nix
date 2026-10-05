@@ -21,8 +21,6 @@ in
   '';
 
   xdg.configFile."homebrew/Brewfile".text = ''
-    cask "firefox"
-    cask "google-chrome"
     cask "keepassxc"
     cask "localsend"
     cask "multipass"

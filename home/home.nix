@@ -163,11 +163,13 @@
         libxml2 # provides xml formatter xmllint
         marp-cli # https://github.com/marp-team/marp-cli
         pandoc # https://github.com/jgm/pandoc
+        poppler-utils # PDF rendering library
         procs # better ps
         restic # backup - https://github.com/restic/restic
         ripgrep # better grep - https://github.com/BurntSushi/ripgrep
         samply # sampling profiler - https://github.com/mstange/samply
         sqlite
+        tesseract # https://github.com/tesseract-ocr/tesseract
         tinymist # typst lsp
         tldr # https://github.com/tldr-pages/tldr
         tree # https://oldmanprogrammer.net/source.php?dir=projects/tree
