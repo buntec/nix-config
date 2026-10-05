@@ -35,6 +35,26 @@
         "type": "github"
       }
     },
+    "base16-from-palette": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791170541,
+        "narHash": "sha256-CewZL0CPAKaRUx4hbI+170kIYq4utLUIa9sRSH4N0qQ=",
+        "owner": "buntec",
+        "repo": "base16-from-palette",
+        "rev": "fe82ade358399fd32c369cd0cded42d8a42c4f40",
+        "type": "github"
+      },
+      "original": {
+        "owner": "buntec",
+        "repo": "base16-from-palette",
+        "type": "github"
+      }
+    },
     "base16-helix": {
       "flake": false,
       "locked": {
@@ -343,6 +363,7 @@
     },
     "root": {
       "inputs": {
+        "base16-from-palette": "base16-from-palette",
         "darwin": "darwin",
         "disko": "disko",
         "home-manager": "home-manager",
