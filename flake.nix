@@ -29,11 +29,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    base16-from-palette = {
+      url = "github:buntec/base16-from-palette";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
     inputs@{
       self,
+      base16-from-palette,
       darwin,
       disko,
       nixpkgs,
@@ -172,13 +178,17 @@
           themePkgs = import nixpkgs {
             system = builtins.currentSystem or pkgs.stdenv.buildPlatform.system;
           };
-          schemes = themePkgs.callPackage ./extras/colorhunt-theme { } "f599c6ffea887dccad4d6787";
+          schemes = base16-from-palette.lib.mkSchemes {
+            pkgs = themePkgs;
+            source = "colorhunt";
+            palette = "f599c6ffea887dccad4d6787";
+          };
         in
         {
           stylix = {
             enable = true;
             enableReleaseChecks = false;
-            base16Scheme = schemes.base16.${mode};
+            base16Scheme = schemes.base24.${mode};
             polarity = mode;
 
             opacity = {
