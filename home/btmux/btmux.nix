@@ -7,16 +7,22 @@
 
     colors = "${config.stylix.base16Scheme}"
 
-    wallpaper-shader = "chroma-flow"
-    wallpaper-opacity = 0.30
-    wallpaper-saturate = 0.50
-    wallpaper-speed = 3.00
+    wallpaper-shader = "ink-flow"
+    wallpaper-saturate = 1.00
+    wallpaper-speed = 1.00
+    wallpaper-fps = 60
     wallpaper-shader-follows-keyboard-input = true
 
     [wallpaper-shader-params."chroma-flow"]
     "intensity" = 1
     "momentum" = 25
     "radius" = 2
+
+    [wallpaper-shader-params."ink-flow"]
+    "curl" = 0
+    "decay" = 2
+    "momentum" = 0.5
+    "radius" = 0.25
 
     [terminal]
     font-weight = 300
