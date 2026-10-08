@@ -19,6 +19,6 @@
     "radius" = 2
 
     [terminal]
-    font-weight = 400
+    font-weight = 300
   '';
 }
