@@ -10,8 +10,6 @@ g.maplocalleader = " "
 
 -- cmd.language("en_US")
 
-global_opt.shortmess:remove("F") -- recommended for nvim-metals
-global_opt.completeopt = { "menu", "menuone", "noselect" } -- Completion options
 global_opt.hidden = true -- Enable modified buffers in background
 global_opt.ignorecase = true -- Ignore case
 global_opt.joinspaces = false -- No double spaces with join after a dot
@@ -22,7 +20,6 @@ global_opt.smartcase = true -- Don't ignore case with capitals
 global_opt.splitbelow = true -- Put new windows below current
 global_opt.splitright = true -- Put new windows right of current
 global_opt.termguicolors = true -- True color support
-global_opt.wildmode = "list:longest" -- Command-line completion mode
 global_opt.clipboard = "unnamedplus"
 global_opt.timeout = true
 global_opt.timeoutlen = 500 -- deafult is 1000
@@ -30,46 +27,46 @@ global_opt.timeoutlen = 500 -- deafult is 1000
 if vim.g.btmux then
   -- btmux's built-in Neovim animates each scroll; single-line steps keep it smooth
   global_opt.mousescroll = "ver:1,hor:6"
-
-  -- Native completion instead of blink.cmp, so btmux draws the menus
-  global_opt.autocomplete = true
-  opt.complete = { "o", ".^5", "w^5", "b^5", "u^5" }
-  -- "popup" makes LSP completion resolve docs, which btmux shows beside the menu
-  global_opt.completeopt = { "menuone", "noselect", "fuzzy", "popup" }
-  global_opt.wildmode = "noselect:lastused,full"
-  global_opt.wildoptions = "pum"
-
-  vim.api.nvim_create_autocmd("CmdlineChanged", {
-    pattern = { ":", "/", "?" },
-    callback = function()
-      vim.fn.wildtrigger()
-    end,
-  })
-
-  -- Keep history navigation on <Up>/<Down> while the wildmenu is open
-  vim.keymap.set("c", "<Up>", function()
-    return vim.fn.wildmenumode() == 1 and "<C-e><Up>" or "<Up>"
-  end, { expr = true })
-  vim.keymap.set("c", "<Down>", function()
-    return vim.fn.wildmenumode() == 1 and "<C-e><Down>" or "<Down>"
-  end, { expr = true })
-
-  -- <CR> accepts a selected item, like blink's "enter" preset
-  vim.keymap.set("i", "<CR>", function()
-    local selected = vim.fn.pumvisible() == 1 and vim.fn.complete_info({ "selected" }).selected or -1
-    return selected ~= -1 and "<C-y>" or "<CR>"
-  end, { expr = true })
-
-  -- LSP items, snippets and docs; trigger characters (e.g. ".") open the menu too
-  vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(ev)
-      local client = vim.lsp.get_client_by_id(ev.data.client_id)
-      if client and client:supports_method("textDocument/completion") then
-        vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-      end
-    end,
-  })
 end
+
+-- Native completion; btmux's built-in Neovim draws the menus itself
+global_opt.autocomplete = true
+opt.complete = { "o", ".^5", "w^5", "b^5", "u^5" }
+-- "popup" makes LSP completion resolve docs (a float, or beside btmux's menu)
+global_opt.completeopt = { "menuone", "noselect", "fuzzy", "popup" }
+global_opt.wildmode = "noselect:lastused,full"
+global_opt.wildoptions = "pum"
+
+vim.api.nvim_create_autocmd("CmdlineChanged", {
+  pattern = { ":", "/", "?" },
+  callback = function()
+    vim.fn.wildtrigger()
+  end,
+})
+
+-- Keep history navigation on <Up>/<Down> while the wildmenu is open
+vim.keymap.set("c", "<Up>", function()
+  return vim.fn.wildmenumode() == 1 and "<C-e><Up>" or "<Up>"
+end, { expr = true })
+vim.keymap.set("c", "<Down>", function()
+  return vim.fn.wildmenumode() == 1 and "<C-e><Down>" or "<Down>"
+end, { expr = true })
+
+-- <CR> accepts a selected item
+vim.keymap.set("i", "<CR>", function()
+  local selected = vim.fn.pumvisible() == 1 and vim.fn.complete_info({ "selected" }).selected or -1
+  return selected ~= -1 and "<C-y>" or "<CR>"
+end, { expr = true })
+
+-- LSP items, snippets and docs; trigger characters (e.g. ".") open the menu too
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if client and client:supports_method("textDocument/completion") then
+      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+    end
+  end,
+})
 
 local indent = 2
 
@@ -169,10 +166,6 @@ map("n", "<leader>hrx", gitsigns.reset_hunk, { desc = "reset hunk" })
 map("n", "<leader>brx", gitsigns.reset_buffer, { desc = "reset buffer" })
 
 map("n", "<leader>lb", gitsigns.toggle_current_line_blame, { desc = "blame line" })
-
-map("n", "<leader>dv", "<cmd>DiffviewOpen<cr>", { desc = "open Diffview" })
-
-map("n", "<leader>cdv", "<cmd>DiffviewClose<cr>", { desc = "close Diffview" })
 
 map("n", "<leader>a", "<cmd>AerialToggle!<cr>", { desc = "toggle Aerial" })
 

@@ -1,7 +1,5 @@
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
-
 vim.lsp.config("*", {
   capabilities = capabilities,
 })
@@ -33,7 +31,8 @@ vim.lsp.enable("tinymist")
 
 vim.lsp.config("clangd", {
   filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
-  cmd = { os.getenv("CLANGD_BIN") or "clangd" },
+  cmd = { "/usr/bin/clangd" },
+  --cmd = { os.getenv("CLANGD_BIN") or "clangd" },
 })
 
 vim.lsp.config("lua_ls", {

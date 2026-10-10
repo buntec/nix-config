@@ -72,6 +72,8 @@
           type = "lua";
           config = ''
             require('mini.icons').setup({})
+            -- Stand in for nvim-web-devicons (lualine, fzf-lua, aerial, grug-far)
+            MiniIcons.mock_nvim_web_devicons()
           '';
         };
 
@@ -87,16 +89,6 @@
           type = "lua";
           config = ''
             require('mini.colors').setup()
-          '';
-        };
-
-        # https://github.com/scalameta/nvim-metals
-        nvim-metals = {
-          plugin = vimPlugins.nvim-metals;
-          type = "lua";
-          config = ''
-            local metalsBinary = "${metals}/bin/metals"
-            ${builtins.readFile ./plugins/metals.lua}
           '';
         };
 
@@ -156,15 +148,6 @@
           '';
         };
 
-        # https://github.com/nvim-tree/nvim-web-devicons
-        web-devicons = {
-          plugin = vimPlugins.nvim-web-devicons;
-          type = "lua";
-          config = ''
-            require'nvim-web-devicons'.setup({})
-          '';
-        };
-
         # https://github.com/folke/which-key.nvim
         which-key = {
           plugin = vimPlugins.which-key-nvim;
@@ -190,7 +173,6 @@
         mini-colors
         mini-icons
         nvim-lint
-        nvim-metals
         plenary
         precognition
         snacks
@@ -198,7 +180,6 @@
         text-case
         treesitter
         ts-context
-        web-devicons
         which-key
       ];
 
