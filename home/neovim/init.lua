@@ -27,6 +27,8 @@ global_opt.timeoutlen = 500 -- deafult is 1000
 if vim.g.btmux then
   -- btmux's built-in Neovim animates each scroll; single-line steps keep it smooth
   global_opt.mousescroll = "ver:1,hor:6"
+  vim.o.winblend = 20 -- floats: hover, diagnostics, plugin windows
+  vim.o.pumblend = 20 -- completion menu and its docs
 end
 
 -- Native completion; btmux's built-in Neovim draws the menus itself
