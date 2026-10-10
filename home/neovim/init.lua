@@ -27,9 +27,48 @@ global_opt.clipboard = "unnamedplus"
 global_opt.timeout = true
 global_opt.timeoutlen = 500 -- deafult is 1000
 
--- btmux's built-in Neovim animates each scroll; single-line steps keep it smooth
 if vim.g.btmux then
+  -- btmux's built-in Neovim animates each scroll; single-line steps keep it smooth
   global_opt.mousescroll = "ver:1,hor:6"
+
+  -- Native completion instead of blink.cmp, so btmux draws the menus
+  global_opt.autocomplete = true
+  opt.complete = { "o", ".^5", "w^5", "b^5", "u^5" }
+  -- "popup" makes LSP completion resolve docs, which btmux shows beside the menu
+  global_opt.completeopt = { "menuone", "noselect", "fuzzy", "popup" }
+  global_opt.wildmode = "noselect:lastused,full"
+  global_opt.wildoptions = "pum"
+
+  vim.api.nvim_create_autocmd("CmdlineChanged", {
+    pattern = { ":", "/", "?" },
+    callback = function()
+      vim.fn.wildtrigger()
+    end,
+  })
+
+  -- Keep history navigation on <Up>/<Down> while the wildmenu is open
+  vim.keymap.set("c", "<Up>", function()
+    return vim.fn.wildmenumode() == 1 and "<C-e><Up>" or "<Up>"
+  end, { expr = true })
+  vim.keymap.set("c", "<Down>", function()
+    return vim.fn.wildmenumode() == 1 and "<C-e><Down>" or "<Down>"
+  end, { expr = true })
+
+  -- <CR> accepts a selected item, like blink's "enter" preset
+  vim.keymap.set("i", "<CR>", function()
+    local selected = vim.fn.pumvisible() == 1 and vim.fn.complete_info({ "selected" }).selected or -1
+    return selected ~= -1 and "<C-y>" or "<CR>"
+  end, { expr = true })
+
+  -- LSP items, snippets and docs; trigger characters (e.g. ".") open the menu too
+  vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(ev)
+      local client = vim.lsp.get_client_by_id(ev.data.client_id)
+      if client and client:supports_method("textDocument/completion") then
+        vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+      end
+    end,
+  })
 end
 
 local indent = 2
