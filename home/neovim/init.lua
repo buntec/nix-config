@@ -27,6 +27,11 @@ global_opt.clipboard = "unnamedplus"
 global_opt.timeout = true
 global_opt.timeoutlen = 500 -- deafult is 1000
 
+-- btmux's built-in Neovim animates each scroll; single-line steps keep it smooth
+if vim.g.btmux then
+  global_opt.mousescroll = "ver:1,hor:6"
+end
+
 local indent = 2
 
 opt.expandtab = true -- Use spaces instead of tabs
