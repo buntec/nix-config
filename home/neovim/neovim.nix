@@ -17,25 +17,12 @@
           type = "lua";
           config = builtins.readFile ./plugins/aerial.lua;
         };
-        # https://github.com/Saghen/blink.cmp
-        blink-cmp = {
-          plugin = vimPlugins.blink-cmp;
-          type = "lua";
-          config = builtins.readFile ./plugins/blink-cmp.lua;
-        };
 
         # https://github.com/stevearc/conform.nvim
         conform = {
           plugin = vimPlugins.conform-nvim;
           type = "lua";
           config = builtins.readFile ./plugins/conform-nvim.lua;
-        };
-
-        # https://github.com/j-hui/fidget.nvim
-        fidget = {
-          plugin = vimPlugins.fidget-nvim;
-          type = "lua";
-          config = builtins.readFile ./plugins/fidget.lua;
         };
 
         # https://github.com/ibhagwan/fzf-lua
@@ -193,9 +180,7 @@
       in
       lib.lists.flatten [
         aerial
-        blink-cmp
         conform
-        fidget
         fzf-lua
         gitsigns
         grug-far

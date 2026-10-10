@@ -10,14 +10,6 @@ snacks.setup({
   scope = {
     enabled = true,
   },
-  scroll = {
-    -- btmux's built-in Neovim animates scrolling itself
-    enabled = not vim.g.btmux,
-    animate = {
-      duration = { step = 10, total = 100 },
-      easing = "linear",
-    },
-  },
   words = { enabled = true },
   toggle = { enabled = true },
   -- statuscolumn = { enabled = true },
