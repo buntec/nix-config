@@ -18,13 +18,8 @@ in
   stylix = {
     targets = {
       fish.enable = false;
-      neovim = {
-        transparentBackground = {
-          main = true;
-          numberLine = true;
-          signColumn = true;
-        };
-      };
+      # btmux's built-in Neovim applies its own colorscheme.
+      neovim.enable = false;
     };
   };
 

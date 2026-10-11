@@ -143,8 +143,6 @@ map("n", "<leader>ht", fzf.help_tags, { desc = "help tags" })
 
 map("n", "<leader>ts", fzf.treesitter, { desc = "current buffer treesitter symbols" })
 
-map("n", "<leader>cs", fzf.colorschemes, { desc = "colorschemes" })
-
 -- Git
 
 map("n", "<leader>gc", fzf.git_commits, { desc = "git commits" })

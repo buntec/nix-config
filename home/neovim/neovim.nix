@@ -77,21 +77,6 @@
           '';
         };
 
-        # https://github.com/echasnovski/mini.base16
-        mini-base16 = {
-          plugin = vimPlugins.mini-base16;
-          type = "lua";
-        };
-
-        # https://github.com/echasnovski/mini.colors
-        mini-colors = {
-          plugin = vimPlugins.mini-colors;
-          type = "lua";
-          config = ''
-            require('mini.colors').setup()
-          '';
-        };
-
         # https://github.com/mfussenegger/nvim-lint
         nvim-lint = {
           plugin = vimPlugins.nvim-lint;
@@ -169,8 +154,6 @@
         grug-far
         lspconfig
         lualine
-        mini-base16
-        mini-colors
         mini-icons
         nvim-lint
         plenary
