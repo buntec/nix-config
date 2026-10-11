@@ -1,13 +1,29 @@
-{ pkgs, ... }:
+{ config, inputs, ... }:
 
+let
+  inherit (config.lib.stylix) colors;
+in
 {
 
+  # Stylix's fish target, minus btmux panes: btmux already uses this scheme,
+  # and base16-fish's OSC color sets would pin the pane palette.
+  programs.fish.interactiveShellInit = ''
+    source ${colors { templateRepo = inputs.stylix.inputs.base16-fish; }}
+
+    if test -z "$TMUX" -a -z "$ZELLIJ"; and not set -q BTMUX_PANE_ID
+        base16-${colors.slug}
+    end
+  '';
+
   stylix = {
-    targets.neovim = {
-      transparentBackground = {
-        main = true;
-        numberLine = true;
-        signColumn = true;
+    targets = {
+      fish.enable = false;
+      neovim = {
+        transparentBackground = {
+          main = true;
+          numberLine = true;
+          signColumn = true;
+        };
       };
     };
   };
