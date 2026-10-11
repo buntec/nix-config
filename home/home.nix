@@ -142,7 +142,6 @@
         amber # search & replace - https://github.com/dalance/amber
         ast-grep # https://github.com/ast-grep/ast-grep
         atool # archive tool - https://www.nongnu.org/atool/
-        bat # better cat - https://github.com/sharkdp/bat
         cargo-flamegraph # https://github.com/flamegraph-rs/flamegraph
         csvlens # https://github.com/YS-L/csvlens
         d2 # https://github.com/terrastruct/d2
@@ -192,11 +191,6 @@
     enable = true;
   };
 
-  # better top - https://github.com/aristocratos/btop
-  programs.btop = {
-    enable = true;
-  };
-
   # better top - https://github.com/htop-dev/htop
   programs.htop = {
     enable = true;
@@ -205,23 +199,5 @@
 
   # smart cd - https://github.com/ajeetdsouza/zoxide
   programs.zoxide.enable = true;
-
-  # file browser - https://dystroy.org/broot/
-  programs.broot = {
-    enable = true;
-    enableFishIntegration = true;
-    settings = {
-      modal = true;
-      verbs = [
-        {
-          key = "enter";
-          external = "$EDITOR +{line} {file}";
-          apply_to = "text_file";
-          leave_broot = false;
-          set_working_dir = false;
-        }
-      ];
-    };
-  };
 
 }
