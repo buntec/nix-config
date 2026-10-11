@@ -169,26 +169,25 @@
         treefmt-nix.lib.evalModule pkgs ./treefmt.nix
       );
 
+      # Base24 YAML shared by stylix and btmux. Stylix reads it during evaluation,
+      # so use the evaluator's platform when available so impure checks can also
+      # evaluate other hosts.
+      mkBase16Scheme =
+        mode: system:
+        (base16-from-palette.lib.mkSchemes {
+          pkgs = import nixpkgs { system = builtins.currentSystem or system; };
+          source = "colorhunt";
+          palette = "f599c6ffea887dccad4d6787";
+        }).base24.${mode};
+
       stylixConfig =
         mode:
         { pkgs, ... }:
-        let
-          # Stylix reads the YAML during evaluation. Use the evaluator's platform
-          # when available so impure checks can also evaluate other hosts.
-          themePkgs = import nixpkgs {
-            system = builtins.currentSystem or pkgs.stdenv.buildPlatform.system;
-          };
-          schemes = base16-from-palette.lib.mkSchemes {
-            pkgs = themePkgs;
-            source = "colorhunt";
-            palette = "f599c6ffea887dccad4d6787";
-          };
-        in
         {
           stylix = {
             enable = true;
             enableReleaseChecks = false;
-            base16Scheme = schemes.base24.${mode};
+            base16Scheme = mkBase16Scheme mode pkgs.stdenv.buildPlatform.system;
             polarity = mode;
 
             opacity = {
@@ -296,6 +295,7 @@
           pkgs = pkgsBySystem.${machine.system};
           extraSpecialArgs = {
             inherit inputs machine mode;
+            base16Scheme = mkBase16Scheme mode machine.system;
           };
           modules = [
             (_: {

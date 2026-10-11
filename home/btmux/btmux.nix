@@ -1,11 +1,11 @@
-{ config, pkgs, ... }:
+{ base16Scheme, pkgs, ... }:
 {
   xdg.configFile."btmux/config.toml".text = ''
     prefix = "C-a"
     shell = "${pkgs.fish}/bin/fish"
     vi-mode = true
 
-    colors = "${config.stylix.base16Scheme}"
+    colors = "${base16Scheme}"
 
     wallpaper-shader = "ink-flow"
     wallpaper-saturate = 1.00
