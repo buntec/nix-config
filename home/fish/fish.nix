@@ -1,8 +1,5 @@
 { pkgs, ... }:
 {
-  # Named ANSI colors from btmux (extras/fish/btmux.theme), so it follows the btmux scheme.
-  xdg.configFile."fish/themes/btmux.theme".source = ./btmux.theme;
-
   programs.fish = {
     enable = true;
     plugins = [
@@ -15,10 +12,6 @@
     interactiveShellInit = ''
       fish_vi_key_bindings
       any-nix-shell fish --info-right | source
-
-      if set -q BTMUX_PANE_ID
-          fish_config theme choose btmux
-      end
     '';
 
     shellInitLast = ''
