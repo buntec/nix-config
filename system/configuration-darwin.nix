@@ -48,12 +48,6 @@
     stateVersion = 4;
   };
 
-  # `home-manager` currently has issues adding them to `~/Applications`
-  # Issue: https://github.com/nix-community/home-manager/issues/1341
-  environment.systemPackages = [
-    # pkgs.kitty
-  ];
-
   # NOTE: managed by stylix
   # fonts.packages = with pkgs; [
   #   nerd-fonts.fira-code

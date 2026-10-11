@@ -4,9 +4,7 @@
   imports = [
     ./btmux/btmux.nix
     ./fish/fish.nix
-    ./ghostty/ghostty.nix
     ./git/git.nix
-    ./kitty/kitty.nix
     ./neovim/neovim.nix
     ./stylix/stylix.nix
   ];
