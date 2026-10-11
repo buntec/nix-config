@@ -26,6 +26,17 @@
 
     functions = {
 
+      # Inside a btmux pane, open files in btmux's editor instead of plain nvim.
+      vi = {
+        body = ''
+          if set -q BTMUX_PANE_ID
+              btmux open-editor $argv
+          else
+              nvim $argv
+          end
+        '';
+      };
+
       # Why doesn't this work? The function is rendered correctly into the
       # config but sending SIGHUP just kills the process.
       # Adding the same function to `shellInitLast` works...
@@ -74,12 +85,6 @@
       gf = "git fetch";
       gp = "git pull";
       gl = "git log";
-
-      # vim
-      v = "nvim";
-      vi = "nvim";
-      vim = "nvim";
-      vimdiff = "nvim -d";
 
       cl = "/usr/bin/clear";
     };
