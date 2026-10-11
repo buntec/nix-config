@@ -78,6 +78,9 @@
   programs.zsh.enable = true;
   programs.fish.enable = true;
 
+  # Its base16 OSC color sets would pin btmux pane palettes; see home/stylix/stylix.nix.
+  stylix.targets.fish.enable = false;
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
