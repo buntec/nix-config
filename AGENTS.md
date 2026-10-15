@@ -7,7 +7,7 @@ This repository is a Nix flake for NixOS, nix-darwin, and Home Manager.
 - `flake.nix` defines inputs, host inventories, configurations, checks, and runnable rebuild apps.
 - `system/` contains machine and platform modules. Host files follow `configuration-<host>.nix`; shared modules live in subdirectories such as `system/disko/` and `system/gnome/`.
 - `home/` contains Home Manager entry points (`home-<host>.nix`) and feature modules such as `home/neovim/` and `home/fish/`.
-- `extras/` stores bootstrap support files; `wallpapers/` stores visual assets.
+- `extras/` stores bootstrap support files.
 - `.github/workflows/ci.yml` runs flake validation on Linux and macOS.
 
 Keep host-specific settings in the matching host module and reusable behavior in a focused feature module.
