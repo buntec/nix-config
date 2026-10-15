@@ -91,7 +91,6 @@
         zls
       ];
       nix-tools = with pkgs; [
-        any-nix-shell
         manix
         nix-output-monitor
       ];
