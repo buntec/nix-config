@@ -14,7 +14,6 @@
 
     settings = {
       shell = "${pkgs.fish}/bin/fish";
-      vi-mode = true;
 
       wallpaper-shader = "ink-flow";
       wallpaper-saturate = 1.0;
@@ -35,8 +34,6 @@
           radius = 0.25;
         };
       };
-
-      terminal.font-weight = 300;
     };
   };
 }
