@@ -6,7 +6,6 @@
     ./fish/fish.nix
     ./git/git.nix
     ./neovim/neovim.nix
-    ./stylix/stylix.nix
   ];
 
   home.stateVersion = "22.11";

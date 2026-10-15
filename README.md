@@ -2,8 +2,6 @@
 
 Provides configurations for [NixOS](https://nixos.org/), [nix-darwin](https://github.com/LnL7/nix-darwin) and [Home Manager](https://github.com/nix-community/home-manager).
 
-Every configuration comes in a `-dark` and `-light` version (see `nix flake show`), corresponding to dark and light variants of the stylix-based color scheme.
-
 I mostly use modern Apple hardware (>= M1), and this flake also supports my Lenovo laptop.
 For full-blown NixOS I recommend either [UTM](https://mac.getutm.app/) or [VMWare Fusion](https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion).
 Both approaches are described in detail below.
@@ -23,13 +21,13 @@ After installing NixOS from a USB drive, follow these steps:
 3. Build and activate NixOS config:
 
 ```bash
-sudo nix run .#rebuild-thinkpad-x1-dark
+sudo nix run .#rebuild-thinkpad-x1
 ```
 
 4. Build and activate Home Manager config:
 
 ```bash
-nix run .#hm-switch-thinkpad-x1-dark
+nix run .#hm-switch-thinkpad-x1
 ```
 
 ### Notes:
@@ -78,8 +76,8 @@ sudo mv /etc/nix/nix.conf /etc/nix/.nix-darwin.bkp.nix.conf
 5. Clone this repo, `cd` into it, then build and activate:
 
 ```bash
-nix run .#rebuild-macbook-pro-dark # nix-darwin
-nix run .#hm-switch-macbook-pro-dark # home-manager
+nix run .#rebuild-macbook-pro # nix-darwin
+nix run .#hm-switch-macbook-pro # home-manager
 ```
 
 ## Migrating an existing macOS install to Nix
@@ -176,7 +174,7 @@ Follow the instructions to update channels and rebuild/switch.
 Create a nix shell with the required tools: `nix-shell -p git vim just`.
 Clone this repo and do `nixos-generate-config` to generate `/etc/nixos/hardware-configuration.nix`.
 Overwrite `system/hardware-configuration` with the generated config but remove all file system mounts.
-Run `sudo nix run .#rebuild-wsl-dark --experimental-features 'nix-command flakes'`.
+Run `sudo nix run .#rebuild-wsl --experimental-features 'nix-command flakes'`.
 In Windows Terminal change the command line for the NixOS profile to `C:\WINDOWS\system32\wsl.exe -d NixOS --user buntec`.
 Open a new NixOS tab (now correctly logged in as `buntec` instead of `nixos`).
 Clone once more this repo and do `just hm-switch` to build and activate HM.

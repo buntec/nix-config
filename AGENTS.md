@@ -14,12 +14,12 @@ Keep host-specific settings in the matching host module and reusable behavior in
 
 ## Build, Test, and Development Commands
 
-- `nix flake show`: inspect available `-light` and `-dark` configurations and apps.
+- `nix flake show`: inspect available configurations and apps.
 - `nix flake check --impure`: evaluate and build configured checks; this matches CI.
 - `just format` or `nix fmt`: format all supported Nix and Lua files.
-- `just nixos-switch [light|dark]`: build and activate the current NixOS host.
-- `just nix-darwin-switch [light|dark]`: build and activate the current macOS system configuration.
-- `just hm-switch [light|dark]`: build and activate Home Manager for the current host.
+- `just nixos-switch`: build and activate the current NixOS host.
+- `just nix-darwin-switch`: build and activate the current macOS system configuration.
+- `just hm-switch`: build and activate Home Manager for the current host.
 
 Run activation commands only on their intended platform. Use `just --list` to discover bootstrap and maintenance recipes.
 

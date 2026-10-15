@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  mode,
   ...
 }:
 {
@@ -37,7 +36,7 @@
     };
     "org/gnome/shell" = {
       enabled-extensions = [
-        # "just-perfection-desktop@just-perfection" # clashes with stylix
+        # "just-perfection-desktop@just-perfection"
         "hidetopbar@mathieu.bidon.ca"
         "Vitals@CoreCoding.com"
         "dash-to-panel@jderose9.github.com"
@@ -61,7 +60,7 @@
     # arcmenu
     # date-menu-formatter
     # forge
-    # just-perfection # clashes with stylix
+    # just-perfection
     # appindicator
     # caffeine
     dash-to-panel

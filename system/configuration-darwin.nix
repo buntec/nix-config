@@ -48,12 +48,10 @@
     stateVersion = 4;
   };
 
-  # NOTE: managed by stylix
-  # fonts.packages = with pkgs; [
-  #   nerd-fonts.fira-code
-  #   nerd-fonts.jetbrains-mono
-  #   nerd-fonts.droid-sans-mono
-  # ];
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    noto-fonts-color-emoji
+  ];
 
   # environment.shells = [ pkgs.fish ];
 

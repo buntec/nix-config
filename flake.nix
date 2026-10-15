@@ -24,16 +24,6 @@
     treefmt-nix.url = "github:numtide/treefmt-nix";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    stylix = {
-      url = "github:nix-community/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    base16-from-palette = {
-      url = "github:buntec/base16-from-palette";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     btmux = {
       url = "github:buntec/btmux";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -44,37 +34,18 @@
   outputs =
     inputs@{
       self,
-      base16-from-palette,
       darwin,
       disko,
       nixpkgs,
       nixpkgs-nixos-unstable,
       nixos-hardware,
       home-manager,
-      stylix,
       treefmt-nix,
       ...
     }:
     let
       inherit (nixpkgs) lib;
       inherit (lib) genAttrs;
-
-      forEachMode =
-        machines: f:
-        builtins.listToAttrs (
-          builtins.concatMap
-            (
-              mode:
-              builtins.map (machine: {
-                name = "${machine.name}-${mode}";
-                value = f mode machine;
-              }) machines
-            )
-            [
-              "light"
-              "dark"
-            ]
-        );
 
       machines = [
         {
@@ -146,6 +117,15 @@
 
       machinesBySystem = builtins.groupBy (machine: machine.system) machines;
 
+      forEachMachine =
+        machines: f:
+        builtins.listToAttrs (
+          builtins.map (machine: {
+            inherit (machine) name;
+            value = f machine;
+          }) machines
+        );
+
       systems = builtins.attrNames machinesBySystem;
 
       eachSystem = genAttrs systems;
@@ -174,84 +154,13 @@
         treefmt-nix.lib.evalModule pkgs ./treefmt.nix
       );
 
-      # Base24 YAML shared by stylix and btmux. Stylix reads it during evaluation,
-      # so use the evaluator's platform when available so impure checks can also
-      # evaluate other hosts.
-      mkBase16Scheme =
-        mode: system:
-        (base16-from-palette.lib.mkSchemes {
-          pkgs = import nixpkgs { system = builtins.currentSystem or system; };
-          source = "colorhunt";
-          palette = "f599c6ffea887dccad4d6787";
-        }).base24.${mode};
-
-      stylixConfig =
-        mode:
-        { pkgs, ... }:
-        {
-          stylix = {
-            enable = true;
-            enableReleaseChecks = false;
-            base16Scheme = mkBase16Scheme mode pkgs.stdenv.buildPlatform.system;
-            polarity = mode;
-
-            opacity = {
-              applications = 0.95;
-              desktop = 0.95;
-              popups = 0.95;
-              terminal = 0.95;
-            };
-
-            image = ./wallpapers/lex-sirikiat-hmcyWDzjWHo-unsplash.jpg;
-
-            fonts = {
-              serif = {
-                package = pkgs.dejavu_fonts;
-                name = "DejaVu Serif";
-              };
-
-              sansSerif = {
-                package = pkgs.dejavu_fonts;
-                name = "DejaVu Sans";
-              };
-
-              # monospace = {
-              #   package = pkgs.dejavu_fonts;
-              #   name = "DejaVu Sans Mono";
-              # };
-
-              # monospace = {
-              #   package = pkgs.nerd-fonts.iosevka;
-              #   name = "Iosevka Nerd Font";
-              # };
-
-              monospace = {
-                package = pkgs.nerd-fonts.jetbrains-mono;
-                name = "JetBrains Mono Nerd Font";
-              };
-
-              emoji = {
-                package = pkgs.noto-fonts-color-emoji;
-                name = "Noto Color Emoji";
-              };
-
-              sizes = {
-                applications = 8;
-                desktop = 8;
-                terminal = 10;
-                popups = 10;
-              };
-            };
-          };
-        };
-
     in
     {
 
       formatter = eachSystem (system: treefmtEval.${system}.config.build.wrapper);
 
-      nixosConfigurations = forEachMode nixosMachines (
-        mode: machine:
+      nixosConfigurations = forEachMachine nixosMachines (
+        machine:
         nixpkgs-nixos-unstable.lib.nixosSystem {
           inherit (machine) system;
           specialArgs = {
@@ -264,16 +173,14 @@
               };
             })
             disko.nixosModules.disko
-            stylix.nixosModules.stylix
-            (stylixConfig mode)
             ./system/configuration-nixos.nix
             ./system/configuration-${machine.name}.nix
           ];
         }
       );
 
-      darwinConfigurations = forEachMode darwinMachines (
-        mode: machine:
+      darwinConfigurations = forEachMachine darwinMachines (
+        machine:
         darwin.lib.darwinSystem {
           inherit (machine) system;
           specialArgs = {
@@ -286,21 +193,18 @@
               };
               system.primaryUser = machine.user;
             })
-            stylix.darwinModules.stylix
-            (stylixConfig mode)
             ./system/configuration-darwin.nix
             ./system/configuration-${machine.name}.nix
           ];
         }
       );
 
-      homeConfigurations = forEachMode machines (
-        mode: machine:
+      homeConfigurations = forEachMachine machines (
+        machine:
         home-manager.lib.homeManagerConfiguration {
           pkgs = pkgsBySystem.${machine.system};
           extraSpecialArgs = {
-            inherit inputs machine mode;
-            base16Scheme = mkBase16Scheme mode machine.system;
+            inherit inputs machine;
           };
           modules = [
             (_: {
@@ -308,8 +212,6 @@
               home.homeDirectory =
                 if (isDarwinSystem machine.system) then "/Users/${machine.user}" else "/home/${machine.user}";
             })
-            stylix.homeModules.stylix
-            (stylixConfig mode)
             ./home/home.nix
             ./home/home-${if (isDarwinSystem machine.system) then "darwin" else "nixos"}.nix
             ./home/home-${machine.name}.nix
@@ -325,49 +227,31 @@
               machine:
               let
                 pkgs = pkgsBySystem.${system};
-
-                rebuildApps =
-                  mode:
-                  lib.optional (machine.kind != "home") {
-                    name = "rebuild-${machine.name}-${mode}";
-                    value = {
-                      type = "app";
-                      meta.description = "Activate ${machine.name} in ${mode} mode";
-                      program = "${pkgs.writeShellScript "rebuild-${machine.name}" (
-                        if (machine.kind == "darwin") then
-                          "${
-                            self.darwinConfigurations.${"${machine.name}-${mode}"}.system
-                          }/sw/bin/darwin-rebuild switch --flake ${self}#${machine.name}-${mode}"
-                        else
-                          "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${self}#${machine.name}-${mode}"
-                      )}";
-                    };
-                  };
-
-                hmSwitchScript =
-                  mode:
-                  pkgs.writeShellScript "hm-switch-${machine.name}-${mode}" "${
-                    inputs.home-manager.packages.${system}.home-manager
-                  }/bin/home-manager switch -b backup --flake ${self}#${machine.name}-${mode}";
-
               in
-              (rebuildApps "dark")
-              ++ (rebuildApps "light")
+              (lib.optional (machine.kind != "home") {
+                name = "rebuild-${machine.name}";
+                value = {
+                  type = "app";
+                  meta.description = "Activate ${machine.name}";
+                  program = "${pkgs.writeShellScript "rebuild-${machine.name}" (
+                    if (machine.kind == "darwin") then
+                      "${
+                        self.darwinConfigurations.${machine.name}.system
+                      }/sw/bin/darwin-rebuild switch --flake ${self}#${machine.name}"
+                    else
+                      "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${self}#${machine.name}"
+                  )}";
+                };
+              })
               ++ [
                 {
-                  name = "hm-switch-${machine.name}-dark";
+                  name = "hm-switch-${machine.name}";
                   value = {
                     type = "app";
-                    meta.description = "Activate Home Manager for ${machine.name} in dark mode";
-                    program = "${hmSwitchScript "dark"}";
-                  };
-                }
-                {
-                  name = "hm-switch-${machine.name}-light";
-                  value = {
-                    type = "app";
-                    meta.description = "Activate Home Manager for ${machine.name} in light mode";
-                    program = "${hmSwitchScript "light"}";
+                    meta.description = "Activate Home Manager for ${machine.name}";
+                    program = "${pkgs.writeShellScript "hm-switch-${machine.name}" "${
+                      inputs.home-manager.packages.${system}.home-manager
+                    }/bin/home-manager switch -b backup --flake ${self}#${machine.name}"}";
                   };
                 }
               ]
@@ -380,33 +264,23 @@
       checks = builtins.mapAttrs (
         system: machines:
         builtins.listToAttrs (
-          lib.flatten (
-            builtins.concatMap (
-              machine:
-              builtins.concatMap
-                (
-                  mode:
-                  (lib.optional (machine.kind != "home" && machine.checkSystem or true) {
-                    name = "toplevel-${machine.name}-${mode}";
-                    value =
-                      if (machine.kind == "darwin") then
-                        self.darwinConfigurations.${"${machine.name}-${mode}"}.config.system.build.toplevel
-                      else
-                        self.nixosConfigurations.${"${machine.name}-${mode}"}.config.system.build.toplevel;
-                  })
-                  ++ [
-                    {
-                      name = "hm-${machine.name}-${mode}";
-                      value = self.homeConfigurations.${"${machine.name}-${mode}"}.activationPackage;
-                    }
-                  ]
-                )
-                [
-                  "light"
-                  "dark"
-                ]
-            ) machines
-          )
+          builtins.concatMap (
+            machine:
+            (lib.optional (machine.kind != "home" && machine.checkSystem or true) {
+              name = "toplevel-${machine.name}";
+              value =
+                if (machine.kind == "darwin") then
+                  self.darwinConfigurations.${machine.name}.config.system.build.toplevel
+                else
+                  self.nixosConfigurations.${machine.name}.config.system.build.toplevel;
+            })
+            ++ [
+              {
+                name = "hm-${machine.name}";
+                value = self.homeConfigurations.${machine.name}.activationPackage;
+              }
+            ]
+          ) machines
         )
         // {
           formatting = treefmtEval.${system}.config.build.check self;

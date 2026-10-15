@@ -78,8 +78,10 @@
   programs.zsh.enable = true;
   programs.fish.enable = true;
 
-  # Its base16 OSC color sets would pin btmux pane palettes; see home/stylix/stylix.nix.
-  stylix.targets.fish.enable = false;
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    noto-fonts-color-emoji
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

@@ -15,20 +15,20 @@ check:
     statix check .
     nix flake check --impure
 
-# rebuild NixOS config and switch; mode='light'|'dark'
+# rebuild NixOS config and switch
 [linux]
-nixos-switch mode='dark':
-    sudo nix run .#rebuild-{{ host }}-{{ mode }}
+nixos-switch:
+    sudo nix run .#rebuild-{{ host }}
 
-# rebuild nix-darwin config and switch; mode='light'|'dark'
+# rebuild nix-darwin config and switch
 [macos]
-nix-darwin-switch mode='dark':
-    nix run .#rebuild-{{ host }}-{{ mode }}
+nix-darwin-switch:
+    nix run .#rebuild-{{ host }}
 
-# rebuild Home Manager config and switch; mode='light'|'dark'
+# rebuild Home Manager config and switch
 [unix]
-hm-switch mode='dark':
-    nix run -v .#hm-switch-{{ host }}-{{ mode }}
+hm-switch:
+    nix run -v .#hm-switch-{{ host }}
     # reload fish config
     fish -c 'reload_all_fish_instances'
 
@@ -57,12 +57,12 @@ bootstrap-vm ip port attr user:
     ssh {{ SSH_OPTIONS }} -v {{ user }}@{{ ip }} 'cd nix-config; just hm-switch'
 
 [macos]
-bootstrap-mbp-vmw ip: (bootstrap-vm ip '22' 'macbook-pro-vmw-dark' 'buntec')
+bootstrap-mbp-vmw ip: (bootstrap-vm ip '22' 'macbook-pro-vmw' 'buntec')
 
 [macos]
-bootstrap-mbp-utm ip: (bootstrap-vm ip '22' 'macbook-pro-utm-dark' 'buntec')
+bootstrap-mbp-utm ip: (bootstrap-vm ip '22' 'macbook-pro-utm' 'buntec')
 
-bootstrap-win11-vb ip port: (bootstrap-vm ip port 'win11-vb-dark' 'buntec')
+bootstrap-win11-vb ip port: (bootstrap-vm ip port 'win11-vb' 'buntec')
 
 multipass-create-instance:
     multipass launch --name nix -c 8 -m 12G -d 128G --mount ~:/home/christoph/host --cloud-init extras/cloud-config/multipass.yml
