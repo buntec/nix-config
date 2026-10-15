@@ -1,5 +1,4 @@
 {
-  base16Scheme,
   inputs,
   pkgs,
   ...
@@ -9,18 +8,13 @@
 
   programs.btmux = {
     enable = true;
-
-    # btmux itself is installed and run outside Home Manager.
-    package = null;
-    desktop.package = null;
-    service.enable = false;
+    service.enable = true;
+    desktop.enable = true;
+    enableFishIntegration = true;
 
     settings = {
-      prefix = "C-a";
       shell = "${pkgs.fish}/bin/fish";
       vi-mode = true;
-
-      colors = "${base16Scheme}";
 
       wallpaper-shader = "ink-flow";
       wallpaper-saturate = 1.0;
