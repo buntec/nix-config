@@ -140,10 +140,10 @@
         amber # search & replace - https://github.com/dalance/amber
         ast-grep # https://github.com/ast-grep/ast-grep
         atool # archive tool - https://www.nongnu.org/atool/
+        awscli2
         cargo-flamegraph # https://github.com/flamegraph-rs/flamegraph
         csvlens # https://github.com/YS-L/csvlens
         d2 # https://github.com/terrastruct/d2
-        eza # better ls - https://github.com/eza-community/eza
         fastfetch # like neofetch
         fd # better find - https://github.com/sharkdp/fd
         fdupes # find duplicate files
@@ -159,7 +159,6 @@
         marp-cli # https://github.com/marp-team/marp-cli
         pandoc # https://github.com/jgm/pandoc
         poppler-utils # PDF rendering library
-        procs # better ps
         restic # backup - https://github.com/restic/restic
         ripgrep # better grep - https://github.com/BurntSushi/ripgrep
         samply # sampling profiler - https://github.com/mstange/samply

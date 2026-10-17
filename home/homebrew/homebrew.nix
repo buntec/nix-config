@@ -27,6 +27,7 @@ in
     cask "syncthing-app"
     cask "tailscale-app"
     cask "utm"
+    cask "visual-studio-code"
 
     cargo "cargo-edit"
 

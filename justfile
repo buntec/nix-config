@@ -29,8 +29,6 @@ nix-darwin-switch:
 [unix]
 hm-switch:
     nix run -v .#hm-switch-{{ host }}
-    # reload fish config
-    fish -c 'reload_all_fish_instances'
 
 # clean up nix store by removing old generations etc.
 [unix]
