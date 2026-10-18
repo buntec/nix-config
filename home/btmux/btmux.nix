@@ -15,25 +15,32 @@
     settings = {
       shell = "${pkgs.fish}/bin/fish";
 
-      wallpaper-shader = "ink-flow";
+      wallpaper-opacity = 0.25;
       wallpaper-saturate = 1.0;
       wallpaper-speed = 1.0;
       wallpaper-fps = 60;
       wallpaper-shader-follows-keyboard-input = true;
 
-      wallpaper-shader-params = {
-        chroma-flow = {
-          intensity = 1;
-          momentum = 25;
-          radius = 2;
-        };
-        ink-flow = {
-          curl = 0;
-          decay = 2;
-          momentum = 0.5;
-          radius = 0.25;
-        };
-      };
+      wallpaper-shader = [
+        {
+          shader = "ink-flow";
+          params = {
+            color-speed = 1.2;
+            curl = 0;
+            decay = 1.75;
+            force = 1.7;
+            radius = 0.2;
+          };
+        }
+        {
+          shader = "pixelate";
+          params = {
+            gap = 0;
+            roundness = 0;
+            scale = 100;
+          };
+        }
+      ];
     };
   };
 }

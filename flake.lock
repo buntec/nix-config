@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792225285,
-        "narHash": "sha256-Tv0gIBdqe1GBHGxiVnwpqn0EhRxVQ7EMNlM0RN4PIek=",
+        "lastModified": 1792340456,
+        "narHash": "sha256-h8uGuoN/vZx2idJ6i1IBmdgbb4NEu+D7nTskDnA2B6s=",
         "owner": "buntec",
         "repo": "btmux",
-        "rev": "f178cd06e929ea5f560fbc2545fa481c893a0a7a",
+        "rev": "21f1e8549d602ebe7be0673f8cdfa170c943cc9c",
         "type": "github"
       },
       "original": {
@@ -150,11 +150,11 @@
     },
     "nixpkgs-nixos-unstable": {
       "locked": {
-        "lastModified": 1791956154,
-        "narHash": "sha256-jBYGPi4udQ9uo4KQp9m2J0546nJVQitG15gvZSaVVAs=",
+        "lastModified": 1792094642,
+        "narHash": "sha256-zp8ToDMnqZcu4o4IH9pdwXFXGp7yLm/M0dEnNWnyd7I=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "55bfb4d7437bd4e09ab7cba58a43bd68eb310044",
+        "rev": "fe13242281a67641c0102cdb1087f0ebe586c7df",
         "type": "github"
       },
       "original": {
