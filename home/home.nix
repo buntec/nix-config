@@ -6,6 +6,7 @@
     ./fish/fish.nix
     ./git/git.nix
     ./neovim/neovim.nix
+    ./upstream-tools/upstream-tools.nix
   ];
 
   home.stateVersion = "22.11";

@@ -46,7 +46,7 @@ from `hardware-configuration.nix` if `nixos-rebuild` complains about this option
 
 To bootstrap a fresh macOS install, follow these steps:
 
-1. Install Homebrew (used by Home Manager for GUI apps and selected development tools)
+1. Install Homebrew (used by Home Manager for GUI apps via casks)
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -85,7 +85,7 @@ nix run .#hm-switch-macbook-pro # home-manager
 1. Back up existing shell and application configuration before activating Home Manager.
 
 2. Keep the existing Homebrew installation. The bundle in `home/homebrew/homebrew.nix`
-   manages the selected casks and development tools during Home Manager activation.
+   manages the selected casks during Home Manager activation.
 
 3. Follow the fresh-install steps, skipping software already installed. If Home Manager
    reports a conflicting file, move that specific file to a backup location and retry.
@@ -183,9 +183,11 @@ credential helper is configured and the SSH key is used. If an earlier configura
 `store` helper, review and remove `~/.git-credentials`; changing the config does not remove that file.
 Multipass trusts Git repositories only under `/home/christoph/host/`.
 
-Neovim uses Pyrefly. Pyrefly, ty and Ruff come from nixpkgs on every host; on macOS the
-Homebrew bundle also installs them with uv to follow upstream releases, and those builds
-in `~/.local/bin` precede the Nix profile on `PATH`.
+Neovim uses Pyrefly. Pyrefly, ty and Ruff come from nixpkgs on every host. To follow
+upstream releases, `home/upstream-tools/upstream-tools.nix` also installs them (plus a few
+npm and cargo tools) with uv, npm and cargo on every Home Manager switch, upgrading existing
+installs. Those builds live in `~/.local/bin` and `~/.cargo/bin`, which precede the Nix
+profile on `PATH`.
 Clangd, the Java server, and the C# server are provided by Nix. Rust Analyzer uses
 Rustup; install it for the selected toolchain with `rustup component add rust-analyzer`.
 Treesitter includes all grammars packaged in nixpkgs. Multipass omits desktop

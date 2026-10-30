@@ -8,18 +8,8 @@ let
   brew =
     if pkgs.stdenv.hostPlatform.isAarch64 then "/opt/homebrew/bin/brew" else "/usr/local/bin/brew";
   brewfile = "${config.xdg.configHome}/homebrew/Brewfile";
-  npmPrefix = "${config.home.homeDirectory}/.local";
-  bundlePath = lib.makeBinPath [
-    pkgs.nodejs
-    pkgs.rustup
-    pkgs.uv
-  ];
 in
 {
-  home.file.".npmrc".text = ''
-    prefix=${npmPrefix}
-  '';
-
   xdg.configFile."homebrew/Brewfile".text = ''
     cask "keepassxc"
     cask "localsend"
@@ -28,21 +18,6 @@ in
     cask "tailscale-app"
     cask "utm"
     cask "visual-studio-code"
-
-    cargo "cargo-edit"
-
-    npm "@playwright/cli"
-
-    uv "pyrefly"
-    uv "ruff"
-    uv "ty"
-  '';
-
-  home.activation.rustupInstallStable = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    if ! ${pkgs.rustup}/bin/rustup toolchain list 2>/dev/null | grep -q "^stable"; then
-      run ${pkgs.rustup}/bin/rustup toolchain install stable
-      run ${pkgs.rustup}/bin/rustup default stable
-    fi
   '';
 
   home.activation.homebrewBundle =
@@ -50,15 +25,11 @@ in
       [
         "installPackages"
         "linkGeneration"
-        "rustupInstallStable"
       ]
       ''
         if [ -x "${brew}" ]; then
           verboseEcho "Applying Homebrew bundle from ${brewfile}"
-          run env \
-            -u RUSTC \
-            PATH="${bundlePath}:$PATH" \
-            "${brew}" bundle --file="${brewfile}"
+          run "${brew}" bundle --file="${brewfile}"
         else
           echo "Homebrew not found at ${brew}; skipping Brewfile activation" >&2
         fi
