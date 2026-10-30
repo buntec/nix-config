@@ -174,6 +174,7 @@
             })
             disko.nixosModules.disko
             ./system/configuration-nixos.nix
+            ./system/hardware/${machine.name}.nix
             ./system/configuration-${machine.name}.nix
           ];
         }

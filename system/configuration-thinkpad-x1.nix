@@ -1,14 +1,7 @@
-{
-  config,
-  pkgs,
-  inputs,
-  machine,
-  ...
-}:
+{ inputs, ... }:
 {
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-7th-gen
-    ./hardware-configuration.nix
     ./gnome/gnome.nix
   ];
 
@@ -17,14 +10,6 @@
   networking.networkmanager.enable = true;
 
   services.openssh.settings.PasswordAuthentication = false;
-
-  users.users.${machine.user} = {
-
-    packages = with pkgs; [
-      keepassxc
-    ];
-
-  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;

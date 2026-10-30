@@ -25,7 +25,7 @@ Run activation commands only on their intended platform. Use `just --list` to di
 
 ## Coding Style & Naming Conventions
 
-Use two-space indentation for Nix and Lua. Formatting is managed by treefmt with `nixfmt` and StyLua; Lua lines target 120 columns. Do not manually reformat `system/hardware-configuration.nix`, which is excluded from nixfmt.
+Use two-space indentation for Nix and Lua. Formatting is managed by treefmt with `nixfmt` and StyLua; Lua lines target 120 columns. Do not manually reformat generated files under `system/hardware/`, which is excluded from nixfmt.
 
 Name host modules consistently with existing patterns. Prefer small composable Nix modules, explicit attribute sets, and established helpers in `flake.nix` over duplicated host logic.
 
