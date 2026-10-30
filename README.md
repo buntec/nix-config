@@ -16,7 +16,7 @@ After installing NixOS from a USB drive, follow these steps:
 
 1. Clone this repo and `cd` into it.
 
-2. Copy `/etc/nixos/hardware-configuration.nix` into `./system` (OK to overwrite existing dummy file).
+2. Copy `/etc/nixos/hardware-configuration.nix` to `system/hardware/thinkpad-x1.nix`, replacing the placeholder. Keep this host-specific file local unless you intend to commit its hardware details.
 
 3. Build and activate NixOS config:
 
@@ -24,7 +24,7 @@ After installing NixOS from a USB drive, follow these steps:
 sudo nix run .#rebuild-thinkpad-x1
 ```
 
-4. Build and activate Home Manager config:
+4. Ensure the account has a desktop login password (`sudo passwd buntec`). Existing passwords are preserved across rebuilds. Then build and activate Home Manager:
 
 ```bash
 nix run .#hm-switch-thinkpad-x1
@@ -46,7 +46,7 @@ from `hardware-configuration.nix` if `nixos-rebuild` complains about this option
 
 To bootstrap a fresh macOS install, follow these steps:
 
-1. Install Homebrew (only needed for managing GUI apps via casks)
+1. Install Homebrew (used by Home Manager for GUI apps and selected development tools)
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -82,17 +82,14 @@ nix run .#hm-switch-macbook-pro # home-manager
 
 ## Migrating an existing macOS install to Nix
 
-1. Uninstall Homebrew:
+1. Back up existing shell and application configuration before activating Home Manager.
 
-```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
-```
+2. Keep the existing Homebrew installation. The bundle in `home/homebrew/homebrew.nix`
+   manages the selected casks and development tools during Home Manager activation.
 
-2. Delete everything under `~/.config` and any other "dot files" in your home directory.
-
-3. Delete all applications that are listed as Homebrew casks in `./system/configuration-darwin.nix`
-
-4. Follow the steps for a fresh macOS install.
+3. Follow the fresh-install steps, skipping software already installed. If Home Manager
+   reports a conflicting file, move that specific file to a backup location and retry.
+   Review any existing application that conflicts with a cask individually.
 
 ## Bootstrapping a NixOS VM inside macOS using UTM
 
@@ -121,7 +118,7 @@ nix run .#hm-switch-macbook-pro # home-manager
 6. On the host, execute `just bootstrap-mbp-utm <ip of guest>`. You will be prompted for the password from Step 4.
    This installs NixOS onto the VM via SSH using `nixos-anywhere`; it also builds and activates the Home Manager config.
 
-7. The VM should be ready to log into with your user and password (not the one in Step 5, of course).
+7. Bootstrap prompts you to choose a password for `buntec` over SSH. Use that password for desktop login; it is preserved across rebuilds.
    From now on simply use `just nixos-switch` and `just hm-switch` etc. inside the VM to make configuration changes.
 
 ## Bootstrapping a NixOS VM inside macOS using VMware Fusion
@@ -153,17 +150,17 @@ nix run .#hm-switch-macbook-pro # home-manager
 7. On the host, execute `just bootstrap-mbp-vmw <ip of guest>`. You will be prompted for the password from Step 5.
    This installs NixOS onto the VM via SSH using `nixos-anywhere`; it also builds and activates the Home Manager config.
 
-8. The VM should be ready to log into with your user and password (not the one in Step 5, of course).
+8. Bootstrap prompts you to choose a password for `buntec` over SSH. Use that password for desktop login; it is preserved across rebuilds.
    From now on simply use `just nixos-switch` and `just hm-switch` etc. inside the VM to make configuration changes.
 
 ### Notes:
 
-- Do not regenerate `hardware-configuration.nix` using `nixos-generate-config` on the VM as the generated file
-  will have conflicting settings for the file system, which is managed by `disko`. (You can make it work by commenting out
-  the file system settings.) Instead, keep the file that was copied during the bootstrap (but don't commit it).
+- Bootstrap generates and imports `system/hardware/<host>.nix` for the selected VM,
+  without filesystem definitions because disko manages those. Keep the generated file
+  with that VM's checkout; bootstrap restores the placeholder in the host's checkout. To regenerate it, run
+  `sudo nixos-generate-config --show-hardware-config --no-filesystems > system/hardware/<host>.nix`.
+  Bootstrapping another VM no longer overwrites the ThinkPad hardware configuration.
 - You may have to set the display scaling in Gnome manually.
-- If the `nix-config` repo copied during the bootstrap was set up to connect to the remote using http,
-  you have to change it to ssh before being able to push: `git remote set-url origin git@github.com:buntec/nix-config.git`
 
 ## WSL
 
@@ -172,9 +169,24 @@ Double-click the `nixos.wsl` file to install.
 Launch the distro from a Powershell with `wsl -d NixOS`.
 Follow the instructions to update channels and rebuild/switch.
 Create a nix shell with the required tools: `nix-shell -p git vim just`.
-Clone this repo and do `nixos-generate-config` to generate `/etc/nixos/hardware-configuration.nix`.
-Overwrite `system/hardware-configuration` with the generated config but remove all file system mounts.
+Clone this repo. If host hardware overrides are needed, generate them with
+`sudo nixos-generate-config --show-hardware-config --no-filesystems > system/hardware/wsl.nix`.
 Run `sudo nix run .#rebuild-wsl --experimental-features 'nix-command flakes'`.
 In Windows Terminal change the command line for the NixOS profile to `C:\WINDOWS\system32\wsl.exe -d NixOS --user buntec`.
 Open a new NixOS tab (now correctly logged in as `buntec` instead of `nixos`).
 Clone once more this repo and do `just hm-switch` to build and activate HM.
+
+## Credentials and editor tools
+
+Pushes to GitHub over `https://` remotes are rewritten to SSH (`url.pushInsteadOf`), so no Git
+credential helper is configured and the SSH key is used. If an earlier configuration used the
+`store` helper, review and remove `~/.git-credentials`; changing the config does not remove that file.
+Multipass trusts Git repositories only under `/home/christoph/host/`.
+
+Neovim uses Pyrefly. Pyrefly, ty and Ruff come from nixpkgs on every host; on macOS the
+Homebrew bundle also installs them with uv to follow upstream releases, and those builds
+in `~/.local/bin` precede the Nix profile on `PATH`.
+Clangd, the Java server, and the C# server are provided by Nix. Rust Analyzer uses
+Rustup; install it for the selected toolchain with `rustup component add rust-analyzer`.
+Treesitter includes all grammars packaged in nixpkgs. Multipass omits desktop
+launchers and GNOME-only tools while retaining the shared development environment.
