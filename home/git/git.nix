@@ -1,10 +1,6 @@
 { pkgs, ... }:
 {
 
-  programs.diff-so-fancy = {
-    enableGitIntegration = true;
-  };
-
   programs.git = {
     enable = true;
     settings = {
@@ -17,7 +13,11 @@
       pull.rebase = true;
       push.autoSetupRemote = true;
       tag.sort = "-version:refname";
-      diff.sqlite3.textconv = "sh -c 'sqlite3 \$0 .dump'";
+      # fetch anonymously over https, push with the ssh key
+      url."git@github.com:".pushInsteadOf = "https://github.com/";
+      diff.sqlite3.textconv = "${pkgs.writeShellScript "sqlite-textconv" ''
+        exec ${pkgs.sqlite}/bin/sqlite3 "$1" .dump
+      ''}";
     };
   };
 

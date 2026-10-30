@@ -1,21 +1,11 @@
 # HM config common to all NixOS machines
+{ pkgs, ... }:
 {
-  pkgs,
-  ...
-}:
-{
-
-  programs.git = {
-    settings = {
-      credential.helper = "store";
-    };
-  };
 
   services.ssh-agent.enable = true;
 
   home.packages = with pkgs; [
     # racket
-    conky # https://github.com/brndnmtthws/conky
     gcc
     gdb
     heaptrack
