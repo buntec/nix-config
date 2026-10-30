@@ -45,14 +45,16 @@ bootstrap-vm ip port attr user:
     --ssh-port {{ port }} \
     --build-on remote \
     --disko-mode disko \
-    --generate-hardware-config nixos-generate-config ./system/hardware-configuration.nix \
+    --generate-hardware-config nixos-generate-config ./system/hardware/{{ attr }}.nix \
     --target-host nixos@{{ ip }}
     # wait for VM to reboot
     sleep 30
-    # copy this repo - this conveniently gives us the generated hardware config
+    # copy this repo, including the generated host hardware configuration
     rsync -av -e 'ssh -p {{ port }} {{ SSH_OPTIONS }}' . {{ user }}@{{ ip }}:~/nix-config
-    # build and activate Home Manager config
-    ssh {{ SSH_OPTIONS }} -v {{ user }}@{{ ip }} 'cd nix-config; just hm-switch'
+    # the generated hardware configuration belongs to the VM's checkout; restore the placeholder here
+    git restore system/hardware/{{ attr }}.nix
+    # set a desktop login password, then build and activate Home Manager
+    ssh -p {{ port }} {{ SSH_OPTIONS }} -t {{ user }}@{{ ip }} 'sudo passwd {{ user }} && cd nix-config && just hm-switch'
 
 [macos]
 bootstrap-mbp-vmw ip: (bootstrap-vm ip '22' 'macbook-pro-vmw' 'buntec')

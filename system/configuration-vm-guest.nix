@@ -1,5 +1,4 @@
 # NixOS config common to all VM guests
-{ config, pkgs, ... }:
 {
   imports = [
     ./disko/disk-config.nix
@@ -7,9 +6,6 @@
 
   # Make it easy to reach services running in guest from host.
   networking.firewall.enable = false;
-
-  # cannot change passwords
-  users.mutableUsers = false;
 
   users.users = {
     root.openssh.authorizedKeys.keys = [

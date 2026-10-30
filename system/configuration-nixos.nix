@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  machine,
-  ...
-}:
+{ pkgs, machine, ... }:
 {
   nix.settings.experimental-features = [
     "nix-command"
@@ -42,7 +37,9 @@
 
     isNormalUser = true;
 
-    hashedPassword = "!";
+    # Keep SSH-only access until a local password is set with sudo passwd.
+    # Existing passwords survive subsequent rebuilds.
+    initialHashedPassword = "!";
 
     extraGroups = [
       "docker"
