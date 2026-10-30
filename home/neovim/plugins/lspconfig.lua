@@ -31,8 +31,8 @@ vim.lsp.enable("tinymist")
 
 vim.lsp.config("clangd", {
   filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
-  cmd = { "/usr/bin/clangd" },
-  --cmd = { os.getenv("CLANGD_BIN") or "clangd" },
+  -- Apple's clangd knows the macOS SDK and framework headers; elsewhere use clangd from Nix.
+  cmd = { vim.fn.has("mac") == 1 and "/usr/bin/clangd" or "clangd" },
 })
 
 vim.lsp.config("lua_ls", {

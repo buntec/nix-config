@@ -118,8 +118,6 @@
         # https://github.com/nvim-treesitter/nvim-treesitter
         treesitter = {
           plugin = vimPlugins.nvim-treesitter.withAllGrammars;
-          type = "lua";
-          config = builtins.readFile ./plugins/treesitter.lua;
         };
 
         # https://github.com/nvim-treesitter/nvim-treesitter-context

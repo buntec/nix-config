@@ -76,7 +76,9 @@
         yamlfmt
       ];
       lsps = with pkgs; [
+        csharp-ls
         gopls
+        jdt-language-server
         haskell-language-server
         lua-language-server
         metals
@@ -85,7 +87,9 @@
         bash-language-server
         typescript-language-server
         protols
+        pyrefly
         pyright
+        ty
         vscode-langservers-extracted
         zls
       ];
@@ -102,7 +106,6 @@
         ghc
         go
         haskellPackages.hoogle
-        jdk
         ninja
         nodejs
         protobuf

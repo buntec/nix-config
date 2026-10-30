@@ -207,10 +207,13 @@ vim.fn.matchadd("ErrorMsg", [[\s\+$]])
 
 -- enable spell checking for text files
 local spell_augroup = vim.api.nvim_create_augroup("spell", { clear = true })
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "markdown", "tex", "gitcommit", "text" },
-  callback = function()
-    vim.opt.spell = true
+vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {
+  callback = function(ev)
+    -- skip scratch and floating buffers such as LSP hover docs
+    if vim.bo[ev.buf].buftype ~= "" then
+      return
+    end
+    vim.opt_local.spell = vim.tbl_contains({ "markdown", "tex", "gitcommit", "text" }, vim.bo[ev.buf].filetype)
   end,
   group = spell_augroup,
 })
