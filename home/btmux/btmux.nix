@@ -10,6 +10,7 @@
   programs.btmux = {
     enable = true;
     service.enable = true;
+    service.tailscale = true;
     desktop.enable = lib.mkDefault true;
     enableFishIntegration = true;
 
