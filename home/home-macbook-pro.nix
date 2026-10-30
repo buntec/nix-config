@@ -1,8 +1,2 @@
-{ pkgs, ... }:
-{
-
-  home.packages = [
-    # pkgs.texlive.combined.scheme-full
-  ];
-
-}
+# Host-specific Home Manager settings for macbook-pro.
+{ }

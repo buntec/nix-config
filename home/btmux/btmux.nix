@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   pkgs,
   ...
 }:
@@ -9,7 +10,7 @@
   programs.btmux = {
     enable = true;
     service.enable = true;
-    desktop.enable = true;
+    desktop.enable = lib.mkDefault true;
     enableFishIntegration = true;
 
     settings = {

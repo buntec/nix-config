@@ -1,5 +1,5 @@
 # HM config common to all nix-darwin machines
-{ pkgs, machine, ... }:
+{ machine, ... }:
 let
   isAppleSilicon = machine.system == "aarch64-darwin";
 in

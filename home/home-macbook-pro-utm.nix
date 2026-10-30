@@ -1,8 +1,7 @@
-{ pkgs, lib, ... }:
 {
 
   imports = [
-    ./home-utm-guest.nix
+    ./home-vm-guest.nix
     ./gnome/gnome.nix
   ];
 

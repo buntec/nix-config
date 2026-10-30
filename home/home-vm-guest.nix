@@ -1,5 +1,5 @@
 # HM config common to all VM guests
-{ pkgs, lib, ... }:
+{ lib, ... }:
 {
 
   dconf.settings = {

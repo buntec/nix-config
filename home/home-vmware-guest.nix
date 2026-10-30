@@ -1,5 +1,4 @@
 # HM config common to all VMWare Fusion guests
-{ pkgs, lib, ... }:
 {
 
   imports = [

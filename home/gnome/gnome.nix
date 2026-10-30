@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}:
+{ pkgs, lib, ... }:
 {
 
   dconf.settings = {
@@ -27,7 +23,7 @@
       accel-profile = "adaptive";
     };
     "org/gnome/desktop/session" = {
-      idle-delay = lib.hm.gvariant.mkUint32 600; # 10 mins
+      idle-delay = lib.mkDefault (lib.hm.gvariant.mkUint32 600); # 10 mins
     };
     "org/gnome/desktop/peripherals/keyboard" = {
       delay = lib.hm.gvariant.mkUint32 250;
@@ -56,7 +52,10 @@
     };
   };
 
-  home.packages = with pkgs.gnomeExtensions; [
+  home.packages = [
+    pkgs.conky
+  ]
+  ++ (with pkgs.gnomeExtensions; [
     # arcmenu
     # date-menu-formatter
     # forge
@@ -69,6 +68,6 @@
     # tray-icons-reloaded
     # user-themes
     vitals
-  ];
+  ]);
 
 }
