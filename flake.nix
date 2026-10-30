@@ -236,9 +236,15 @@
                   meta.description = "Activate ${machine.name}";
                   program = "${pkgs.writeShellScript "rebuild-${machine.name}" (
                     if (machine.kind == "darwin") then
-                      "${
-                        self.darwinConfigurations.${machine.name}.system
-                      }/sw/bin/darwin-rebuild switch --flake ${self}#${machine.name}"
+                      let
+                        toplevel = self.darwinConfigurations.${machine.name}.system;
+                      in
+                      # `nix run` builds the system as the invoking user; only profile update and activation run as root.
+                      ''
+                        set -e
+                        sudo -H ${pkgs.nix}/bin/nix-env -p /nix/var/nix/profiles/system --set ${toplevel}
+                        sudo ${toplevel}/sw/bin/darwin-rebuild activate
+                      ''
                     else
                       "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${self}#${machine.name}"
                   )}";
