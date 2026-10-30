@@ -13,34 +13,29 @@
       fish_vi_key_bindings
     '';
 
-    shellInitLast = ''
-      function reload_fish_config --on-signal=SIGHUP
-          echo 'reloading fish config...'
-          source ~/.config/fish/**/*.fish
-          clear -x
-          commandline -f repaint
-          clear -x
-      end
-    '';
-
     functions = {
 
       # Inside a btmux pane, open files in btmux's editor instead of plain nvim.
       vi = {
         body = ''
           if set -q BTMUX_PANE_ID
-              btmux open-editor $argv
+              btmux open-editor --kind nvim $argv
           else
               nvim $argv
           end
         '';
       };
 
-    };
-
-    shellAbbrs = {
-
-      fish-reload-config = "source ~/.config/fish/**/*.fish";
+      # Inside a btmux pane, open files in btmux's VS Code editor instead of plain code.
+      code = {
+        body = ''
+          if set -q BTMUX_PANE_ID
+              btmux open-editor --kind vscode $argv
+          else
+              command code $argv
+          end
+        '';
+      };
 
     };
 
@@ -51,7 +46,7 @@
       gp = "git pull";
       gl = "git log";
 
-      cl = "/usr/bin/clear";
+      cl = "clear";
     };
   };
 }
