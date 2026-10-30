@@ -1,5 +1,3 @@
-{ config, pkgs, ... }:
-
 {
   imports = [
     ./configuration-vmware-guest.nix

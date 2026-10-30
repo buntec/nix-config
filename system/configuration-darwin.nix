@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  machine,
-  ...
-}:
+{ pkgs, machine, ... }:
 {
   nix.extraOptions = ''
     experimental-features = nix-command flakes

@@ -38,7 +38,6 @@
       disko,
       nixpkgs,
       nixpkgs-nixos-unstable,
-      nixos-hardware,
       home-manager,
       treefmt-nix,
       ...
@@ -108,8 +107,6 @@
       ];
 
       isDarwinSystem = system: (builtins.match ".*darwin" system) != null;
-
-      isAppleSilicon = system: system == "aarch64-darwin";
 
       darwinMachines = builtins.filter (machine: machine.kind == "darwin") machines;
 
