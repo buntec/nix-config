@@ -25,7 +25,10 @@ let
   uvPath = "${toolPath}:${config.home.homeDirectory}/.local/bin";
   # Activation runs with a minimal PATH, so cargo needs a linker: Apple's on macOS, Nix's elsewhere.
   cargoPath =
-    if pkgs.stdenv.isDarwin then "${toolPath}:/usr/bin" else "${toolPath}:${pkgs.stdenv.cc}/bin";
+    if pkgs.stdenv.hostPlatform.isDarwin then
+      "${toolPath}:/usr/bin"
+    else
+      "${toolPath}:${pkgs.stdenv.cc}/bin";
 in
 {
   home.file.".npmrc".text = ''

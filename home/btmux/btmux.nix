@@ -9,10 +9,14 @@
 
   programs.btmux = {
     enable = true;
+
     service.enable = true;
     service.tailscale = true;
+
     desktop.enable = lib.mkDefault true;
+
     enableFishIntegration = true;
+    fishPickMenus = true;
 
     settings = {
       shell = "${pkgs.fish}/bin/fish";

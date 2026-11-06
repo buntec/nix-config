@@ -104,9 +104,11 @@
         clang-tools
         cmake
         coursier
+        dotnet-sdk_10
         ghc
         go
         haskellPackages.hoogle
+        jdk25
         ninja
         nodejs
         protobuf
@@ -187,16 +189,6 @@
     ++ json-tools
     ++ network-tools
     ++ misc-tools;
-
-  programs.java = {
-    enable = true;
-  };
-
-  # better top - https://github.com/htop-dev/htop
-  programs.htop = {
-    enable = true;
-    settings.show_program_path = true;
-  };
 
   # smart cd - https://github.com/ajeetdsouza/zoxide
   programs.zoxide.enable = true;
