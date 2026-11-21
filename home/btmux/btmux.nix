@@ -20,6 +20,10 @@
 
     settings = {
       shell = "${pkgs.fish}/bin/fish";
+      native-editor = {
+        vim = true;
+        virtual-text = true;
+      };
 
       wallpaper-opacity = 0.25;
       wallpaper-saturate = 1.0;
@@ -29,21 +33,10 @@
 
       wallpaper-shader = [
         {
-          shader = "ink-flow";
+          shader = "aquarium";
           params = {
-            color-speed = 1.2;
-            curl = 0;
-            decay = 1.75;
-            force = 1.7;
-            radius = 0.2;
-          };
-        }
-        {
-          shader = "pixelate";
-          params = {
-            gap = 0;
-            roundness = 0;
-            scale = 100;
+            pixel-size = 2;
+            speed = 1;
           };
         }
       ];
