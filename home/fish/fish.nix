@@ -40,6 +40,8 @@
     };
 
     shellAliases = {
+      e = "btmux open-editor";
+
       gs = "git status";
       gd = "git diff";
       gf = "git fetch";
