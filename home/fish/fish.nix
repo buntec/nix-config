@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   programs.fish = {
     enable = true;
@@ -11,6 +16,12 @@
 
     interactiveShellInit = ''
       fish_vi_key_bindings
+
+      # Re-source the config whenever the universal variable `fish_reload` changes,
+      # which Home Manager activation does after every switch (see below).
+      function __reload_fish_config --on-variable fish_reload
+          source ${config.xdg.configHome}/fish/config.fish
+      end
     '';
 
     functions = {
@@ -51,4 +62,10 @@
       cl = "clear";
     };
   };
+
+  # Signal all running fish instances to reload their config.
+  home.activation.reloadFish = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    run ${lib.getExe config.programs.fish.package} -c 'set -U fish_reload (date +%s)' \
+      || echo "Failed to signal running fish instances; continuing" >&2
+  '';
 }
