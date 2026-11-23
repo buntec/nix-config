@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795272373,
-        "narHash": "sha256-MPh9oAsBRldbvKZm3LwFkWrN9HK5uEjE/PgxdoJuwlk=",
+        "lastModified": 1795362581,
+        "narHash": "sha256-RypE5lqhM67Mxq3wmm0Yf5E2pxZ4BxAznarAxEeHVQQ=",
         "owner": "buntec",
         "repo": "btmux",
-        "rev": "7809968e0f6e0e48d5b5be241987cf1b117b3f09",
+        "rev": "b0c83437743e638ca1a1a31117f1920b1574f499",
         "type": "github"
       },
       "original": {
