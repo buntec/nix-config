@@ -107,12 +107,14 @@
         dotnet-sdk_10
         ghc
         go
+        harper
         haskellPackages.hoogle
         jdk25
         ninja
         nodejs
         protobuf
         protoc-gen-doc
+        rumdl
         rustup
         sbt
         scala-cli
@@ -150,6 +152,7 @@
         cargo-flamegraph # https://github.com/flamegraph-rs/flamegraph
         csvlens # https://github.com/YS-L/csvlens
         d2 # https://github.com/terrastruct/d2
+        dust # better du
         fastfetch # like neofetch
         fd # better find - https://github.com/sharkdp/fd
         fdupes # find duplicate files
