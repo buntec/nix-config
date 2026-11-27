@@ -29,6 +29,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    stereo = {
+      url = "github:buntec/stereo";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =

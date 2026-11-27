@@ -5,4 +5,5 @@
 
   # Headless guest: no desktop launchers.
   programs.btmux.desktop.enable = false;
+  programs.stereo.desktop.enable = false;
 }

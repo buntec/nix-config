@@ -6,6 +6,7 @@
     ./fish/fish.nix
     ./git/git.nix
     ./neovim/neovim.nix
+    ./stereo/stereo.nix
     ./upstream-tools/upstream-tools.nix
   ];
 
