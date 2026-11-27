@@ -111,6 +111,7 @@
         harper
         haskellPackages.hoogle
         jdk25
+        just-lsp
         ninja
         nodejs
         protobuf
