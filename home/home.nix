@@ -154,6 +154,7 @@
         cargo-flamegraph # https://github.com/flamegraph-rs/flamegraph
         csvlens # https://github.com/YS-L/csvlens
         d2 # https://github.com/terrastruct/d2
+        djvulibre
         dust # better du
         fastfetch # like neofetch
         fd # better find - https://github.com/sharkdp/fd
